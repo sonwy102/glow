@@ -40,8 +40,8 @@ class UserSkinType(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
-    skin_type_id = db.Column(db.Integer, db.ForeignKey('skitypes.id'))
-    is_active = db.Column(db.Boolean, default=True, Nullable=False)
+    skin_type_id = db.Column(db.Integer, db.ForeignKey('skintypes.id'))
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return f'<UserSkinType id={self.id} is_active={self.is_active}>'
@@ -53,7 +53,7 @@ class Goal(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.text)
+    description = db.Column(db.Text)
     ref_photo = db.Column(db.String)
 
     def __repr__(self):
@@ -66,7 +66,7 @@ class UserGoal(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'))
-    is_active = db.Column(db.Boolean, default=True, Nullable=False)
+    is_active = db.Column(db.Boolean, default=True, nullable=False)
 
     def __repr__(self):
         return f'<UserGoal id={self.id} is_active={self.is_active}>'
@@ -93,7 +93,7 @@ class Routine(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     journal_date = db.Column(db.DateTime, nullable=False)
-    notes = db.Column(db.text)
+    notes = db.Column(db.Text)
     photo = db.Column(db.String)
 
     def __repr__(self):
@@ -126,7 +126,7 @@ class BrandType(db.Model):
     __tablename__ = 'brandtypes'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    brand_type = db.Column(db.string(50), nullable=False)
+    brand_type = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<BrandType id={self.id} type={self.brand_type}>'
@@ -149,7 +149,7 @@ class ProductType(db.Model):
     __tablename__ = 'producttypes'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    product_type = db.Column(db.string(50), nullable=False)
+    product_type = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<ProductType id={self.id} type={self.product_type}>'
@@ -224,7 +224,7 @@ class IngGoal(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
     goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'))
-    rating = db.Column(db.Integer, default=NULL)
+    rating = db.Column(db.Integer, default=None)
 
     def __repr__(self):
         return f'<IngGoal id={self.id} goal_id={self.goal_id} ingredient_id={self.ingredient_id}'
