@@ -1,4 +1,4 @@
-from model import db, User, connect_to_db
+from model import db, User, SkinType, connect_to_db
 
 
 if __name__ == '__main__':
@@ -36,3 +36,9 @@ def get_user_by_email(email):
     """Return a user by email."""
 
     return User.query.filter(User.email == email).first()
+
+def create_skin_type(skin_type):
+    skin_type = SkinType(name=skin_type)
+
+    db.session.add(skin_type)
+    db.session.commit()

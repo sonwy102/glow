@@ -26,3 +26,8 @@ for n in range(10):
     birthday = fake.date()
     user = crud_faker.create_fake_user(email, password, fname, lname, birthday)
     users_in_db.append(user)
+
+skin_types = ['normal', 'dry', 'combination', 'oily', 'sensitive', 'unsure']
+for name in skin_types:
+    crud_faker.create_skin_type(name)
+

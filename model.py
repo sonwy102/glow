@@ -18,7 +18,7 @@ class User(db.Model):
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
-        return f'<User id={self.id} email={self.email}>'
+        return f'<User id={self.user_id} email={self.email}>'
 
 class SkinType(db.Model):
 
@@ -28,7 +28,7 @@ class SkinType(db.Model):
     name = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
-        return f'<SkinType id={self.id} type={self.skin_type}>'
+        return f'<SkinType id={self.id} type={self.name}>'
 
 
 class UserSkinType(db.Model):
@@ -40,7 +40,7 @@ class UserSkinType(db.Model):
     skin_type_id = db.Column(db.Integer, db.ForeignKey('skintypes.id'))
     is_active = db.Column(db.Boolean, default=True, nullable=False)
 
-    ski_type = db.relationship('SkinType', backref='userskintypes')
+    skin_type = db.relationship('SkinType', backref='userskintypes')
     user = db.relationship('User', backref='userskintypes')
 
     def __repr__(self):
@@ -139,7 +139,7 @@ class BrandType(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f'<BrandType id={self.id} type={self.brand_type}>'
+        return f'<BrandType id={self.id} type={self.name}>'
 
 
 class BrandBrandType(db.Model):
@@ -165,7 +165,7 @@ class ProductType(db.Model):
     name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f'<ProductType id={self.id} type={self.product_type}>'
+        return f'<ProductType id={self.id} type={self.name}>'
 
 
 class Product(db.Model):
@@ -252,12 +252,12 @@ class IngGoal(db.Model):
 
     ingredient = db.relationship('Ingredient', backref='inggoals')
     goal = db.relationship('Goal', backref='inggoals')
-    
+
     def __repr__(self):
         return f'<IngGoal id={self.id} goal_id={self.goal_id} ingredient_id={self.ingredient_id}'
 
 
-def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
+def connect_to_db(flask_app, db_uri='postgresql:///glow', echo=True):
     flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     flask_app.config['SQLALCHEMY_ECHO'] = echo
     flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
