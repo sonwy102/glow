@@ -1,0 +1,251 @@
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+class User(db.Model):
+    '''A user.'''
+
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, 
+                        autoincrement=True,
+                        primary_key=True)
+
+    email = db.Column(db.String(50), unique=True, nullable=False)
+    password = db.Column(db.String(30), nullable=False)
+    fname = db.Column(db.String(30), nullable=False)
+    lname = db.Column(db.String(30), nullable=False)
+    user_photo = db.Column(db.String)
+    birthday = db.Column(db.DateTime)
+    created_on = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<User id={self.id} email={self.email}>'
+
+class SkinType(db.Model):
+
+    __tablename__ = 'skintypes'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    skin_type = db.Column(db.String(30), nullable=False)
+
+    def __repr__(self):
+        return f'<SkinType id={self.id} type={self.skin_type}>'
+
+
+class UserSkinType(db.Model):
+
+    __tablename__ = 'userskintypes'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    skin_type_id = db.Column(db.Integer, db.ForeignKey('skitypes.id'))
+    is_active = db.Column(db.Boolean, default=True, Nullable=False)
+
+    def __repr__(self):
+        return f'<UserSkinType id={self.id} is_active={self.is_active}>'
+
+
+class Goal(db.Model):
+
+    __tablename__ = 'goals'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.text)
+    ref_photo = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Goal id={self.id} name={self.name}>'
+
+class UserGoal(db.Model):
+
+    __tablename__ = 'usergoals'
+    
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'))
+    is_active = db.Column(db.Boolean, default=True, Nullable=False)
+
+    def __repr__(self):
+        return f'<UserGoal id={self.id} is_active={self.is_active}>'
+
+class UserGoalEntry(db.Model):
+
+    __tablename__ = 'usergoalentries'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_goal_id = db.Column(db.Integer, db.ForeignKey('usergoals.id'))
+    routine_id = db.Column(db.Integer, db.ForeignKey('routines.id'))
+    goal_rating = db.Column(db.Integer, nullable=False)
+        # how to set default value to most recent value?
+
+    def __repr__(self):
+        return f'<UserGoalEntry id={self.id} goal_rating={self.goal_rating}>'
+
+
+class Routine(db.Model):
+
+    __tablename__ = 'routines'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    created_on = db.Column(db.DateTime, default=datetime.utcnow)
+    journal_date = db.Column(db.DateTime, nullable=False)
+    notes = db.Column(db.text)
+    photo = db.Column(db.String)
+
+    def __repr__(self):
+        return f'<Routine id={self.id} user={self.user_id} journal_date={self.journal_date}>'
+
+class Country(db.Model):
+
+    __tablename__ = 'countries'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(40), nullable=False)
+    code = db.Column(db.String(2), nullable=False)
+
+    def __repr__(self):
+        return f'<Country id={self.id} code={self.code}>'
+
+class Brand(db.Model):
+
+    __tablename__ = 'brands'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    country_id = db.Column(db.Integer, db.ForeignKey('countries.id'))
+
+    def __repr__(self):
+        return f'<Brand id={self.id} name={self.name}>'
+
+class BrandType(db.Model):
+
+    __tablename__ = 'brandtypes'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    brand_type = db.Column(db.string(50), nullable=False)
+
+    def __repr__(self):
+        return f'<BrandType id={self.id} type={self.brand_type}>'
+
+
+class BrandBrandType(db.Model):
+
+    __tablename__ = 'brandbrandtypes'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
+    brand_type_id = db.Column(db.Integer, db.ForeignKey('brandtypes.id'))
+
+    def __repr__(self):
+        return f'<BrandBrandType id={self.id} brand={self.brand_id}>'
+
+
+class ProductType(db.Model):
+
+    __tablename__ = 'producttypes'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    product_type = db.Column(db.string(50), nullable=False)
+
+    def __repr__(self):
+        return f'<ProductType id={self.id} type={self.product_type}>'
+
+
+class Product(db.Model):
+
+    __tablename__ = 'products'
+    
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
+    photo = db.Column(db.String)
+    brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
+    product_type_id = db.Column(db.Integer, db.ForeignKey('producttypes.id'))
+    is_discontinued = db.Column(db.Boolean, default=False, nullable=False)
+
+    def __repr__(self):
+        return f'<Product id={self.id} name={self.name} is_discontinued={self.is_discontinued}>'
+
+
+class RoutineProduct(db.Model):
+
+    __tablename__ = 'routineproducts'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    routine_id = db.Column(db.Integer, db.ForeignKey('routines.id'))
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+
+    def __repr__(self):
+        return f'<RoutineProduct id={self.id} routine_id={self.routine_id} product_id={self.product_id}>'
+
+
+class Ingredient(db.Model):
+
+    __tablename__ = 'ingredients'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return f'<Ingredient id={self.id} name={self.name}'
+    
+
+class IngAltName(db.Model):
+
+    __tablename__ = 'ingaltnames'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
+    name = db.Column(db.String, nullable=False)
+
+    def __repr__(self):
+        return f'<IngCommonName id={self.id} name={self.name}'
+
+
+class ProductIng(db.Model):
+
+    __tablename__ = 'productings'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
+
+    def __repr__(self):
+        return f'<ProductIng id={self.id} product_id={self.product_id} ingredient_id={self.ingredient_id}'
+
+
+class IngGoal(db.Model):
+
+    __tablename__ = 'inggoals'
+
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
+    goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'))
+    rating = db.Column(db.Integer, default=NULL)
+
+    def __repr__(self):
+        return f'<IngGoal id={self.id} goal_id={self.goal_id} ingredient_id={self.ingredient_id}'
+
+
+def connect_to_db(flask_app, db_uri='postgresql:///ratings', echo=True):
+    flask_app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
+    flask_app.config['SQLALCHEMY_ECHO'] = echo
+    flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+    db.app = flask_app
+    db.init_app(flask_app)
+
+    print('Connected to the db!')
+
+
+if __name__ == '__main__':
+    from server import app
+
+    # Call connect_to_db(app, echo=False) if your program output gets
+    # too annoying; this will tell SQLAlchemy not to print out every
+    # query it executes.
+
+    connect_to_db(app)
