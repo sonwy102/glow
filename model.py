@@ -8,16 +8,13 @@ class User(db.Model):
 
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, 
-                        autoincrement=True,
-                        primary_key=True)
-
+    user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(30), nullable=False)
     fname = db.Column(db.String(30), nullable=False)
     lname = db.Column(db.String(30), nullable=False)
-    user_photo = db.Column(db.String)
-    birthday = db.Column(db.DateTime)
+    user_photo = db.Column(db.String, default='/static/img/user/default_user.png')
+    birthday = db.Column(db.DateTime, default=None)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
 
     def __repr__(self):
@@ -28,7 +25,7 @@ class SkinType(db.Model):
     __tablename__ = 'skintypes'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    skin_type = db.Column(db.String(30), nullable=False)
+    name = db.Column(db.String(30), nullable=False)
 
     def __repr__(self):
         return f'<SkinType id={self.id} type={self.skin_type}>'
@@ -39,9 +36,12 @@ class UserSkinType(db.Model):
     __tablename__ = 'userskintypes'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     skin_type_id = db.Column(db.Integer, db.ForeignKey('skintypes.id'))
     is_active = db.Column(db.Boolean, default=True, nullable=False)
+
+    ski_type = db.relationship('SkinType', backref='userskintypes')
+    user = db.relationship('User', backref='userskintypes')
 
     def __repr__(self):
         return f'<UserSkinType id={self.id} is_active={self.is_active}>'
@@ -64,9 +64,12 @@ class UserGoal(db.Model):
     __tablename__ = 'usergoals'
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'))
     is_active = db.Column(db.Boolean, default=True, nullable=False)
+
+    goal = db.relationship('Goal', backref='usergoals')
+    user = db.relationship('User', backref='usergoals')
 
     def __repr__(self):
         return f'<UserGoal id={self.id} is_active={self.is_active}>'
@@ -80,6 +83,9 @@ class UserGoalEntry(db.Model):
     routine_id = db.Column(db.Integer, db.ForeignKey('routines.id'))
     goal_rating = db.Column(db.Integer, nullable=False)
         # how to set default value to most recent value?
+    
+    usergoal = db.relationship('UserGoal', backref='usergoalentries')
+    routine = db.relationship('Routine', backref='usergoalentries')
 
     def __repr__(self):
         return f'<UserGoalEntry id={self.id} goal_rating={self.goal_rating}>'
@@ -90,11 +96,13 @@ class Routine(db.Model):
     __tablename__ = 'routines'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
     journal_date = db.Column(db.DateTime, nullable=False)
     notes = db.Column(db.Text)
     photo = db.Column(db.String)
+
+    user = db.relationship('User', backref='routines')
 
     def __repr__(self):
         return f'<Routine id={self.id} user={self.user_id} journal_date={self.journal_date}>'
@@ -118,6 +126,8 @@ class Brand(db.Model):
     name = db.Column(db.String(200), nullable=False)
     country_id = db.Column(db.Integer, db.ForeignKey('countries.id'))
 
+    country = db.relationship('Country', backref='brands')
+
     def __repr__(self):
         return f'<Brand id={self.id} name={self.name}>'
 
@@ -126,7 +136,7 @@ class BrandType(db.Model):
     __tablename__ = 'brandtypes'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    brand_type = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<BrandType id={self.id} type={self.brand_type}>'
@@ -140,6 +150,9 @@ class BrandBrandType(db.Model):
     brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
     brand_type_id = db.Column(db.Integer, db.ForeignKey('brandtypes.id'))
 
+    brand = db.relationship('Brand', backref='brandbrandtypes')
+    brand_type = db.relationship('BrandType', backref='brandbrandtypes')
+
     def __repr__(self):
         return f'<BrandBrandType id={self.id} brand={self.brand_id}>'
 
@@ -149,7 +162,7 @@ class ProductType(db.Model):
     __tablename__ = 'producttypes'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    product_type = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
         return f'<ProductType id={self.id} type={self.product_type}>'
@@ -166,6 +179,9 @@ class Product(db.Model):
     product_type_id = db.Column(db.Integer, db.ForeignKey('producttypes.id'))
     is_discontinued = db.Column(db.Boolean, default=False, nullable=False)
 
+    brand = db.relationship('Brand', backref='products')
+    product_type = db.relationship('ProductType', backref='products')
+
     def __repr__(self):
         return f'<Product id={self.id} name={self.name} is_discontinued={self.is_discontinued}>'
 
@@ -177,6 +193,9 @@ class RoutineProduct(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     routine_id = db.Column(db.Integer, db.ForeignKey('routines.id'))
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+
+    routine = db.relationship('Routine', backref='routineproducts')
+    product = db.relationship('Product', backref='routineproducts')
 
     def __repr__(self):
         return f'<RoutineProduct id={self.id} routine_id={self.routine_id} product_id={self.product_id}>'
@@ -201,6 +220,8 @@ class IngAltName(db.Model):
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
     name = db.Column(db.String, nullable=False)
 
+    ingredient = db.relationship('Ingredient', backref='ingaltnames')
+
     def __repr__(self):
         return f'<IngCommonName id={self.id} name={self.name}'
 
@@ -212,6 +233,9 @@ class ProductIng(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     ingredient_id = db.Column(db.Integer, db.ForeignKey('ingredients.id'))
+
+    product = db.relationship('Product', backref='productings')
+    ingredient = db.relationship('Ingredient', backref='productings')
 
     def __repr__(self):
         return f'<ProductIng id={self.id} product_id={self.product_id} ingredient_id={self.ingredient_id}'
@@ -226,6 +250,9 @@ class IngGoal(db.Model):
     goal_id = db.Column(db.Integer, db.ForeignKey('goals.id'))
     rating = db.Column(db.Integer, default=None)
 
+    ingredient = db.relationship('Ingredient', backref='inggoals')
+    goal = db.relationship('Goal', backref='inggoals')
+    
     def __repr__(self):
         return f'<IngGoal id={self.id} goal_id={self.goal_id} ingredient_id={self.ingredient_id}'
 
