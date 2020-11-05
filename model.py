@@ -124,6 +124,7 @@ class Brand(db.Model):
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
+    num_products = db.Column(db.Integer, nullable=False, default=0)
     country_id = db.Column(db.Integer, db.ForeignKey('countries.id'))
 
     country = db.relationship('Country', backref='brands')
