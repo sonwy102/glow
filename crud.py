@@ -171,6 +171,10 @@ def create_ingredient(name):
 
     return ingredient
 
+def get_ing_by_name(ing_name):
+
+    return Ingredient.query.filter(Ingredient.name == ing_name).first()
+
 def create_ing_altname(ingredient_id, name):
 
     ing_altname = IngAltName(ingredient_id=ingredient_id,
