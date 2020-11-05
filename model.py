@@ -112,7 +112,7 @@ class Country(db.Model):
     __tablename__ = 'countries'
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    name = db.Column(db.String(40), nullable=False)
+    name = db.Column(db.String(200), nullable=False)
     code = db.Column(db.String(2), nullable=False)
 
     def __repr__(self):
