@@ -17,9 +17,10 @@ def get_all_ingredients():
     res = requests.get('https://skincare-api.herokuapp.com/ingredients')
     
     if res.status_code == 200:
+        print('Ingredient data successfully fetched!')
         return res.json()
     else:
-        return (f'Ingredient data fetching failed. status code = {res.status_code}'))
+        return (f'Ingredient data fetching failed. status code = {res.status_code}')
 
 def get_all_brands():
     
