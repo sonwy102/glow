@@ -101,14 +101,18 @@ def create_country(name, code):
 
     return country
 
-def create_brand(name, country_id):
+def create_brand(name, num_products, country_id):
 
-    brand = Brand(name=name, country_id=country_id)
+    brand = Brand(name=name, num_products=num_products, country_id=country_id)
 
     db.session.add(brand)
     db.session.commit()
 
     return brand
+
+def get_brand_by_name(brand_name):
+    
+    return Brand.query.filter(Brand.name == brand_name).first()
 
 def create_brand_type(name):
 
