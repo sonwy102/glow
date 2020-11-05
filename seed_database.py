@@ -9,6 +9,7 @@ import json
 import crud
 import model
 import server
+import api
 
 fake = Faker()
 
@@ -44,6 +45,18 @@ with open('data/countries.json') as f:
 for country in country_data:
     crud.create_country(country['name'], country['code'])
 
+brands = api.get_all_brands()
+for brand_name in brands.keys():
+    crud.create_brand(name=brand_name, num_products=brands[brand_name], country_id=None)
+
+ingredients = api.get_all_ingredients()
+for ingredient in ingredients:
+    crud.create_ingredient(name=ingredient['ingredient'])
+
+products = api.get_all_products()
+for product in products:
+    brand = crud.get_brand_by_name(product['brand'])
+    crud.create_product(name=product['name'], brand_id=brand.id, product_type_id=None)
 
 
 
