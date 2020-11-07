@@ -1,29 +1,60 @@
 const Login = () => {
+
+    const [loginValue, setLoginValue] = React.useState({email: '', password: ''})
+
+    const handleLogin = (evt) => {
+        evt.preventDefault();
+        // const email = loginValue.email; -> not sure why this comes back undefined?
+        // const pw = loginValue.password;
+
+        // using jQuery for now instead
+        const formData = {email: $('input[name="email"]').val(), 
+                          password: $('input[name="password"]').val()}
+    
+        $.get('/handle-login.json', formData, (res) => {
+            if (res == 'OK') {
+                console.log(res);
+                // not sure what to do from here
+            }
+        })
+
+    }
+
+    const handleInputChange = (evt) => {
+        const name = evt.target.name;
+        const value = evt.target.value;
+        const userLogin = {[name]: value};
+        console.log(userLogin)
+        setLoginValue(userLogin);
+    }
+    
     return (
-      <form class="form-signin">
+      <form onSubmit={handleLogin} className="form-signin">
 
-        <h2 class="form-signin-heading">Log In</h2>
+        <h2 className="form-signin-heading">Log In</h2>
 
-        <div class="form-group">
-          <label for="email-field" class="sr-only">Email Address</label>
+        <div className="form-group">
+          <label htmlFor="email-field" className="sr-only">Email Address</label>
           <input type="email"
                 name="email"
-                class="form-control input-lg"
+                className="form-control input-lg"
                 placeholder="Email Address"
                 required
-                autofocus></input>
+                autoFocus
+                onChange={handleInputChange}></input>
         </div>
 
-        <div class="form-group">
-          <label for="password-field" class="sr-only">Password</label>
+        <div className="form-group">
+          <label htmlFor="password-field" className="sr-only">Password</label>
           <input type="password"
                 name="password"
-                class="form-control input-lg"
+                className="form-control input-lg"
                 placeholder="Password"
-                required></input>
+                required
+                onChange={handleInputChange}></input>
         </div>
 
-        <button class="btn btn-lg btn-primary btn-block" type="Sign In">Log In
+        <button className="btn btn-lg btn-primary btn-block" type="Sign In">Log In
         </button>
       </form>
     )
