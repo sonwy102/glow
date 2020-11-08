@@ -1,61 +1,77 @@
-const Login = () => {
 
-    const [loginValue, setLoginValue] = React.useState({email: '', password: ''})
+const Login = (props) => {
 
-    const handleLogin = (evt) => {
-        evt.preventDefault();
-        // const email = loginValue.email; -> not sure why this comes back undefined?
-        // const pw = loginValue.password;
-
-        // using jQuery for now instead
-        const formData = {email: $('input[name="email"]').val(), 
-                          password: $('input[name="password"]').val()}
+    //Issue 1: how to save logged in data to session (or React-equivalent of session)?
+    //Issue 2: how to show error messages in UI (i.e. flash msg)
+    //Issue 3: should user validation logic happen in server.py or here (front-end)??
     
+    const [loginState, setLoginState] = React.useState({email: '', password: ''})
+    const history = useHistory();
+
+    const handleInputChange = (evt) => {
+      const name = evt.target.name;
+      const value = evt.target.value;
+      console.log({ [name]: value });
+      setLoginState((prevState) => ({ ...prevState, [name]: value }));
+    };
+
+    const handleSubmit = (evt) => {
+        evt.preventDefault();
+
+        const formData = {email: loginState.email, 
+                          password: loginState.password}
+
         $.get('/handle-login.json', formData, (res) => {
             if (res == 'OK') {
                 console.log(res);
-                // not sure what to do from here
+                history.push("/") //eventually want to redirect to dashboard page
+            }
+            else {
+              console.log(res);
+              history.push("/login")
             }
         })
-
     }
 
-    const handleInputChange = (evt) => {
-        const name = evt.target.name;
-        const value = evt.target.value;
-        const userLogin = {[name]: value};
-        console.log(userLogin)
-        setLoginValue(userLogin);
+    const redirectToRegister = (evt) => {
+      evt.preventDefault();
+      history.push("/register");
     }
-    
+
     return (
-      <form onSubmit={handleLogin} className="form-signin">
+      <div className="login-page">
+        <form onSubmit={handleSubmit} className="form-signin">
 
-        <h2 className="form-signin-heading">Log In</h2>
+          <h2 className="form-signin-heading">Log In</h2>
 
-        <div className="form-group">
-          <label htmlFor="email-field" className="sr-only">Email Address</label>
-          <input type="email"
-                name="email"
-                className="form-control input-lg"
-                placeholder="Email Address"
-                required
-                autoFocus
-                onChange={handleInputChange}></input>
+          <div className="form-group">
+            <label htmlFor="email-field" className="sr-only">Email Address</label>
+            <input type="email"
+                  name="email"
+                  className="form-control input-lg"
+                  placeholder="Email Address"
+                  required
+                  autoFocus
+                  onChange={handleInputChange}></input>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="password-field" className="sr-only">Password</label>
+            <input type="password"
+                  name="password"
+                  className="form-control input-lg"
+                  placeholder="Password"
+                  required
+                  onChange={handleInputChange}></input>
+          </div>
+
+          <button className="btn btn-lg btn-primary btn-block" type="Sign In">Log In
+          </button>
+        </form>
+        <div className="signup-link">
+          <span>Don't have an account?</span>
+          <span className="btn signup-btn" onClick={redirectToRegister}>Sign Up</span>
         </div>
-
-        <div className="form-group">
-          <label htmlFor="password-field" className="sr-only">Password</label>
-          <input type="password"
-                name="password"
-                className="form-control input-lg"
-                placeholder="Password"
-                required
-                onChange={handleInputChange}></input>
-        </div>
-
-        <button className="btn btn-lg btn-primary btn-block" type="Sign In">Log In
-        </button>
-      </form>
+      </div>
     )
 }
