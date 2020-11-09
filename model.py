@@ -175,7 +175,7 @@ class Product(db.Model):
     
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String(200), nullable=False)
-    photo = db.Column(db.String)
+    photo = db.Column(db.String, nullable=False, default=None)
     brand_id = db.Column(db.Integer, db.ForeignKey('brands.id'))
     product_type_id = db.Column(db.Integer, db.ForeignKey('producttypes.id'))
     is_discontinued = db.Column(db.Boolean, default=False, nullable=False)
