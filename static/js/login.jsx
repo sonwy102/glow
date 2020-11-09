@@ -5,13 +5,12 @@ const Login = (props) => {
     //Issue 2: how to show error messages in UI (i.e. flash msg)
     //Issue 3: should user validation logic happen in server.py or here (front-end)??
     
-    const [loginState, setLoginState] = React.useState({email: '', password: ''})
+    const [loginState, setLoginState] = React.useState({email: '', password: '', msg:''})
     const history = useHistory();
 
     const handleInputChange = (evt) => {
       const name = evt.target.name;
       const value = evt.target.value;
-      console.log({ [name]: value });
       setLoginState((prevState) => ({ ...prevState, [name]: value }));
     };
 
@@ -27,8 +26,7 @@ const Login = (props) => {
                 history.push("/") //eventually want to redirect to dashboard page
             }
             else {
-              console.log(res);
-              history.push("/login")
+              setLoginState((prevState) => ({ ...prevState, msg: res}));
             }
         })
     }
@@ -40,6 +38,9 @@ const Login = (props) => {
 
     return (
       <div className="login-page">
+        <div className="alert-msg">
+          {loginState.msg}
+        </div>
         <form onSubmit={handleSubmit} className="form-signin">
 
           <h2 className="form-signin-heading">Log In</h2>
