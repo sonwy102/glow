@@ -36,7 +36,7 @@ def get_all_brands():
     
     return brands
 
-def get_product_img(queryStr):
+def get_product_img(brand, product):
 
     google_img_url = 'https://customsearch.googleapis.com/customsearch/v1'
     payload = {
@@ -44,8 +44,11 @@ def get_product_img(queryStr):
         "cx": GOOGLE_API_CX,
         "searchType": "image",
         "num": 1,
-        "q": queryStr}
-    
+        "q": brand,
+        "hq": product,
+        "exactTerms": product,
+        "linkSite": (f'{brand}.com')}
+        
     res = requests.get(google_img_url, params=payload)
 
     if res.status_code == 200:
