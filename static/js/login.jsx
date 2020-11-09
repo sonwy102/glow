@@ -1,9 +1,8 @@
 
 const Login = (props) => {
 
-    //Issue 1: how to save logged in data to session (or React-equivalent of session)?
-    //Issue 2: how to show error messages in UI (i.e. flash msg)
-    //Issue 3: should user validation logic happen in server.py or here (front-end)??
+    //consideration1: include 'status' key in state that's more explicit and indicative
+    //of what's happening (successful, loading, etc.)
     
     const [loginState, setLoginState] = React.useState({email: '', password: '', msg:''})
     const history = useHistory();
@@ -21,12 +20,14 @@ const Login = (props) => {
                           password: loginState.password}
 
         $.get('/handle-login.json', formData, (res) => {
-            if (res == 'OK') {
+            if (res.status_code === 200) {
                 console.log(res);
+                localStorage.setItem('userState', res.session_id);
                 history.push("/") //eventually want to redirect to dashboard page
+                props.ensureLogIn(res.session_id);
             }
             else {
-              setLoginState((prevState) => ({ ...prevState, msg: res}));
+              setLoginState((prevState) => ({ ...prevState, msg: res.msg}));
             }
         })
     }
