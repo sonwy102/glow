@@ -56,12 +56,17 @@ for ingredient in ingredients:
 products = api.get_all_products()
 for product in products:
     brand = crud.get_brand_by_name(product['brand'])
+    try:
+        img = api.get_product_img(f'{brand} {product.name}')
+    except:
+        img = ''
     product_in_db = crud.create_product(name=product['name'], brand_id=brand.id, product_type_id=None)
 
     for ingredient in product['ingredient_list']:
         ing = crud.get_ing_by_name(ingredient)
         if ing != None:
             crud.create_product_ing(product_in_db.id, ing.id)
+
 
             
         
