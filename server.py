@@ -1,10 +1,9 @@
 """Server for Glow app."""
 
 from flask import (Flask, render_template, request, flash, session,
-                   redirect)
+                   redirect, jsonify)
 from model import connect_to_db
 import crud
-import jsonify
 
 from jinja2 import StrictUndefined
 
@@ -26,16 +25,20 @@ def handle_login():
     email = request.args.get("email")
     password = request.args.get("password")
     user = crud.get_user_by_email(email)
+    response = {'status_code': '', 'msg': '', 'session_id': ''}
     
-    if user == None:
-        return 'Username does not exist.'
-    if user.password != password:
-        return 'Incorrect username/password'
-    
-    # session['user'] = user --> how to save login to session? or should i only save status
-    return 'OK'
-    
-    # return user
+    if user != None and (user.password == password):
+        session['user_id'] = user.user_id
+        response['status_code'] = 200
+        response['msg'] = None
+        response['session_id'] = session['user_id']
+        return jsonify(response)
+    else:
+        response['status_code'] = 401
+        response['msg'] = 'Invalid username/password'
+        response['session_id'] = None
+        return jsonify(response)
+        
 
 @app.route('/handle-register.json', methods=["POST"])
 def register_user():
@@ -52,3 +55,4 @@ def register_user():
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
+    
