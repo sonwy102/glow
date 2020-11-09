@@ -141,9 +141,10 @@ def create_product_type(name):
     
     return product_type
 
-def create_product(name, brand_id, product_type_id):
+def create_product(name, photo, brand_id, product_type_id):
 
     product = Product(name=name,
+                      photo=photo,
                       brand_id=brand_id,
                       product_type_id=product_type_id)
 
@@ -151,6 +152,7 @@ def create_product(name, brand_id, product_type_id):
     db.session.commit() 
 
     return product
+
 
 def create_routine_product(routine_id, product_id):
 
