@@ -11,7 +11,7 @@ function App() {
           <Link to="/login">Log In</Link>
           <Link to="/register">Sign Up</Link>
         </div>
-        
+
         <div className="product-search-engine">
           <ProductSearch />
         </div>
@@ -24,7 +24,9 @@ function App() {
             <Route path="/register">
               <Register ensureLogIn={setUserState} />
             </Route>
-            
+            <Route path="/profile">
+              <Profile isLoggedIn={userState} />
+            </Route>
           </Switch>
         </div>
       </Router>
