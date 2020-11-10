@@ -36,6 +36,7 @@ def get_all_brands():
     
     return brands
 
+# Google Custom Search API helper functions
 def get_product_img(brand, product):
 
     google_img_url = 'https://customsearch.googleapis.com/customsearch/v1'
