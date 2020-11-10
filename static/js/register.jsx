@@ -205,7 +205,7 @@ const Register = () => {
             <option value="2007">2007</option>
           </select>
         </div>
-        <button className="btn btn-lg btn-primary btn-block" type="Sign In">
+        <button className="btn btn-lg btn-primary btn-block" type="submit">
           Sign Up
         </button>
       </form>

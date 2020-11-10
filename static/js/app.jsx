@@ -10,6 +10,9 @@ function App() {
           <Link to="/login">Log In</Link>
           <Link to="/register">Sign Up</Link>
         </div>
+        <div className="product-search-engine">
+          <Home />
+        </div>
         <div>
           <Switch>
             <Route path="/login">
