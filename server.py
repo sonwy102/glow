@@ -51,8 +51,29 @@ def register_user():
     last_name = request.form.get("lastName")
     birthday = request.form.get("birthday")
 
+    response = {'status_code': '', 'msg': '', 'session_id': ''}
+
+    # check if email already exists
+    user_in_db = crud.get_user_by_email(email)       
+    if user_in_db:
+        response['status_code'] = 409
+        response['msg'] = 'Account already exists.'
+        response['session_id'] = None
+        return jsonify(response)
+        
     new_user = crud.create_user(email, password, first_name, last_name, birthday)
-    return new_user
+    if new_user:
+        session['user_id'] = new_user.user_id
+        response['status_code'] = 200
+        response['msg'] = 'Your account was successfully created!'
+        response['session_id'] = session['user_id']
+        return jsonify(response)
+    else:
+        response['status_code'] = 401 #which one should I be using? 
+        response['msg'] = 'Registration failed. Try again later.'
+        response['session_id'] = None
+        return jsonify(response)
+
 
 @app.route('/product-search.json')
 def search_product_info():

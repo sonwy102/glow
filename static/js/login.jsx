@@ -5,7 +5,7 @@ const Login = (props) => {
     //of what's happening (successful, loading, etc.)
     
     const [loginState, setLoginState] = React.useState({email: '', password: '', msg:''})
-     
+    const history = useHistory();
 
     const handleInputChange = (evt) => {
       const name = evt.target.name;
