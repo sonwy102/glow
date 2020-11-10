@@ -31,8 +31,9 @@ const Home = (props) => {
         <label htmlFor="search-category" className="sr-only">
           Search Category
         </label>
+        {/* ways to make this dropdown menu better? */}
         <select id="search-category" name="search-category" onChange={handleInputChange} required>
-          <option value="Search for" disabled selected>I'm looking for...</option>
+          <option value="Search for" disabled defaultValue>I'm looking for...</option>
           <option value="Product">Product</option>
           <option value="Brand">Brand</option>
           <option value="Ingredient">Ingredient</option>
