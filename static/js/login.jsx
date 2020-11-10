@@ -5,13 +5,13 @@ const Login = (props) => {
     //of what's happening (successful, loading, etc.)
     
     const [loginState, setLoginState] = React.useState({email: '', password: '', msg:''})
-    const history = useHistory();
+     
 
     const handleInputChange = (evt) => {
       const name = evt.target.name;
       const value = evt.target.value;
       setLoginState((prevState) => ({ ...prevState, [name]: value }));
-    };
+    }
 
     const handleSubmit = (evt) => {
         evt.preventDefault();
@@ -19,7 +19,7 @@ const Login = (props) => {
         const formData = {email: loginState.email, 
                           password: loginState.password}
 
-        $.get('/handle-login.json', formData, (res) => {
+        $.post('/handle-login.json', formData, (res) => {
             if (res.status_code === 200) {
                 console.log(res);
                 localStorage.setItem('userState', res.session_id);
@@ -67,7 +67,7 @@ const Login = (props) => {
                   onChange={handleInputChange}></input>
           </div>
 
-          <button className="btn btn-lg btn-primary btn-block" type="Sign In">Log In
+          <button className="btn btn-lg btn-primary btn-block" type="submit">Log In
           </button>
         </form>
         <div className="signup-link">
