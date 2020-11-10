@@ -14,6 +14,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 @app.route('/login')
 @app.route('/register')
+@app.route('/profile')
 def index():
     """Show homepage."""
 
