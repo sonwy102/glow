@@ -205,3 +205,9 @@ def create_ing_goal(ingredient_id, goal_id):
     db.session.commit() 
 
     return ing_goal
+
+def search_product_info(table, querystr):
+    print(table)
+    print(querystr)
+    return table.Query.filter(table.name.like(f'%{querystr}%')).limit(20).all()
+    
