@@ -19,11 +19,12 @@ def index():
 
     return render_template('index.html')
 
-@app.route('/handle-login.json')
+@app.route('/handle-login.json', methods=["POST"])
 def handle_login():
+    """Validate user log-in credentials."""
     
-    email = request.args.get("email")
-    password = request.args.get("password")
+    email = request.form.get("email")
+    password = request.form.get("password")
     user = crud.get_user_by_email(email)
     response = {'status_code': '', 'msg': '', 'session_id': ''}
     
@@ -42,6 +43,7 @@ def handle_login():
 
 @app.route('/handle-register.json', methods=["POST"])
 def register_user():
+    """Register new user."""
 
     email = request.form.get("email")
     password = request.form.get("password")
@@ -51,6 +53,20 @@ def register_user():
 
     new_user = crud.create_user(email, password, first_name, last_name, birthday)
     return new_user
+
+@app.route('/product-search.json')
+def search_product_info():
+    """Query database for products, brands, or ingredients relevant to user's
+    input."""
+
+    table_name = request.args.get("search_category")
+    print(f'table name: {table_name}')
+    querystr = request.args.get("product_search")
+    print(f'query string: {querystr}')
+
+    searchResults = crud.search_product_info(table_name, querystr)
+    return jsonify(searchResults)
+    
 
 if __name__ == '__main__':
     connect_to_db(app)
