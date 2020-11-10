@@ -41,7 +41,7 @@ const Register = (props) => {
         if (res.status_code === 200) {
           setRegisterState((prevState) => ({ ...prevState, statusMsg: res.msg }));
           localStorage.setItem("userState", res.session_id);
-          history.push("/"); //eventually want to redirect to profile page
+          history.push("/profile");
           props.ensureLogIn(res.session_id);
         } else {
           console.log(res);
