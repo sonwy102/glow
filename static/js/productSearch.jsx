@@ -1,4 +1,4 @@
-const Home = (props) => {
+const ProductSearch = (props) => {
   
   const [searchState, setSearchState] = React.useState({
       'search-category': '',
