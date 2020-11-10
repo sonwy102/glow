@@ -209,5 +209,8 @@ def create_ing_goal(ingredient_id, goal_id):
 def search_product_info(table, querystr):
     print(table)
     print(querystr)
+    
+    #issue1: table is a string, not a db Model -> how to convert?
+    #issue2: querystr = user input -> bad practice for security?
     return table.Query.filter(table.name.like(f'%{querystr}%')).limit(20).all()
     
