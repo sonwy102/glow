@@ -101,7 +101,6 @@ def search_product_info():
 @app.route('/user-info.json')
 def show_user_info():
     """Query database for a user and return their info."""
-    
     # TODO: refactor the logic out into crud.py later
 
     user_id = int(request.args.get("uid"))
@@ -119,6 +118,7 @@ def show_user_info():
         
     res = {
         'name': (f'{user.fname} {user.lname}'),
+        'photo': user.user_photo,
         'email': user.email,
         'skin_types': [skin_type.name for skin_type in user_skin_types],
         'goals': [goal.name for goal in user_goals]
