@@ -27,6 +27,9 @@ function App() {
             <Route path="/profile">
               <Profile isLoggedIn={userState} />
             </Route>
+            <Route path="/searchResults">
+              <SearchResults />
+            </Route>
           </Switch>
         </div>
       </Router>
