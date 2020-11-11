@@ -1,6 +1,6 @@
 const Register = (props) => {
 
-  //Issue 2: How to split up signup form into 2 separate pages?
+  // Issue 2: How to split up signup form into 2 separate pages?
   
   const history = useHistory();
   const [registerState, setRegisterState] = React.useState({
