@@ -55,6 +55,13 @@ def create_user_skin_type(user_id, skin_type_id):
 
     return user_skin_type
 
+def get_user_skin_type(user_id):
+    return UserSkinType.query.filter(UserSkinType.user_id == user_id).all()
+
+def get_skin_type_by_id(skin_type_id):
+
+    return SkinType.query.get(skin_type_id)
+
 def create_goal(goal_name, description=None):
     
     goal = Goal(name=goal_name, description=description)
@@ -64,6 +71,9 @@ def create_goal(goal_name, description=None):
 
     return goal
 
+def get_goal_by_id(goal_id):
+    return Goal.query.get(goal_id)
+
 def create_user_goal(user_id, goal_id):
     user_goal = UserGoal(user_id=user_id, goal_id=goal_id)
 
@@ -71,6 +81,10 @@ def create_user_goal(user_id, goal_id):
     db.session.commit()
 
     return user_goal
+
+def get_active_user_goals(user_id):
+    return UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.is_active).all()
+
 
 def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
     
@@ -153,6 +167,8 @@ def create_product(name, photo, brand_id, product_type_id):
 
     return product
 
+def get_product_by_id(product_id):
+    return Product.query.get(product_id)
 
 def create_routine_product(routine_id, product_id):
 
@@ -172,6 +188,9 @@ def create_ingredient(name):
     db.session.commit() 
 
     return ingredient
+
+def get_ing_by_id(ing_id):
+    return Ingredient.query.get(ing_id)
 
 def get_ing_by_name(ing_name):
 
@@ -207,10 +226,11 @@ def create_ing_goal(ingredient_id, goal_id):
     return ing_goal
 
 def search_product_info(table, querystr):
-    print(table)
-    print(querystr)
     
-    #issue1: table is a string, not a db Model -> how to convert?
-    #issue2: querystr = user input -> bad practice for security?
-    return table.Query.filter(table.name.like(f'%{querystr}%')).limit(20).all()
-    
+    if table == 'Product':
+        return Product.query.filter(Product.name.like(f'%{querystr}%')).limit(20).all()
+    elif table == 'Brand':
+        return Brand.query.filter(Brand.name.like(f'%{querystr}%')).limit(20).all()
+    else:
+        return Ingredient.query.filter(Ingredient.name.like(f'%{querystr}%')).limit(20).all()
+
