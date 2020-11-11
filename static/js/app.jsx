@@ -19,7 +19,7 @@ function App() {
         <div>
           <Switch>
             <Route path="/login">
-              <Login ensureLogIn={setUserState} />
+              <Login ensureLogIn={setUserState} isLoggedIn={userState}/>
             </Route>
             <Route path="/register">
               <Register ensureLogIn={setUserState} />
