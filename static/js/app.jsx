@@ -27,7 +27,7 @@ function App() {
             <Route path="/profile">
               <Profile isLoggedIn={userState} />
             </Route>
-            <Route path="/searchResults">
+            <Route path="/searchresults">
               <SearchResults />
             </Route>
           </Switch>
