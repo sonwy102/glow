@@ -59,7 +59,6 @@ def get_user_skin_type(user_id):
     return UserSkinType.query.filter(UserSkinType.user_id == user_id).all()
 
 def get_skin_type_by_id(skin_type_id):
-
     return SkinType.query.get(skin_type_id)
 
 def create_goal(goal_name, description=None):
@@ -124,9 +123,21 @@ def create_brand(name, num_products, country_id):
 
     return brand
 
+def get_brand_by_id(brand_id):
+
+    return Brand.query.get(brand_id)
+
 def get_brand_by_name(brand_name):
     
     return Brand.query.filter(Brand.name == brand_name).first()
+
+def search_brands_like_name(querystr):
+    brands_in_db = Brand.query.filter(Brand.name.like(f'%{querystr}%')).limit(20).all()
+    brands = []
+    for item in brands_in_db:
+        brands.append(get_brand_by_id(item.id))
+    
+    return brands
 
 def create_brand_type(name):
 
@@ -170,6 +181,15 @@ def create_product(name, photo, brand_id, product_type_id):
 def get_product_by_id(product_id):
     return Product.query.get(product_id)
 
+def search_products_like_name(querystr):
+    products_in_db = Product.query.filter(Product.name.like(f'%{querystr}%')).limit(20).all()
+    products = []
+    for item in products_in_db:
+        products.append(get_product_by_id(item.id))
+    
+    return products
+    
+
 def create_routine_product(routine_id, product_id):
 
     routine_product = RoutineProduct(routine_id=routine_id,
@@ -195,6 +215,14 @@ def get_ing_by_id(ing_id):
 def get_ing_by_name(ing_name):
 
     return Ingredient.query.filter(Ingredient.name == ing_name).first()
+
+def search_ings_like_name(querystr):
+    ings_in_db = Ingredient.query.filter(Ingredient.name.like(f'%{querystr}%')).limit(20).all()
+    ings = []
+    for item in ings_in_db:
+        ings.append(get_ing_by_id(item.id))
+    
+    return ings
 
 def create_ing_altname(ingredient_id, name):
 
@@ -224,13 +252,3 @@ def create_ing_goal(ingredient_id, goal_id):
     db.session.commit() 
 
     return ing_goal
-
-def search_product_info(table, querystr):
-    
-    if table == 'Product':
-        return Product.query.filter(Product.name.like(f'%{querystr}%')).limit(20).all()
-    elif table == 'Brand':
-        return Brand.query.filter(Brand.name.like(f'%{querystr}%')).limit(20).all()
-    else:
-        return Ingredient.query.filter(Ingredient.name.like(f'%{querystr}%')).limit(20).all()
-
