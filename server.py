@@ -4,6 +4,7 @@ from flask import (Flask, render_template, request, flash, session,
                    redirect, jsonify)
 from model import connect_to_db
 import crud
+import json
 
 from jinja2 import StrictUndefined
 
@@ -34,12 +35,12 @@ def handle_login():
         response['status_code'] = 200
         response['msg'] = None
         response['session_id'] = session['user_id']
-        return jsonify(response)
     else:
         response['status_code'] = 401
         response['msg'] = 'Invalid username/password'
         response['session_id'] = None
-        return jsonify(response)
+    
+    return jsonify(response)
         
 
 @app.route('/handle-register.json', methods=["POST"])
@@ -68,12 +69,12 @@ def register_user():
         response['status_code'] = 200
         response['msg'] = 'Your account was successfully created!'
         response['session_id'] = session['user_id']
-        return jsonify(response)
     else:
         response['status_code'] = 401 #which one should I be using? 
         response['msg'] = 'Registration failed. Try again later.'
         response['session_id'] = None
-        return jsonify(response)
+    
+    return jsonify(response)
 
 
 @app.route('/product-search.json')
@@ -82,13 +83,45 @@ def search_product_info():
     input."""
 
     table_name = request.args.get("search_category")
-    print(f'table name: {table_name}')
     querystr = request.args.get("product_search")
-    print(f'query string: {querystr}')
 
-    searchResults = crud.search_product_info(table_name, querystr)
-    return jsonify(searchResults)
+    search_results = crud.search_product_info(table_name, querystr)
+    res = {'status_code': '', 'num_results': 0, 'search_results': None}
+
+    if search_results == None:
+        res['status_code'] = 404 #not sure which one to use
+    else:
+        res['status_code'] = 200  
+        res['num_results'] = len(search_results)
+        res['search_results'] = search_results
+
+    return jsonify(res) 
+
+@app.route('/user-info.json')
+def show_user_info():
+    """Query database for a user and return their info."""
     
+    user_id = int(request.args.get("uid"))
+    print(user_id)
+    user = crud.get_user_by_id(user_id)
+    user_skin_types_in_db = crud.get_user_skin_type(user_id)
+    user_skin_types = []
+    for item in user_skin_types_in_db:
+        user_skin_types.append(crud.get_skin_type_by_id(item.skin_type_id))
+    
+    user_goals_in_db = crud.get_active_user_goals(user_id)
+    user_goals = []
+    for item in user_goals_in_db:
+        user_goals.append(crud.get_goal_by_id(item.goal_id))
+        
+    res = {
+        'name': (f'{user.fname} {user.lname}'),
+        'email': user.email,
+        'skin_types': [skin_type.name for skin_type in user_skin_types],
+        'goals': [goal.name for goal in user_goals]
+    }
+
+    return jsonify([res])
 
 if __name__ == '__main__':
     connect_to_db(app)
