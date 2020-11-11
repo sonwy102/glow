@@ -57,7 +57,7 @@ products = api.get_all_products()
 for product in products:
     brand = crud.get_brand_by_name(product['brand'])
     try:
-        img = api.get_product_img(f'{brand} {product["name"]}')
+        img = api.get_product_img(brand, product["name"])
     except:
         img = ''
 
