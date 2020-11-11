@@ -8,7 +8,18 @@ const Profile = (props) => {
   //goal 3: make info editable -- photo, name, password, skin type(s), skin goals
 
   const history = useHistory();
-    
+  const [userDetails, setUserDetails] = React.useState([]);
+  const userId = localStorage.getItem("userState");
+
+  React.useEffect(() => {
+    $.get('/user-info.json', { uid: userId }, (res) => {
+      setUserDetails(res)
+    });
+  }, [])
+  
+  const userData = userDetails[0];
+  console.log(userData);
+
 //   if (!props.isLoggedIn) {
     
 //     // redirect user to login page
@@ -19,17 +30,17 @@ const Profile = (props) => {
       <div className="user-profile">
         <div className="profile-photo"></div>
         <div className="user-info-1">
-          <h3>Name</h3>
-          <p>Email address</p>
+          {userDetails.length > 0 && <h3>{userDetails[0].name}</h3>}
+          {userDetails.length > 0 && <p>{userDetails[0].email}</p>}
         </div>
         <div className="user-info-2">
+          <div>Skin Type</div>
           <ul className="skin-types">
-            <li>skintype</li>
-            <li>skintype</li>
+            {userDetails.length > 0 && <li>{userDetails[0].skin_types}</li>}
           </ul>
+          <div>Skin Health Goals</div>
           <ul className="skin-goals">
-            <li>goal 1</li>
-            <li>goal 2</li>
+            {userDetails.length > 0 && <li>{userDetails[0].goals}</li>}
           </ul>
         </div>
         <button>Edit profile</button>
