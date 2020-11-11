@@ -17,8 +17,6 @@ const Profile = (props) => {
     });
   }, [])
   
-  const userData = userDetails[0];
-  console.log(userData);
 
 //   if (!props.isLoggedIn) {
     
@@ -26,26 +24,35 @@ const Profile = (props) => {
 //     history.push('/login')
 //     // return <Login />    
 //   } else {
-    return (
+  console.log(userDetails)
+  return (
+    userDetails.length > 0 && (
       <div className="user-profile">
-        <div className="profile-photo"></div>
+        <div className="profile-photo">
+          <img src={userDetails[0].photo}></img>
+        </div>
         <div className="user-info-1">
-          {userDetails.length > 0 && <h3>{userDetails[0].name}</h3>}
-          {userDetails.length > 0 && <p>{userDetails[0].email}</p>}
+          <h3>{userDetails[0].name}</h3>
+          <p>{userDetails[0].email}</p>
         </div>
         <div className="user-info-2">
-          <div>Skin Type</div>
+          <div>Skin Types</div>
           <ul className="skin-types">
-            {userDetails.length > 0 && <li>{userDetails[0].skin_types}</li>}
+            {userDetails[0].skin_types.map((skin_type) => (
+              <li>{skin_type}</li>
+            ))}
           </ul>
-          <div>Skin Health Goals</div>
+          <div>Skin Health Goals You are Working On:</div>
           <ul className="skin-goals">
-            {userDetails.length > 0 && <li>{userDetails[0].goals}</li>}
+            {userDetails[0].goals.map((goal) => (
+              <li>{goal}</li>
+            ))}
           </ul>
         </div>
-        <button>Edit profile</button>
+        <a class="btn btn-primary" href="/editProfile" role="button">
+          Edit Profile
+        </a>
       </div>
-    );
-
-    
+    )
+  );
 }
