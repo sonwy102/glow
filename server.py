@@ -85,22 +85,25 @@ def search_product_info():
     table_name = request.args.get("search_category")
     querystr = request.args.get("product_search")
 
-    search_results = crud.search_product_info(table_name, querystr)
-    res = {'status_code': '', 'num_results': 0, 'search_results': None}
-
-    if search_results == None:
-        res['status_code'] = 404 #not sure which one to use
+    if table_name == 'Product':
+        search_results = crud.search_products_like_name(querystr)
+    elif table_name == 'Brand':
+        search_results = crud.search_brands_like_name(querystr)
     else:
-        res['status_code'] = 200  
-        res['num_results'] = len(search_results)
-        res['search_results'] = search_results
-
+        search_results = crud.search_ings_like_name(querystr)
+    
+    res = []
+    for item in search_results:
+        res.append({'name': item.name})
+        
     return jsonify(res) 
 
 @app.route('/user-info.json')
 def show_user_info():
     """Query database for a user and return their info."""
     
+    # TODO: refactor the logic out into crud.py later
+
     user_id = int(request.args.get("uid"))
     print(user_id)
     user = crud.get_user_by_id(user_id)
