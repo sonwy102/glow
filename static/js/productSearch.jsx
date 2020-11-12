@@ -17,6 +17,13 @@ const ProductSearch = () => {
     history.push(
       `/productsearch?category=${searchState["search-category"]}&term=${searchState["product-search"]}`
     );
+    
+    //TODO: reset searchState after user submits form
+    setSearchState({
+      'search-category': '',
+      'product-search': null
+    });
+    console.log(searchState)
   }
 
   return (
