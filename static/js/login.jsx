@@ -21,17 +21,15 @@ const Login = (props) => {
                           password: loginState.password}
 
         $.post('/handle-login.json', formData, (res) => {
-            if (res.status_code === 200) {
-                console.log(res);
-                localStorage.setItem('userState', res.session_id);
-                history.push("/profile") //eventually want to redirect to dashboard page
-                props.ensureLogIn(res.session_id);
-                
-                
-            }
-            else {
-              setLoginState((prevState) => ({ ...prevState, msg: res.msg}));
-            }
+          if (res.status_code === 200) {
+            console.log(res);
+            localStorage.setItem('userState', res.session_id);
+            history.push(`/profile?user=${res.session_id}`); 
+            props.ensureLogIn(res.session_id);
+          }
+          else {
+            setLoginState((prevState) => ({ ...prevState, msg: res.msg}));
+          }
         })
     }
 

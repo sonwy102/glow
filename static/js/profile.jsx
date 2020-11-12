@@ -9,10 +9,9 @@ const Profile = (props) => {
 
   const history = useHistory();
   const [userDetails, setUserDetails] = React.useState([]);
-  const userId = localStorage.getItem("userState");
 
   React.useEffect(() => {
-    $.get('/user-info.json', { uid: userId }, (res) => {
+    $.get('/user-info.json', { uid: props.isLoggedIn }, (res) => {
       setUserDetails(res)
     });
   }, [])
