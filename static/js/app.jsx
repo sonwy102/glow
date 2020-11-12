@@ -17,10 +17,11 @@ function App() {
         <div className="App">
           <h2 className="App-title">Glow Homepage</h2>
           <Link to="/">Home</Link>
-          <Link to="/login">Log In</Link> 
+          <Link to="/login">Log In</Link>
           {/* TODO: how to dynamically change this link so it's Log In when user's 
           logged out, and Log Out when user's logged in*/}
           <Link to="/register">Sign Up</Link>
+          <Link to="/routine">Add Routine</Link>
         </div>
 
         <div className="product-search-engine">
@@ -40,6 +41,9 @@ function App() {
             </Route>
             <Route path="/productsearch">
               <SearchResults />
+            </Route>
+            <Route path="/routine">
+              <Routine isLoggedIn={userState}/>
             </Route>
           </Switch>
         </div>
