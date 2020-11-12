@@ -1,11 +1,11 @@
 // User Profile page
 
 const Profile = (props) => {
-  //goal 0: page should only be visible/visitable when user is logged in
-  //goal 1: display basic user info -- photo, name, email, birthday
-  //goal 2: display secondary info -- skin type(s), skin goals
-      // both should be editable
-  //goal 3: make info editable -- photo, name, password, skin type(s), skin goals
+  // // TODO: page should only be visible/visitable when user is logged in
+  // // TODO: display basic user info -- photo, name, email, birthday
+  // // TODO: display secondary info -- skin type(s), skin goals
+      // // TODO: both should be editable
+  //TODO: make info editable -- photo, name, password, skin type(s), skin goals
 
   const history = useHistory();
   const [userDetails, setUserDetails] = React.useState([]);

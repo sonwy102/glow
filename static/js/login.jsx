@@ -3,7 +3,7 @@ const Login = (props) => {
 
     //consideration1: include 'status' key in state that's more explicit and indicative
     //of what's happening (successful, loading, etc.)
-    //issue 1: props.ensureLogin not working? userState is not updating for some reason
+    // //issue 1: props.ensureLogin not working? userState is not updating for some reason
     
     const [loginState, setLoginState] = React.useState({email: '', password: '', msg:''})
     const history = useHistory();
