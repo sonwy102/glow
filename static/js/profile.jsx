@@ -18,12 +18,11 @@ const Profile = (props) => {
   }, [])
   
 
-//   if (!props.isLoggedIn) {
+  if (!props.isLoggedIn) {
     
-//     // redirect user to login page
-//     history.push('/login')
-//     // return <Login />    
-//   } else {
+    // redirect user to login page
+    history.push('/login') 
+  }
   console.log(userDetails)
   return (
     userDetails.length > 0 && (
@@ -49,7 +48,7 @@ const Profile = (props) => {
             ))}
           </ul>
         </div>
-        <a class="btn btn-primary" href="/editProfile" role="button">
+        <a className="btn btn-primary" href="/editProfile" role="button">
           Edit Profile
         </a>
       </div>
