@@ -17,6 +17,8 @@ class User(db.Model):
     birthday = db.Column(db.DateTime, default=None)
     created_on = db.Column(db.DateTime, default=datetime.utcnow)
 
+    # TODO: test this relationship and use it in crud.py and server.py
+    skin_types = db.relationship('SkinType', backref='users', secondary='userskintypes')
     def __repr__(self):
         return f'<User id={self.user_id} email={self.email}>'
 
