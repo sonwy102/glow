@@ -3,6 +3,7 @@
 
 function App() {
     const [userState, setUserState] = React.useState(null)
+    console.log(userState);
     return (
       <Router>
         <div className="App">
@@ -27,7 +28,7 @@ function App() {
             <Route path="/profile">
               <Profile isLoggedIn={userState} />
             </Route>
-            <Route path="/searchresults">
+            <Route path="/productsearch">
               <SearchResults />
             </Route>
           </Switch>
