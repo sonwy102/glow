@@ -26,7 +26,7 @@ const Login = (props) => {
                 localStorage.setItem('userState', res.session_id);
                 history.push("/") //eventually want to redirect to dashboard page
                 props.ensureLogIn(res.session_id);
-                console.log(props.isLoggedIn);
+                
                 
             }
             else {
