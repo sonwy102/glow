@@ -17,6 +17,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/register')
 @app.route('/profile')
 @app.route('/searchresults')
+@app.route('/routine')
 def index():
     """Show homepage."""
 
@@ -71,7 +72,7 @@ def register_user():
         response['msg'] = 'Your account was successfully created!'
         response['session_id'] = session['user_id']
     else:
-        response['status_code'] = 401 #which one should I be using? 
+        response['status_code'] = 406 
         response['msg'] = 'Registration failed. Try again later.'
         response['session_id'] = None
     
