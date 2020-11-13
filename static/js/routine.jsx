@@ -5,47 +5,99 @@
 // TODO: make a post request to db when the user submits form 
     // TODO: make a flask server to handle post request
     // TODO: create routine, routineProducts, userGoalEntry records in db
-// TODO: make component accessible only when user's logged in
-// TODO: set up appropriate routing in app.jsx and server.py and index.html
+// // TODO: make component accessible only when user's logged in
+// // TODO: set up appropriate routing in app.jsx and server.py and index.html
 
 const Routine = (props) => {
-
+  // get today's date
   const today = new Date();
-  const date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+  const today_date =
+    today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
   
-  $(document).ready(function () {
-    $(".js-basic-multiple").select2();
-  });
-
+  // get latest products and latest goal ratings to pre-populate form when page loads
   const [latestProducts, setLatestProducts] = React.useState([]);
   const [latestGoalRatings, setLatestGoalRatings] = React.useState([]);
-  
+
   React.useEffect(() => {
     $.get("/routine-products.json", { uid: props.isLoggedIn }, (res) => {
       setLatestProducts(res);
       console.log(latestProducts);
     });
-
     $.get("/goal-ratings.json", { uid: props.isLoggedIn }, (res) => {
       setLatestGoalRatings(res);
       console.log(latestGoalRatings);
     });
   }, []);
 
+  // handle form input change and submit
+  // TODO: fix select2 issue!! how to best organize routineState here?
+  const [routineState, setRoutineState] = React.useState({
+    journalTime: "",
+    journalDate: today_date,
+    products: [],
+    notes: null,
+    photo: null,
+  });
+
+  // const [selectedProducts, setSelectedProducts] = React.useState([]);
+  // jQuery for select2 library
+  $(document).ready(function () {
+    const multiSelect = $(".js-basic-multiple").select2();
+    multiSelect.on("change.select2", (evt) => {
+      // setSelectedProducts((prevState) => (prevState.push(evt.params.data)));
+      // console.log(selectedProducts);
+      console.log(evt.params.data)
+    });
+  });
+
+  console.log(routineState);
+
+  const handleInputChange = (evt) => {
+    evt.preventDefault();
+    const name = evt.target.name;
+    const value = evt.target.value;
+    console.log({ [name]: value });
+    setRoutineState((prevState) => ({ ...prevState, [name]: value }));
+  };
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+
+    const formData = {
+      uid: props.isLoggedIn,
+      journalTime: routineState.journalTime,
+      journalDate: routineState.journalDate,
+      products: routineState.products,
+      notes: routineState.notes,
+      photo: routineState.photo
+    }
+
+    $.post('/add-routine.json', formData, (res) => {
+      if (res.status_code === 200) {
+        console.log(res);
+        history.push(`/profile?user=${props.isLoggedIn}`); 
+      }
+    });
+  }
+  
+  if (!props.isLoggedIn) {
+    
+    // redirect user to login page
+    history.push('/login') 
+  }
   return (
-    <div className="routine-page">
+    <div className="routine-page" onSubmit={handleSubmit}>
       <form className="routine-form">
         <h2>Your Routine Today</h2>
 
-        <div className="form-group">
+        <div className="form-group" required onChange={handleInputChange}>
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
               type="radio"
-              name="radio-AM-PM"
+              name="journalTime"
               id="radio-AM"
               value="AM"
-              checked
             />
             <label className="form-check-label" htmlFor="radioAM">
               AM
@@ -55,7 +107,7 @@ const Routine = (props) => {
             <input
               className="form-check-input"
               type="radio"
-              name="radio-AM-PM"
+              name="journalTime"
               id="radio-PM"
               value="PM"
             />
@@ -69,10 +121,10 @@ const Routine = (props) => {
           <label htmlFor="journal-date-field">Date:</label>
           <input
             type="date"
-            name="journal-date"
+            name="journalDate"
             required
-            defaultValue={date}
-            // onChange={handleInputChange}
+            defaultValue={today_date}
+            onChange={handleInputChange}
           ></input>
         </div>
 
@@ -81,11 +133,11 @@ const Routine = (props) => {
 
           <select
             className="js-basic-multiple"
-            name="products-used"
+            name="products"
             multiple="multiple"
           >
             {latestProducts.map((result) => (
-              <option value={result.product}>{result.product}</option>
+              <option value={result.productID}>{result.productName}</option>
             ))}
           </select>
 
@@ -101,13 +153,14 @@ const Routine = (props) => {
             // TODO: add tickmarks and labels on range later
             // TODO: add "update goals button" later  
           */}
-          
+
           {latestGoalRatings.map((result) => (
             <React.Fragment>
               <label htmlFor="formControlRange">{result.name}</label>
               <input
                 type="range"
                 className="form-control-range"
+                name="goals"
                 id="formControlRange"
                 max="10"
                 defaultValue={result.rating}
@@ -122,20 +175,24 @@ const Routine = (props) => {
           <label htmlFor="notesTextArea"></label>
           <textarea
             className="form-control"
+            name="notes"
             id="notes-text-area"
             rows="3"
+            onChange={handleInputChange}
           ></textarea>
 
-          <label htmlFor="photoFileInput">Photos</label>
+          <label htmlFor="photoFileInput"></label>
           <input
             type="file"
             className="form-control-file"
+            name="photo"
             id="photo-input"
+            onChange={handleInputChange}
           ></input>
         </div>
 
         <button className="btn btn-lg btn-primary btn-block" type="submit">
-            Save
+          Save
         </button>
       </form>
     </div>
