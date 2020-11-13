@@ -96,6 +96,20 @@ def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
 
     return user_goal_entry
 
+# def get_latest_goal_entries(routine):
+#     """Return a list of user's latest goal entries"""
+
+#     latest_goal_entries = []
+#     for goal_entry in routine.usergoalentries:
+#         latest_goal_entries.append(goal_entry)
+    
+#     return latest_goal_entries
+
+def get_latest_goal_entries(routine):
+    """return a list of user goal entries from the latest routine"""
+    
+    return UserGoalEntry.query.with_parent(routine).all()
+    
 
 def create_routine(user_id, journal_date):
 
