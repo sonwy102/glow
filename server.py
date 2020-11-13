@@ -5,6 +5,7 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db
 import crud
 import json
+from datetime import datetime
 
 from jinja2 import StrictUndefined
 
@@ -138,7 +139,7 @@ def get_latest_products():
     
     res = []
     for product in products:
-        res.append({'product': product.name})
+        res.append({'productID': product.id, 'productName': product.name})
     
     return jsonify(res)
 
@@ -155,6 +156,44 @@ def get_latest_goal_ratings():
         res.append({'name': goal_entry.usergoal.goal.name, 'rating': goal_entry.goal_rating})
    
     return jsonify(res)
+
+@app.route('/add-routine.json', methods=["POST"])
+def add_user_routine():
+    """Create db records of Routine, RoutineProducts, and UserGoalEntry"""
+
+    user_id = int(request.form.get("uid"))
+    datestr = request.form.get("journalDate")
+
+    if request.form.get("journalTime") == "AM":
+        journal_date = datetime.strptime(f'{datestr} 10:00:00', '%Y-%m-%d %H:%M:%S')
+    else: 
+        journal_date = datetime.strptime(f'{datestr} 22:00:00', '%Y-%m-%d %H:%M:%S')
+    
+    products = request.form.get("products")
+    goals = request.forms.get("goals")
+    notes = request.forms.get("notes")
+    photo = request.forms.get("photo")
+
+    # create routine
+    routine = crud.create_routine(user_id, journal_date, notes, photo)
+    routine_products = []
+    goal_entries = []
+
+    for product in products:
+        routine_products.append(crud.create_routine_product(routine.id, product.id))
+    
+    for goal in goals:
+        goal_entries.append(crud.create_user_goal_entry(goal.id, routine.id, goal.goal_rating))
+    
+    res = {'status_code': '', msg: ''}
+    if routine and routine_products and goal_entries:
+        res['status_code'] = 200
+        res['msg'] = 'Routine successfully added.'
+    else:
+        res['status_code'] = 406
+        res['msg'] = f'Add-routine failed. routine: {routine}, products: {routine_products}, goals: {goal_entries}'
+    return jsonify(res)
+
     
 
 if __name__ == '__main__':
