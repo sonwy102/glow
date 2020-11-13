@@ -96,6 +96,7 @@ def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
 
     return user_goal_entry
 
+
 def create_routine(user_id, journal_date):
 
     routine = Routine(user_id=user_id, journal_date=journal_date)
@@ -104,6 +105,13 @@ def create_routine(user_id, journal_date):
     db.session.commit()    
 
     return routine
+
+def get_latest_user_routine(user_id):
+
+    routines = Routine.query.with_parent(get_user_by_id(user_id)).order_by('journal_date').all()
+
+    return routines[-1]
+
 
 def create_country(name, code):
 
@@ -199,6 +207,16 @@ def create_routine_product(routine_id, product_id):
     db.session.commit() 
 
     return routine_product
+
+def get_latest_routine_products(routine):
+    """Return a list of Products in user's latest routine"""
+
+    latest_products = []
+    for rp in routine.routineproducts:
+        latest_products.append(rp.product)
+    
+    return latest_products
+
 
 def create_ingredient(name):
 

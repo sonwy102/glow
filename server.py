@@ -106,7 +106,6 @@ def show_user_info():
     # TODO: refactor the logic out into crud.py later
 
     user_id = int(request.args.get("uid"))
-    print(user_id)
     user = crud.get_user_by_id(user_id)
     user_skin_types_in_db = crud.get_user_skin_type(user_id)
     user_skin_types = []
@@ -127,6 +126,23 @@ def show_user_info():
     }
 
     return jsonify([res])
+
+@app.route('/routine-products.json')
+def get_latest_products():
+    """Query database for a user's list of products used in their latest routine"""
+
+    user_id = int(request.args.get("uid"))
+
+    routine = crud.get_latest_user_routine(user_id)
+    products = crud.get_latest_routine_products(routine)
+    
+    res = []
+    for product in products:
+        res.append(product.name)
+    
+    return jsonify(res)
+
+
 
 if __name__ == '__main__':
     connect_to_db(app)
