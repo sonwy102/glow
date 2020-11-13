@@ -138,11 +138,24 @@ def get_latest_products():
     
     res = []
     for product in products:
-        res.append(product.name)
+        res.append({'product': product.name})
     
     return jsonify(res)
 
+@app.route('/goal-ratings.json')
+def get_latest_goal_ratings():
+    """Query database and return a list of user's latest goals and ratings"""
 
+    user_id = int(request.args.get("uid"))
+    routine = crud.get_latest_user_routine(user_id)
+    goal_entries = crud.get_latest_goal_entries(routine)
+
+    res = []
+    for goal_entry in goal_entries:
+        res.append({'name': goal_entry.usergoal.goal.name, 'rating': goal_entry.goal_rating})
+   
+    return jsonify(res)
+    
 
 if __name__ == '__main__':
     connect_to_db(app)
