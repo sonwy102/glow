@@ -140,8 +140,7 @@ class Brand(db.Model):
             'id': self.id,
             'name': self.name,
             'num_products': self.num_products,
-            'country': self.country,
-            'products': self.products
+            'country': self.country_id
         }
 
 class BrandType(db.Model):
@@ -206,7 +205,7 @@ class Product(db.Model):
             'photo': self.photo,
             'brand': self.brand_id,
             'product_type_id': self.product_type_id,
-            'status': self.is_discontinued
+            'is_discontinued': self.is_discontinued
         }
 
 class RoutineProduct(db.Model):
