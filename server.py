@@ -19,6 +19,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/profile')
 @app.route('/searchresults')
 @app.route('/routine')
+@app.route('/details')
 def index():
     """Show homepage."""
 
@@ -97,7 +98,7 @@ def search_product_info():
     
     res = []
     for item in search_results:
-        res.append({'name': item.name})
+        res.append({'category':table_name, 'id':item.id, 'name': item.name})
         
     return jsonify(res) 
 
@@ -185,7 +186,7 @@ def add_user_routine():
     for goal in goals:
         goal_entries.append(crud.create_user_goal_entry(goal.id, routine.id, goal.goal_rating))
     
-    res = {'status_code': '', msg: ''}
+    res = {'status_code': '', 'msg': ''}
     if routine and routine_products and goal_entries:
         res['status_code'] = 200
         res['msg'] = 'Routine successfully added.'
@@ -193,6 +194,24 @@ def add_user_routine():
         res['status_code'] = 406
         res['msg'] = f'Add-routine failed. routine: {routine}, products: {routine_products}, goals: {goal_entries}'
     return jsonify(res)
+
+@app.route('/search-result-details.json')
+def get_search_result_details():
+
+    category = request.args.get('category')
+    pid = request.args.get('pid')
+
+    if category == 'Product':
+        result_details = crud.get_product_by_id(pid)
+    elif category == 'Ingredient':
+        result_details = crud.get_ing_by_id(pid)
+    else:
+        result_details = crud.get_brand_by_id(pid)
+    
+    return jsonify(result_details.serialize)
+
+    
+    
 
     
 
