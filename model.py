@@ -133,6 +133,16 @@ class Brand(db.Model):
 
     def __repr__(self):
         return f'<Brand id={self.id} name={self.name}>'
+    
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'num_products': self.num_products,
+            'country': self.country,
+            'products': self.products
+        }
 
 class BrandType(db.Model):
 
@@ -187,7 +197,17 @@ class Product(db.Model):
 
     def __repr__(self):
         return f'<Product id={self.id} name={self.name} is_discontinued={self.is_discontinued}>'
-
+    
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'photo': self.photo,
+            'brand': self.brand_id,
+            'product_type_id': self.product_type_id,
+            'status': self.is_discontinued
+        }
 
 class RoutineProduct(db.Model):
 
@@ -213,6 +233,13 @@ class Ingredient(db.Model):
 
     def __repr__(self):
         return f'<Ingredient id={self.id} name={self.name}'
+    
+    @property
+    def serialize(self):
+        return {
+            'id': self.id,
+            'name': self.name
+        }
     
 
 class IngAltName(db.Model):
