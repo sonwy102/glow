@@ -44,6 +44,7 @@ const Routine = (props) => {
 
   // const [selectedProducts, setSelectedProducts] = React.useState([]);
   // jQuery for select2 library
+  // TODO: use React-select instead!
   $(document).ready(function () {
     const multiSelect = $(".js-basic-multiple").select2();
     multiSelect.on("change.select2", (evt) => {
