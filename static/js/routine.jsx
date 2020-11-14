@@ -24,11 +24,9 @@ const Routine = (props) => {
   React.useEffect(() => {
     $.get("/routine-products.json", { uid: props.isLoggedIn }, (res) => {
       setLatestProducts(res);
-      console.log(latestProducts);
     });
     $.get("/goal-ratings.json", { uid: props.isLoggedIn }, (res) => {
       setLatestGoalRatings(res);
-      console.log(latestGoalRatings);
     });
   }, []);
 
@@ -38,23 +36,20 @@ const Routine = (props) => {
     journalTime: "",
     journalDate: today_date,
     products: [],
+    goals: [],
     notes: null,
     photo: null,
   });
 
-  // const [selectedProducts, setSelectedProducts] = React.useState([]);
-  // jQuery for select2 library
-  // TODO: use React-select instead!
-  $(document).ready(function () {
-    const multiSelect = $(".js-basic-multiple").select2();
-    multiSelect.on("change.select2", (evt) => {
-      // setSelectedProducts((prevState) => (prevState.push(evt.params.data)));
-      // console.log(selectedProducts);
-      console.log(evt.params.data)
-    });
-  });
-
   console.log(routineState);
+  console.log('latestproducts: ',latestProducts);
+  console.log('latestGoals:', latestGoalRatings)
+
+  const productOptions = []
+  for (let p of latestProducts) {
+    productOptions.push({value: p.productID, label: p.productName})
+  }
+  console.log('options list: ', productOptions)
 
   const handleInputChange = (evt) => {
     evt.preventDefault();
@@ -63,6 +58,16 @@ const Routine = (props) => {
     console.log({ [name]: value });
     setRoutineState((prevState) => ({ ...prevState, [name]: value }));
   };
+
+  const handleProductChange = (evt) => {
+    setRoutineState((prevState) => ({ ...prevState, products: evt}))
+  };
+
+  // const handleGoalChange = (evt) => {
+
+  // }
+
+
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -135,17 +140,15 @@ const Routine = (props) => {
         <div className="form-group">
           <h3>Products you used today </h3>
 
-          <select
+          <Select
             className="js-basic-multiple"
             name="products"
-            multiple="multiple"
-          >
-            {latestProducts.map((result) => (
-              <option value={result.productID}>{result.productName}</option>
-            ))}
-          </select>
-
+            isMulti
+            options = {productOptions}
+            onChange={handleProductChange}
+          />
           {/* // TODO: what about new products that aren't in previous routine? */}
+        
         </div>
 
         <div className="form-group">
@@ -168,6 +171,7 @@ const Routine = (props) => {
                 id="formControlRange"
                 max="10"
                 defaultValue={result.rating}
+                onChange={handleInputChange}
               ></input>
             </React.Fragment>
           ))}
