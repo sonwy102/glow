@@ -24,14 +24,16 @@ const SearchResults = () => {
     });
   };
 
-  const renderProductDetails = (evt) => {
-    evt.preventDefault();
-    history.push(`/details?category=${searchResults.category}&pid=${searchResults.id}`)
-  }
-
   React.useEffect(() => {
     searchProduct(); 
   }, []);
+
+  const renderProductDetails = (evt) => {
+    evt.preventDefault();
+    history.push(
+      `/details?category=${searchResults[0].category}&pid=${searchResults[0].id}`
+    );
+  };
 
   return (
     <div className="search-results-page">
@@ -40,7 +42,7 @@ const SearchResults = () => {
         <div>Total: {searchResults.length} result(s)</div>
         {searchResults.map((result) => (
           <li>
-            <a href='/details' onClick={renderProductDetails}>{result.name}</a>
+            <Link to='/details' onClick={renderProductDetails}>{result.name}</Link>
           </li>
         ))}
       </div>
