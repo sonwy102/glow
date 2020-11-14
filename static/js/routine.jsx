@@ -9,6 +9,9 @@
 // // TODO: set up appropriate routing in app.jsx and server.py and index.html
 
 const Routine = (props) => {
+
+  const history = useHistory();
+
   // get today's date
   const today = new Date();
   const today_date =
@@ -82,7 +85,7 @@ const Routine = (props) => {
   
   if (!props.isLoggedIn) {
     
-    // redirect user to login page
+    console.log('redirecting to login page.', props.isLoggedIn)
     history.push('/login') 
   }
   return (
