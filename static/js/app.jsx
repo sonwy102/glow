@@ -2,15 +2,16 @@
 
 
 function App() {
-    const [userState, setUserState] = React.useState(null)
+    const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
     console.log(userState);
 
-    React.useEffect(() => {
-      const sess_id = localStorage.getItem("userState");
-      if (sess_id) {
-        setUserState(sess_id)
-      };
-    }, []);
+    // React.useEffect(() => {
+    //   const sess_id = localStorage.getItem("userState");
+    //   console.log('app just loaded. session id: ', sess_id)
+    //   if (sess_id) {
+    //     setUserState(sess_id)
+    //   };
+    // }, []);
 
     return (
       <Router>
@@ -44,6 +45,9 @@ function App() {
             </Route>
             <Route path="/routine">
               <Routine isLoggedIn={userState}/>
+            </Route>
+            <Route path="/details">
+              <ProductDetails />
             </Route>
           </Switch>
         </div>
