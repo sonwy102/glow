@@ -154,9 +154,17 @@ def get_latest_goal_ratings():
 
     res = []
     for goal_entry in goal_entries:
-        res.append({'name': goal_entry.usergoal.goal.name, 'rating': goal_entry.goal_rating})
+        res.append({
+            'id':goal_entry.usergoal.id,
+            'name': goal_entry.usergoal.goal.name, 
+            'rating': goal_entry.goal_rating})
    
     return jsonify(res)
+
+
+# TODO: create routine, routineProducts, userGoalEntry records in db
+    #TODO: getting None back for products even though formData is populated right
+    #TODO: check how to handle getting JS arrays back
 
 @app.route('/add-routine.json', methods=["POST"])
 def add_user_routine():
@@ -171,9 +179,10 @@ def add_user_routine():
         journal_date = datetime.strptime(f'{datestr} 22:00:00', '%Y-%m-%d %H:%M:%S')
     
     products = request.form.get("products")
-    goals = request.forms.get("goals")
-    notes = request.forms.get("notes")
-    photo = request.forms.get("photo")
+    print(f'List of products in routine: {products}')
+    goals = request.form.get("goals")
+    notes = request.form.get("notes")
+    photo = request.form.get("photo")
 
     # create routine
     routine = crud.create_routine(user_id, journal_date, notes, photo)
