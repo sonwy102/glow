@@ -4,6 +4,7 @@
 function App() {
     const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
     console.log(userState);
+    const history = useHistory();
 
     // React.useEffect(() => {
     //   const sess_id = localStorage.getItem("userState");
@@ -13,16 +14,24 @@ function App() {
     //   };
     // }, []);
 
+    
+
     return (
       <Router>
         <div className="App">
           <h2 className="App-title">Glow Homepage</h2>
           <Link to="/">Home</Link>
-          <Link to="/login">Log In</Link>
-          {/* TODO: how to dynamically change this link so it's Log In when user's 
-          logged out, and Log Out when user's logged in*/}
-          <Link to="/register">Sign Up</Link>
-          <Link to="/routine">Add Routine</Link>
+          {userState ? (
+            <div className="header">
+              <Link to="/profile">Profile</Link>
+              <LogOutBtn ensureLogIn={setUserState}></LogOutBtn>
+            </div>
+          ) : (
+            <div className="header">
+              <Link to="/register">Sign Up</Link>
+              <LogInBtn ensureLogIn={setUserState}></LogInBtn>
+            </div>
+          )}
         </div>
 
         <div className="product-search-engine">
@@ -44,7 +53,7 @@ function App() {
               <SearchResults />
             </Route>
             <Route path="/routine">
-              <Routine isLoggedIn={userState}/>
+              <Routine isLoggedIn={userState} />
             </Route>
             <Route path="/details">
               <ProductDetails />
