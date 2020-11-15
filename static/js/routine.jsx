@@ -21,7 +21,7 @@ const Routine = (props) => {
   const [latestProducts, setLatestProducts] = React.useState([]);
   const [latestGoalRatings, setLatestGoalRatings] = React.useState([]);
 
-  React.useEffect(() => {
+  React.useLayoutEffect(() => {
     $.get("/routine-products.json", { uid: props.isLoggedIn }, (res) => {
       setLatestProducts(res);
     });
@@ -31,25 +31,29 @@ const Routine = (props) => {
   }, []);
 
   // handle form input change and submit
-  // TODO: fix select2 issue!! how to best organize routineState here?
+  const goalsList = [];
+  for (let g of latestGoalRatings) {
+    goalsList.push({id: g.id, rating: g.rating});
+  }
+  console.log('goalsList:', goalsList);
+
+  const productOptions = [];
+  for (let p of latestProducts) {
+    productOptions.push({ value: p.productID, label: p.productName });
+  }
+  console.log("options list: ", productOptions);
+  // // TODO: fix select2 issue!! how to best organize routineState here?
   const [routineState, setRoutineState] = React.useState({
     journalTime: "",
     journalDate: today_date,
     products: [],
-    goals: [],
+    goals: goalsList,
     notes: null,
-    photo: null,
+    photo: null
   });
 
-  console.log(routineState);
   console.log('latestproducts: ',latestProducts);
   console.log('latestGoals:', latestGoalRatings)
-
-  const productOptions = []
-  for (let p of latestProducts) {
-    productOptions.push({value: p.productID, label: p.productName})
-  }
-  console.log('options list: ', productOptions)
 
   const handleInputChange = (evt) => {
     evt.preventDefault();
@@ -63,11 +67,26 @@ const Routine = (props) => {
     setRoutineState((prevState) => ({ ...prevState, products: evt}))
   };
 
-  // const handleGoalChange = (evt) => {
-
-  // }
-
-
+  const handleGoalChange = (evt) => {
+    evt.preventDefault();
+    console.log("HANDLING GOAL CHANGE")
+    let newGoalState = latestGoalRatings;
+    for (let i in newGoalState) {
+      console.log('i: ', i);
+      console.log('evt target name:', evt.target.name, typeof(evt.target.name))
+      console.log(
+        "enwGoalState[i].id:",
+        newGoalState[i].id,
+        typeof newGoalState[i].id
+      );
+      if (parseInt(evt.target.name) === newGoalState[i].id) {
+        newGoalState[i].rating = parseInt(evt.target.value);
+        console.log('goal rating updated.', newGoalState[i].rating)
+      }
+    }
+    console.log('newGoalState: ', newGoalState);
+    setRoutineState((prevState) => ({...prevState, goals: newGoalState}));
+  };
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -77,9 +96,12 @@ const Routine = (props) => {
       journalTime: routineState.journalTime,
       journalDate: routineState.journalDate,
       products: routineState.products,
+      goals: routineState.goals,
       notes: routineState.notes,
       photo: routineState.photo
     }
+
+    console.log('formData: ', formData);
 
     $.post('/add-routine.json', formData, (res) => {
       if (res.status_code === 200) {
@@ -89,6 +111,8 @@ const Routine = (props) => {
     });
   }
   
+  console.log("routineState: ", routineState);
+
   if (!props.isLoggedIn) {
     
     console.log('redirecting to login page.', props.isLoggedIn)
@@ -161,17 +185,18 @@ const Routine = (props) => {
             // TODO: add "update goals button" later  
           */}
 
+
           {latestGoalRatings.map((result) => (
             <React.Fragment>
               <label htmlFor="formControlRange">{result.name}</label>
               <input
                 type="range"
                 className="form-control-range"
-                name="goals"
+                name={result.id}
                 id="formControlRange"
                 max="10"
                 defaultValue={result.rating}
-                onChange={handleInputChange}
+                onInput={handleGoalChange}
               ></input>
             </React.Fragment>
           ))}
