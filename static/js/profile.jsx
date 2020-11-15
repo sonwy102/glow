@@ -16,6 +16,9 @@ const Profile = (props) => {
     });
   }, [])
   
+  const redirectToRoutine = () => {
+    history.push(`/routine`);
+  };
 
   if (!props.isLoggedIn) {
     
@@ -50,6 +53,9 @@ const Profile = (props) => {
         <a className="btn btn-primary" href="/editProfile" role="button">
           Edit Profile
         </a>
+        <button className="btn btn-primary" onClick={redirectToRoutine}>
+          Add Routine
+        </button>
       </div>
     )
   );
