@@ -41,8 +41,9 @@ const Register = (props) => {
         if (res.status_code === 200) {
           setRegisterState((prevState) => ({ ...prevState, statusMsg: res.msg }));
           localStorage.setItem("userState", res.session_id);
-          history.push("/profile");
           props.ensureLogIn(res.session_id);
+          redirectToProfile(res.session_id);
+          
         } else {
           console.log(res);
           setRegisterState((prevState) => ({ ...prevState, statusMsg: res.msg}));
@@ -50,6 +51,11 @@ const Register = (props) => {
         }
       });
     }
+  };
+
+  // TODO: this is redundant to redirectToProfile in login.jsx. how to prevent?
+  const redirectToProfile = (sess_id) => {
+    history.push(`/profile?user=${sess_id}`);
   };
 
   return (
