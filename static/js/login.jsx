@@ -24,8 +24,8 @@ const Login = (props) => {
           if (res.status_code === 200) {
             console.log(res);
             localStorage.setItem('userState', res.session_id);
-            history.push(`/profile?user=${res.session_id}`); 
             props.ensureLogIn(res.session_id);
+            redirectToProfile(res.session_id);
           }
           else {
             setLoginState((prevState) => ({ ...prevState, msg: res.msg}));
@@ -36,6 +36,10 @@ const Login = (props) => {
     const redirectToRegister = (evt) => {
       evt.preventDefault();
       history.push("/register");
+    }
+
+    const redirectToProfile = (sess_id) => {
+      history.push(`/profile?user=${sess_id}`);
     }
 
     return (
@@ -73,7 +77,7 @@ const Login = (props) => {
         </form>
         <div className="signup-link">
           <span>Don't have an account?</span>
-          <span className="btn signup-btn" onClick={redirectToRegister}>Sign Up</span>
+          <span className="btn btn-primary" onClick={redirectToRegister}>Sign Up</span>
         </div>
       </div>
     )
