@@ -20,6 +20,7 @@ const Routine = (props) => {
   const [latestProducts, setLatestProducts] = React.useState([]);
   const [latestGoalRatings, setLatestGoalRatings] = React.useState([]);
 
+  // ?? Is it right to use useLayoutEffect here?
   React.useLayoutEffect(() => {
     $.get("/routine-products.json", { uid: props.isLoggedIn }, (res) => {
       setLatestProducts(res);
