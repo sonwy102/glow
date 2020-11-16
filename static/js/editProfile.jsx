@@ -3,14 +3,18 @@
 // TODO: make post request onSubmit to update user record
 // TODO: Button rendering for goals
 // TODO: update profile.jsx to match the form format (skintype, goals)
+// // TODO: make it accessible for only logged in users
 
 const EditProfile = (props) => {
   
-  const userSessionId = props.isLoggedIn;
   const redirectToProfile = (sess_id) => {
     history.push(`/profile?user=${sess_id}`);
   };
 
+  if (!props.isLoggedIn) {
+    // redirect user to login page
+    history.push("/login");
+  }
   return (
     <div className="edit-user-profile-page">
       <Form>
