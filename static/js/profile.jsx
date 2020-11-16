@@ -20,6 +20,10 @@ const Profile = (props) => {
     history.push(`/routine`);
   };
 
+  const redirectToEditProfile = () => {
+    history.push(`/editprofile?user=${props.isLoggedIn}`)
+  }
+
   if (!props.isLoggedIn) {
     
     // redirect user to login page
@@ -28,7 +32,7 @@ const Profile = (props) => {
   console.log(userDetails)
   return (
     userDetails.length > 0 && (
-      <div className="user-profile">
+      <div className="user-profile-page">
         <div className="profile-photo">
           <img src={userDetails[0].photo}></img>
         </div>
@@ -50,7 +54,7 @@ const Profile = (props) => {
             ))}
           </ul>
         </div>
-        <Button variant="outline-primary" href="/editProfile">
+        <Button variant="outline-primary" onClick={redirectToEditProfile}>
           Edit Profile
         </Button>
         <Button variant="primary" onClick={redirectToRoutine}>
