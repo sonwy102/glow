@@ -72,12 +72,12 @@ const Login = (props) => {
                   onChange={handleInputChange}></input>
           </div>
 
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Log In
-          </button>
+          <Button variant="primary" type="submit">Log In
+          </Button>
         </form>
         <div className="signup-link">
           <span>Don't have an account?</span>
-          <span className="btn btn-primary" onClick={redirectToRegister}>Sign Up</span>
+          <Button variant="outline-primary" onClick={redirectToRegister}>Sign Up</Button>
         </div>
       </div>
     )

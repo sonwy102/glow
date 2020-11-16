@@ -6,8 +6,8 @@ const LogInBtn = (props) => {
   };
 
   return (
-    <button className="btn btn-primary" onClick={redirectToLogIn}>
+    <Button variant="outline-primary" onClick={redirectToLogIn}>
       Sign In
-    </button>
+    </Button>
   );
 };

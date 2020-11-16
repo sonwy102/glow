@@ -11,9 +11,9 @@ const LogOutBtn = (props) => {
     };
 
     return (
-      <button className="btn btn-primary" onClick={handleLogout}>
+      <Button variant="outline-primary" onClick={handleLogout}>
         Sign Out
-      </button>
+      </Button>
     );
 
 }
