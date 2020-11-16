@@ -1,5 +1,5 @@
 "use strict";
-
+// ! Issue 1: <EditProfile> gets uncaught reference error even though I set up all the routing ??
 
 function App() {
     const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
@@ -58,6 +58,7 @@ function App() {
             <Route path="/details">
               <ProductDetails />
             </Route>
+
             <Route path="/editprofile">
               <EditProfile isLoggedIn={userState} />
             </Route>
