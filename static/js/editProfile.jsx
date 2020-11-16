@@ -1,4 +1,9 @@
 // Component for edit-profile form
+// TODO: get existing user data passed in from profile.jsx or just load from db again?
+// TODO: make post request onSubmit to update user record
+// TODO: Button rendering for goals
+// TODO: update profile.jsx to match the form format (skintype, goals)
+
 const EditProfile = (props) => {
   
   const userSessionId = props.isLoggedIn;
