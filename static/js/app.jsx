@@ -58,7 +58,6 @@ function App() {
             <Route path="/details">
               <ProductDetails />
             </Route>
-
             <Route path="/editprofile">
               <EditProfile isLoggedIn={userState} />
             </Route>
