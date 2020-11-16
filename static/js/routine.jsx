@@ -224,9 +224,9 @@ const Routine = (props) => {
           ></input>
         </div>
 
-        <button className="btn btn-lg btn-primary btn-block" type="submit">
+        <Button variant="primary" type="submit">
           Save
-        </button>
+        </Button>
       </form>
     </div>
   );

@@ -63,9 +63,9 @@ const ProductSearch = () => {
           ></input>
         </div>
 
-        <button className="btn btn-lg btn-primary btn-block" type="submit">
+        <Button variant="primary" type="submit">
           Search
-        </button>
+        </Button>
       </form>
     </div>
   );

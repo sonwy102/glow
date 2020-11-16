@@ -50,12 +50,12 @@ const Profile = (props) => {
             ))}
           </ul>
         </div>
-        <a className="btn btn-primary" href="/editProfile" role="button">
+        <Button variant="outline-primary" href="/editProfile">
           Edit Profile
-        </a>
-        <button className="btn btn-primary" onClick={redirectToRoutine}>
+        </Button>
+        <Button variant="primary" onClick={redirectToRoutine}>
           Add Routine
-        </button>
+        </Button>
       </div>
     )
   );

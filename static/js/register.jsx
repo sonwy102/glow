@@ -144,9 +144,9 @@ const Register = (props) => {
             onChange={handleInputChange}
           ></input>
         </div>
-        <button className="btn btn-lg btn-primary btn-block" type="submit">
+        <Button variant="primary" type="submit">
           Sign Up
-        </button>
+        </Button>
       </form>
     </div>
   );
