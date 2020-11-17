@@ -11,16 +11,6 @@ function App() {
       skinTypes: [],
       goals: [],
     });
-  
-    // React.useEffect(() => {
-    //   const sess_id = localStorage.getItem("userState");
-    //   console.log('app just loaded. session id: ', sess_id)
-    //   if (sess_id) {
-    //     setUserState(sess_id)
-    //   };
-    // }, []);
-
-    
 
     return (
       <Router>

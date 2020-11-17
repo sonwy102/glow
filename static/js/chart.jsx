@@ -18,7 +18,7 @@ const Chart = () => {
   //   }
   // })
 
-  const newChartInstance = new Chart(chartContainer.current, )
+  const newChartInstance = new Chart(chartContainer.current, chartConfig)
   return (
     <canvas ref={chartContainer}></canvas>
 
