@@ -51,32 +51,29 @@ def handle_login():
 def register_user():
     """Register new user."""
 
-    email = request.form.get("email")
-    password = request.form.get("password")
-    first_name = request.form.get("firstName")
-    last_name = request.form.get("lastName")
-    birthday = request.form.get("birthday")
-
-    response = {'status_code': '', 'msg': '', 'session_id': ''}
+    newUserData = request.get_json()
+    response = {'status_code': '', 'msg': ''}
 
     # check if email already exists
-    user_in_db = crud.get_user_by_email(email)       
+    user_in_db = crud.get_user_by_email(newUserData['email'])       
     if user_in_db:
         response['status_code'] = 409
         response['msg'] = 'Account already exists.'
-        response['session_id'] = None
         return jsonify(response)
         
-    new_user = crud.create_user(email, password, first_name, last_name, birthday)
+    new_user = crud.create_user(
+        newUserData['email'],
+        newUserData['password'],
+        newUserData['firstName'],
+        newUserData['lastName'],
+        newUserData['birthday'])
     if new_user:
         session['user_id'] = new_user.user_id
         response['status_code'] = 200
-        response['msg'] = 'Your account was successfully created!'
-        response['session_id'] = session['user_id']
+        response['msg'] = 'Your account was successfully created! Sign in to start tracking your skin health.'
     else:
         response['status_code'] = 406 
         response['msg'] = 'Registration failed. Try again later.'
-        response['session_id'] = None
     
     return jsonify(response)
 

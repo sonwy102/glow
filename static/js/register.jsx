@@ -1,7 +1,6 @@
 const Register = (props) => {
-
   // Issue 2: How to split up signup form into 2 separate pages?
-  
+
   const history = useHistory();
   const [registerState, setRegisterState] = React.useState({
     email: "",
@@ -10,8 +9,17 @@ const Register = (props) => {
     firstName: "",
     lastName: "",
     birthday: "",
-    statusMsg: null
+    statusMsg: null,
   });
+
+  // TODO: this is redundant to redirectToProfile in login.jsx. how to prevent?
+  // const redirectToProfile = (sess_id) => {
+  //   history.push(`/profile?user=${sess_id}`);
+  // };
+
+  const redirectToLogin = () => {
+    history.push('/login')
+  }
 
   const handleInputChange = (evt) => {
     evt.preventDefault();
@@ -20,42 +28,35 @@ const Register = (props) => {
     setRegisterState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const postNewUserLogin = async () => {
+    fetch("/handle-register.json", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(registerState),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status_code === 200) {
+        setRegisterState((prevState) => ({...prevState, statusMsg: data.msg}));
+        redirectToLogin();
+      } else {
+        setRegisterState((prevState) => ({...prevState, statusMsg: data.msg}));
+        history.push('/register');
+      }
+    })
+  }
+
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
-    console.log(registerState)
+    console.log(registerState);
     if (registerState.password !== registerState.passwordConfirm) {
       console.log("Passwords do not match."); //how to show this on the page?
       history.push("/register");
     } else {
-      const formData = {
-        email: registerState.email,
-        password: registerState.password,
-        passwordConfirm: registerState.passwordConfirm,
-        firstName: registerState.firstName,
-        lastName: registerState.lastName,
-        birthday: registerState.birthday
-      };
-
-      $.post("/handle-register.json", formData, (res) => {
-        if (res.status_code === 200) {
-          setRegisterState((prevState) => ({ ...prevState, statusMsg: res.msg }));
-          localStorage.setItem("userState", res.session_id);
-          props.ensureLogIn(res.session_id);
-          redirectToProfile(res.session_id);
-          
-        } else {
-          console.log(res);
-          setRegisterState((prevState) => ({ ...prevState, statusMsg: res.msg}));
-          history.push("/register");
-        }
-      });
+      postNewUserLogin();
     }
-  };
-
-  // TODO: this is redundant to redirectToProfile in login.jsx. how to prevent?
-  const redirectToProfile = (sess_id) => {
-    history.push(`/profile?user=${sess_id}`);
   };
 
   return (
