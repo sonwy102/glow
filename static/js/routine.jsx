@@ -20,14 +20,33 @@ const Routine = (props) => {
   const [latestProducts, setLatestProducts] = React.useState([]);
   const [latestGoalRatings, setLatestGoalRatings] = React.useState([]);
 
-  // ?? Is it right to use useLayoutEffect here?
-  React.useLayoutEffect(() => {
-    $.get("/routine-products.json", { uid: props.isLoggedIn }, (res) => {
-      setLatestProducts(res);
-    });
-    $.get("/goal-ratings.json", { uid: props.isLoggedIn }, (res) => {
-      setLatestGoalRatings(res);
-    });
+  const fetchProductData = async () => {
+    fetch(`/routine-products.json/${props.isLoggedIn}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const productData = [];
+        for (const product of data) {
+          productData.push(product);
+        }
+        setLatestProducts(productData);
+      });
+  }
+
+  const fetchGoalRatingData = async () => {
+    fetch(`/goal-ratings.json/${props.isLoggedIn}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const goalRatingData = [];
+        for (const rating of data) {
+          goalRatingData.push(rating);
+        }
+        setLatestGoalRatings(goalRatingData);
+      });
+  };
+
+  React.useEffect(() => {
+    fetchProductData();
+    fetchGoalRatingData();
   }, []);
 
   // handle form input change and submit
