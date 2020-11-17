@@ -1,14 +1,15 @@
 // Component for edit-profile form
-// TODO: get existing user data passed in from profile.jsx or just load from db again?
+// // TODO: get existing user data passed in from profile.jsx or just load from db again?
 // TODO: make post request onSubmit to update user record
 // TODO: Button rendering for goals
-// TODO: update profile.jsx to match the form format (skintype, goals)
 // // TODO: make it accessible for only logged in users
 
 const EditProfile = (props) => {
   
   const history = useHistory();
   const [skinTypes, setSkinTypes] = React.useState([]);
+  const [goals, setGoals] = React.useState([]);
+
 
   const redirectToProfile = (sess_id) => {
     history.push(`/profile?user=${sess_id}`);
@@ -26,8 +27,21 @@ const EditProfile = (props) => {
       });
   }
 
+  const fetchAllGoals = async () => {
+    fetch(`/user-goals.json/${props.isLoggedIn}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const newGoals = [];
+        for (const goal of data) {
+          newGoals.push(goal);
+        }
+        setGoals(newGoals);
+      });
+  }
+
   React.useEffect(() => {
     fetchAllSkinTypes();
+    fetchAllGoals();
   }, []);
 
   if (!props.isLoggedIn) {
@@ -53,9 +67,11 @@ const EditProfile = (props) => {
 
       <div className="skin-goals">
         <h3>Skin Health Goals You are Working On:</h3>
-        {/* {props.userInfo.goals.map((goal) => (
-          <Button variant="outline-primary goal_selected">{goal}</Button>
-        ))} */}
+        {goals.map((goal) => (
+          goal.isActive ? (
+            <Button variant="primary selected">{goal.name}</Button>) : (
+            <Button variant="outline-primary unselected">{goal.name}</Button>)
+        ))}
       </div>
 
       <Button variant="primary" onClick={redirectToProfile}>
