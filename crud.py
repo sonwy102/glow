@@ -90,6 +90,8 @@ def create_user_goal(user_id, goal_id):
 def get_active_user_goals(user_id):
     return UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.is_active).all()
 
+def get_all_goals():
+    return Goal.query.all()
 
 def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
     
