@@ -25,3 +25,8 @@ const {
   Tooltip
 } = ReactBootstrap;
 
+const {
+  Line,
+  Bar
+} = ReactChartjs2
+
