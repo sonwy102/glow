@@ -58,8 +58,14 @@ def create_user_skin_type(user_id, skin_type_id):
 def get_user_skin_type(user_id):
     return UserSkinType.query.filter(UserSkinType.user_id == user_id).all()
 
+def get_active_user_skin_types(user_id):
+    return UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.is_active).all()
+
 def get_skin_type_by_id(skin_type_id):
     return SkinType.query.get(skin_type_id)
+
+def get_all_skin_types():
+    return SkinType.query.all()
 
 def create_goal(goal_name, description=None):
     
