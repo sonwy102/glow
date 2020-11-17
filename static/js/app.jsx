@@ -4,6 +4,13 @@
 function App() {
     const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
     console.log(userState);
+    const [userDetails, setUserDetails] = React.useState({
+      name: "",
+      email: "",
+      photo: "",
+      skinTypes: [],
+      goals: [],
+    });
   
     // React.useEffect(() => {
     //   const sess_id = localStorage.getItem("userState");
@@ -46,7 +53,7 @@ function App() {
               <Register ensureLogIn={setUserState} />
             </Route>
             <Route path="/profile">
-              <Profile isLoggedIn={userState} />
+              <Profile isLoggedIn={userState} setUserInfo={setUserDetails} userInfo={userDetails}/>
             </Route>
             <Route path="/productsearch">
               <SearchResults />
@@ -58,7 +65,7 @@ function App() {
               <ProductDetails />
             </Route>
             <Route path="/editprofile">
-              <EditProfile isLoggedIn={userState} />
+              <EditProfile isLoggedIn={userState} userInfo={setUserDetails} />
             </Route>
           </Switch>
         </div>
