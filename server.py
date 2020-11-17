@@ -30,12 +30,11 @@ def index():
 def handle_login():
     """Validate user log-in credentials."""
     
-    email = request.form.get("email")
-    password = request.form.get("password")
-    user = crud.get_user_by_email(email)
+    userLoginData = request.get_json()
+    user = crud.get_user_by_email(userLoginData['email'])
     response = {'status_code': '', 'msg': '', 'session_id': ''}
     
-    if user != None and (user.password == password):
+    if user != None and (user.password == userLoginData['password']):
         session['user_id'] = user.user_id
         response['status_code'] = 200
         response['msg'] = None
