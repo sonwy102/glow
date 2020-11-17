@@ -1,5 +1,6 @@
 const Register = (props) => {
-  // Issue 2: How to split up signup form into 2 separate pages?
+  // TODO: split up signup form into 2 separate pages
+  // TODO: how to show an alert of success msg after user redirecting to login 
 
   const history = useHistory();
   const [registerState, setRegisterState] = React.useState({
