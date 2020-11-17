@@ -7,9 +7,28 @@
 
 const EditProfile = (props) => {
   
+  const history = useHistory();
+  const [skinTypes, setSkinTypes] = React.useState([]);
+
   const redirectToProfile = (sess_id) => {
     history.push(`/profile?user=${sess_id}`);
   };
+
+  const fetchAllSkinTypes = async () => {
+    fetch(`/user-skin-types.json/${props.isLoggedIn}`)
+      .then((response) => response.json())
+      .then((data) => {
+        const newSkinTypes = [];
+        for (const skinType of data) {
+          newSkinTypes.push(skinType);
+        }
+        setSkinTypes(newSkinTypes);
+      });
+  }
+
+  React.useEffect(() => {
+    fetchAllSkinTypes();
+  }, []);
 
   if (!props.isLoggedIn) {
     // redirect user to login page
@@ -18,19 +37,25 @@ const EditProfile = (props) => {
   return (
     <div className="edit-profile-page">
       <div className="formBasicUserInfo">
-        <h3>Name</h3>
-        <div>Email</div>
+        <h3>{props.userInfo.name}</h3>
+        <div>{props.userInfo.email}</div>
       </div>
 
       <div className="skin-types">
         <h3>Skin Types</h3>
-        <Button>Oily</Button>
+        {skinTypes.map((skinType) => (
+          skinType.isActive ? (
+            <Button variant="primary selected">{skinType.name}</Button>) : (
+            <Button variant="outline-primary unselected">{skinType.name}</Button>)
+        ))}
+
       </div>
 
       <div className="skin-goals">
         <h3>Skin Health Goals You are Working On:</h3>
-        <Button variant="outline-primary goal_unselected">Goal 1</Button>
-        <Button variant="outline-primary goal_unselected">Goal 2</Button>
+        {/* {props.userInfo.goals.map((goal) => (
+          <Button variant="outline-primary goal_selected">{goal}</Button>
+        ))} */}
       </div>
 
       <Button variant="primary" onClick={redirectToProfile}>
