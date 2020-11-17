@@ -19,6 +19,14 @@ const Routine = (props) => {
   // get latest products and latest goal ratings to pre-populate form when page loads
   const [latestProducts, setLatestProducts] = React.useState([]);
   const [latestGoalRatings, setLatestGoalRatings] = React.useState([]);
+  const [routineState, setRoutineState] = React.useState({
+    journalTime: "",
+    journalDate: today_date,
+    products: [],
+    goals: latestGoalRatings,
+    notes: null,
+    photo: null,
+  });
 
   const fetchProductData = async () => {
     fetch(`/routine-products.json/${props.isLoggedIn}`)
@@ -41,6 +49,7 @@ const Routine = (props) => {
           goalRatingData.push(rating);
         }
         setLatestGoalRatings(goalRatingData);
+        setRoutineState((prevState) => ({ ...prevState, goals: goalRatingData }));
       });
   };
 
@@ -62,17 +71,11 @@ const Routine = (props) => {
   }
   console.log("options list: ", productOptions);
   // // TODO: fix select2 issue!! how to best organize routineState here?
-  const [routineState, setRoutineState] = React.useState({
-    journalTime: "",
-    journalDate: today_date,
-    products: [],
-    goals: goalsList,
-    notes: null,
-    photo: null
-  });
+  
 
   console.log('latestproducts: ',latestProducts);
-  console.log('latestGoals:', latestGoalRatings)
+  console.log('latestGoals:', latestGoalRatings);
+  console.log('routineState: ', routineState);
 
   const handleInputChange = (evt) => {
     evt.preventDefault();
@@ -190,7 +193,8 @@ const Routine = (props) => {
             options = {productOptions}
             onChange={handleProductChange}
           />
-          {/* // TODO: what about new products that aren't in previous routine? */}
+          {/* // TODO: what about new products that aren't in previous routine? 
+              // TODO: look up debounce */}
         
         </div>
 
