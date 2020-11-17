@@ -129,6 +129,25 @@ def show_user_info(user_id):
 
     return jsonify(res)
 
+@app.route('/user-skin-types.json/<user_id>')
+def get_all_skin_types_status(user_id):
+    """Query database and return a list of all skin types and its status in db"""
+    
+    skin_types = crud.get_all_skin_types()
+    active_user_skin_types = crud.get_active_user_skin_types(user_id)
+    active_user_st_id = []
+    for st in active_user_skin_types:
+        active_user_st_id.append(st.skin_type_id)
+
+    res = []
+    for skin_type in skin_types:
+        if skin_type.id in active_user_st_id:
+            res.append({'id': skin_type.id, 'name': skin_type.name, 'isActive': True})
+        else:
+            res.append({'id': skin_type.id, 'name': skin_type.name, 'isActive': False})
+    
+    return jsonify(res)
+
 @app.route('/routine-products.json')
 def get_latest_products():
     """Query database for a user's list of products used in their latest routine"""
