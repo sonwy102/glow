@@ -53,7 +53,11 @@ function App() {
               <Register ensureLogIn={setUserState} />
             </Route>
             <Route path="/profile">
-              <Profile isLoggedIn={userState} setUserInfo={setUserDetails} userInfo={userDetails}/>
+              <Profile 
+                isLoggedIn={userState} 
+                setUserInfo={setUserDetails} 
+                userInfo={userDetails}
+              />
             </Route>
             <Route path="/productsearch">
               <SearchResults />
@@ -65,7 +69,11 @@ function App() {
               <ProductDetails />
             </Route>
             <Route path="/editprofile">
-              <EditProfile isLoggedIn={userState} userInfo={setUserDetails} />
+              <EditProfile 
+                isLoggedIn={userState} 
+                userInfo={userDetails} 
+                setUserInfo={setUserDetails} 
+              />
             </Route>
           </Switch>
         </div>
