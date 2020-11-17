@@ -1,11 +1,10 @@
 "use strict";
-// ! Issue 1: <EditProfile> gets uncaught reference error even though I set up all the routing ??
+// // ! Issue 1: <EditProfile> gets uncaught reference error even though I set up all the routing ??
 
 function App() {
     const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
     console.log(userState);
-    const history = useHistory();
-
+  
     // React.useEffect(() => {
     //   const sess_id = localStorage.getItem("userState");
     //   console.log('app just loaded. session id: ', sess_id)
@@ -23,7 +22,7 @@ function App() {
           <Link to="/">Home</Link>
           {userState ? (
             <div className="header">
-              <Link to="/profile">Profile</Link>
+              <Link to={`/profile?user=${userState}`}>Profile</Link>
               <LogOutBtn ensureLogIn={setUserState}></LogOutBtn>
             </div>
           ) : (

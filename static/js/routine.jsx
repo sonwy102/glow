@@ -103,7 +103,7 @@ const Routine = (props) => {
 
     console.log('formData: ', formData);
 
-    $.post('/add-routine.json', formData, (res) => {
+    $.post('/add-routine.json', JSON.stringify(formData), (res) => {
       if (res.status_code === 200) {
         console.log(res);
         history.push(`/profile?user=${props.isLoggedIn}`); 

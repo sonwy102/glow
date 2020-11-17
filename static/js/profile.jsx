@@ -5,7 +5,7 @@ const Profile = (props) => {
   // // TODO: display basic user info -- photo, name, email, birthday
   // // TODO: display secondary info -- skin type(s), skin goals
   // // TODO: both should be editable
-  //TODO: make info editable -- photo, name, password, skin type(s), skin goals
+  // // TODO: make info editable -- photo, name, password, skin type(s), skin goals
 
   const history = useHistory();
   const [userDetails, setUserDetails] = React.useState(
@@ -41,17 +41,6 @@ const Profile = (props) => {
   React.useEffect(() => {
     fetchUserData();
   }, []);
-
-  
-
-  // React.useEffect(() => {
-  //   console.log('running useEffect')
-
-  //   console.log('fetching user data...')
-  //   // $.get('/user-info.json', { uid: props.isLoggedIn }, (res) => {
-  //   //   setUserDetails(res)
-  //   // });
-  // });
 
   const redirectToRoutine = () => {
     history.push(`/routine`);
