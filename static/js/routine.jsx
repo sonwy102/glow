@@ -6,6 +6,7 @@
     // // TODO: make a flask server to handle post request
 // // TODO: make component accessible only when user's logged in
 // // TODO: set up appropriate routing in app.jsx and server.py and index.html
+// TODO: switch form to React-Bootstrap Form
 
 const Routine = (props) => {
 
@@ -25,7 +26,7 @@ const Routine = (props) => {
     products: [],
     goals: latestGoalRatings,
     notes: null,
-    photo: null,
+    photo: null
   });
 
   const fetchProductData = async () => {
@@ -58,13 +59,6 @@ const Routine = (props) => {
     fetchGoalRatingData();
   }, []);
 
-  // handle form input change and submit
-  const goalsList = [];
-  for (let g of latestGoalRatings) {
-    goalsList.push({id: g.id, rating: g.rating});
-  }
-  console.log('goalsList:', goalsList);
-
   const productOptions = [];
   for (let p of latestProducts) {
     productOptions.push({ value: p.productID, label: p.productName });
@@ -72,11 +66,6 @@ const Routine = (props) => {
   console.log("options list: ", productOptions);
   // // TODO: fix select2 issue!! how to best organize routineState here?
   
-
-  console.log('latestproducts: ',latestProducts);
-  console.log('latestGoals:', latestGoalRatings);
-  console.log('routineState: ', routineState);
-
   const handleInputChange = (evt) => {
     evt.preventDefault();
     const name = evt.target.name;
@@ -91,53 +80,37 @@ const Routine = (props) => {
 
   const handleGoalChange = (evt) => {
     evt.preventDefault();
-    console.log("HANDLING GOAL CHANGE")
     let newGoalState = latestGoalRatings;
     for (let i in newGoalState) {
-      console.log('i: ', i);
-      console.log('evt target name:', evt.target.name, typeof(evt.target.name))
-      console.log(
-        "enwGoalState[i].id:",
-        newGoalState[i].id,
-        typeof newGoalState[i].id
-      );
       if (parseInt(evt.target.name) === newGoalState[i].id) {
         newGoalState[i].rating = parseInt(evt.target.value);
-        console.log('goal rating updated.', newGoalState[i].rating)
       }
     }
-    console.log('newGoalState: ', newGoalState);
     setRoutineState((prevState) => ({...prevState, goals: newGoalState}));
   };
 
+  const postRoutine = async () => {
+    fetch(`/add-routine.json/${props.isLoggedIn}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(routineState)
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.status_code === 200) {
+        history.push(`/profile?user=${props.isLoggedIn}`);
+      }
+    })
+  }
   const handleSubmit = (evt) => {
     evt.preventDefault();
-
-    const formData = {
-      uid: props.isLoggedIn,
-      journalTime: routineState.journalTime,
-      journalDate: routineState.journalDate,
-      products: routineState.products,
-      goals: routineState.goals,
-      notes: routineState.notes,
-      photo: routineState.photo
-    }
-
-    console.log('formData: ', formData);
-
-    $.post('/add-routine.json', JSON.stringify(formData), (res) => {
-      if (res.status_code === 200) {
-        console.log(res);
-        history.push(`/profile?user=${props.isLoggedIn}`); 
-      }
-    });
-  }
-  
-  console.log("routineState: ", routineState);
+    postRoutine();
+  };
 
   if (!props.isLoggedIn) {
     
-    console.log('redirecting to login page.', props.isLoggedIn)
     history.push('/login') 
   }
   return (

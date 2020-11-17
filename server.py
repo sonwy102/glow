@@ -194,35 +194,35 @@ def get_latest_goal_ratings(user_id):
     #TODO: getting None back for products even though formData is populated right
     #TODO: check how to handle getting JS arrays back
 
-@app.route('/add-routine.json', methods=["POST"])
-def add_user_routine():
+@app.route('/add-routine.json/<user_id>', methods=["POST"])
+def add_user_routine(user_id):
     """Create db records of Routine, RoutineProducts, and UserGoalEntry"""
 
-    user_id = int(request.form.get("uid"))
-    datestr = request.form.get("journalDate")
-
-    if request.form.get("journalTime") == "AM":
+    # get JSON from fetch request body
+    routineData = request.get_json()
+    
+    # get journal_date (datetime data type)
+    datestr = routineData["journalDate"]
+    if routineData["journalTime"] == "AM":
         journal_date = datetime.strptime(f'{datestr} 10:00:00', '%Y-%m-%d %H:%M:%S')
     else: 
         journal_date = datetime.strptime(f'{datestr} 22:00:00', '%Y-%m-%d %H:%M:%S')
-    
-    products = request.form.get("products")
-    print(f'List of products in routine: {products}')
-    goals = request.form.get("goals")
-    notes = request.form.get("notes")
-    photo = request.form.get("photo")
 
     # create routine
-    routine = crud.create_routine(user_id, journal_date, notes, photo)
+    # TODO: IS there a way to wait for product and goal to successfully get served and then create Routine?
+    routine = crud.create_routine(user_id, journal_date, routineData['notes'], routineData['photo'])
     routine_products = []
     goal_entries = []
 
-    for product in products:
-        routine_products.append(crud.create_routine_product(routine.id, product.id))
+    # Create RoutineProducts
+    for product in routineData['products']:
+        routine_products.append(crud.create_routine_product(routine.id, product['value']))
     
-    for goal in goals:
-        goal_entries.append(crud.create_user_goal_entry(goal.id, routine.id, goal.goal_rating))
+    # Create UserGoalEntries
+    for goal in routineData['goals']:
+        goal_entries.append(crud.create_user_goal_entry(goal['id'], routine.id, goal['rating']))
     
+    # Build res JSON to send back as response to client
     res = {'status_code': '', 'msg': ''}
     if routine and routine_products and goal_entries:
         res['status_code'] = 200
