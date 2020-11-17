@@ -10,11 +10,9 @@ const Profile = (props) => {
   const history = useHistory();
   
   console.log("user data fetched: ", props.isLoggedIn, props.userInfo);
-
   console.log("isLoggedIn", props.isLoggedIn);
 
   const fetchUserData = async () => {
-    console.log("fetching user data INSIDE...", props.isLoggedIn);
     fetch(`/user-info.json/${props.isLoggedIn}`)
       .then((response) => response.json())
       .then((data) => {
@@ -45,7 +43,7 @@ const Profile = (props) => {
     // redirect user to login page
     history.push("/login");
   }
-  // console.log(userDetails);
+
   return (
     <div className="user-profile-page">
       <div className="profile-photo">
