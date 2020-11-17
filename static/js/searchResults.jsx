@@ -11,21 +11,22 @@ const SearchResults = () => {
   const urlParamsStr = history.location.search;
   const searchParams = new URLSearchParams(urlParamsStr)
 
-  const searchProduct = () => {
-
-    const formData = {
-      search_category: searchParams.get("category"),
-      product_search: searchParams.get("term")
-    };
-    console.log(formData);
-
-    $.get("/product-search.json", formData, (res) => {
-      setSearchResults(res)
-    });
-  };
+  const fetchSearchResults = async () => {
+    fetch(
+      `/product-search.json/${searchParams.get("category")}/${searchParams.get("term")}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const newSearchResults = [];
+        for (const searchResult of data) {
+          newSearchResults.push(searchResult);
+        }
+        setSearchResults(newSearchResults);
+      });
+  }
 
   React.useEffect(() => {
-    searchProduct(); 
+    fetchSearchResults(); 
   }, []);
 
   const renderProductDetails = (evt) => {

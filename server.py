@@ -82,13 +82,10 @@ def register_user():
     return jsonify(response)
 
 
-@app.route('/product-search.json')
-def search_product_info():
+@app.route('/product-search.json/<table_name>/<querystr>')
+def search_product_info(table_name, querystr):
     """Query database for products, brands, or ingredients relevant to user's
     input."""
-
-    table_name = request.args.get("search_category")
-    querystr = request.args.get("product_search")
 
     if table_name == 'Product':
         search_results = crud.search_products_like_name(querystr)
