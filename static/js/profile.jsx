@@ -8,17 +8,8 @@ const Profile = (props) => {
   // // TODO: make info editable -- photo, name, password, skin type(s), skin goals
 
   const history = useHistory();
-  const [userDetails, setUserDetails] = React.useState(
-    {
-      name: '',
-      email: '',
-      photo: '',
-      skinTypes: [],
-      goals: []
-    }
-  );
   
-  console.log("user data fetched: ", props.isLoggedIn, userDetails);
+  console.log("user data fetched: ", props.isLoggedIn, props.userInfo);
 
   console.log("isLoggedIn", props.isLoggedIn);
 
@@ -34,7 +25,7 @@ const Profile = (props) => {
           skinTypes: data.skin_types,
           goals: data.goals,
         };
-        setUserDetails(newUserDetails);
+        props.setUserInfo(newUserDetails);
       });
   };
 
@@ -54,26 +45,26 @@ const Profile = (props) => {
     // redirect user to login page
     history.push("/login");
   }
-  console.log(userDetails);
+  // console.log(userDetails);
   return (
     <div className="user-profile-page">
       <div className="profile-photo">
-        <img src={userDetails.photo}></img>
+        <img src={props.userInfo.photo}></img>
       </div>
       <div className="user-info-1">
-        <h3>{userDetails.name}</h3>
-        <p>{userDetails.email}</p>
+        <h3>{props.userInfo.name}</h3>
+        <p>{props.userInfo.email}</p>
       </div>
       <div className="user-info-2">
         <div>Skin Types</div>
         <ul className="skin-types">
-          {userDetails.skinTypes.map((skinType) => (
+          {props.userInfo.skinTypes.map((skinType) => (
             <li>{skinType}</li>
           ))}
         </ul>
         <div>Skin Health Goals You are Working On:</div>
         <ul className="skin-goals">
-          {userDetails.goals.map((goal) => (
+          {props.userInfo.goals.map((goal) => (
             <li>{goal}</li>
           ))}
         </ul>
