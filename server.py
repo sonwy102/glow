@@ -148,6 +148,25 @@ def get_all_skin_types_status(user_id):
     
     return jsonify(res)
 
+@app.route('/user-goals.json/<user_id>')
+def get_all_goals_status(user_id):
+    """Query database and return a list of all goals and its status in db"""
+
+    goals = crud.get_all_goals()
+    active_goals = crud.get_active_user_goals(user_id)
+    active_goals_id = []
+    for usergoal in active_goals:
+        active_goals_id.append(usergoal.goal_id)
+    
+    res = []
+    for goal in goals:
+        if goal.id in active_goals_id:
+            res.append({'id': goal.id, 'name': goal.name, 'isActive': True})
+        else:
+            res.append({'id': goal.id, 'name': goal.name, 'isActive': False})
+    
+    return jsonify(res)
+
 @app.route('/routine-products.json')
 def get_latest_products():
     """Query database for a user's list of products used in their latest routine"""
