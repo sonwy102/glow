@@ -167,11 +167,9 @@ def get_all_goals_status(user_id):
     
     return jsonify(res)
 
-@app.route('/routine-products.json')
-def get_latest_products():
+@app.route('/routine-products.json/<user_id>')
+def get_latest_products(user_id):
     """Query database for a user's list of products used in their latest routine"""
-
-    user_id = int(request.args.get("uid"))
 
     routine = crud.get_latest_user_routine(user_id)
     products = crud.get_latest_routine_products(routine)
@@ -182,11 +180,10 @@ def get_latest_products():
     
     return jsonify(res)
 
-@app.route('/goal-ratings.json')
-def get_latest_goal_ratings():
+@app.route('/goal-ratings.json/<user_id>')
+def get_latest_goal_ratings(user_id):
     """Query database and return a list of user's latest goals and ratings"""
 
-    user_id = int(request.args.get("uid"))
     routine = crud.get_latest_user_routine(user_id)
     goal_entries = crud.get_latest_goal_entries(routine)
 
