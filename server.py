@@ -103,12 +103,11 @@ def search_product_info():
         
     return jsonify(res) 
 
-@app.route('/user-info.json')
-def show_user_info():
+@app.route('/user-info.json/<user_id>')
+def show_user_info(user_id):
     """Query database for a user and return their info."""
     # TODO: refactor the logic out into crud.py later
 
-    user_id = int(request.args.get("uid"))
     user = crud.get_user_by_id(user_id)
     user_skin_types_in_db = crud.get_user_skin_type(user_id)
     user_skin_types = []
@@ -128,7 +127,7 @@ def show_user_info():
         'goals': [goal.name for goal in user_goals]
     }
 
-    return jsonify([res])
+    return jsonify(res)
 
 @app.route('/routine-products.json')
 def get_latest_products():
