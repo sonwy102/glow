@@ -57,13 +57,13 @@ const Profile = (props) => {
         <div>Skin Types</div>
         <ul className="skin-types">
           {props.userInfo.skinTypes.map((skinType) => (
-            <li>{skinType}</li>
+            <li>{skinType.name}</li>
           ))}
         </ul>
         <div>Skin Health Goals You are Working On:</div>
         <ul className="skin-goals">
           {props.userInfo.goals.map((goal) => (
-            <li>{goal}</li>
+            <li>{goal.name}</li>
           ))}
         </ul>
       </div>
