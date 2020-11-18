@@ -102,7 +102,7 @@ def show_user_info(user_id):
     # TODO: refactor the logic out into crud.py later
 
     user = crud.get_user_by_id(user_id)
-    user_skin_types_in_db = crud.get_user_skin_type(user_id)
+    user_skin_types_in_db = crud.get_active_user_skin_types(user_id)
     user_skin_types = []
     for item in user_skin_types_in_db:
         user_skin_types.append(crud.get_skin_type_by_id(item.skin_type_id))
@@ -116,8 +116,8 @@ def show_user_info(user_id):
         'name': (f'{user.fname} {user.lname}'),
         'photo': user.user_photo,
         'email': user.email,
-        'skin_types': [skin_type.name for skin_type in user_skin_types],
-        'goals': [goal.name for goal in user_goals]
+        'skin_types': [{'id': skin_type.id, 'name': skin_type.name} for skin_type in user_skin_types],
+        'goals': [{'id': goal.id, 'name': goal.name} for goal in user_goals]
     }
 
     return jsonify(res)
@@ -246,6 +246,10 @@ def get_search_result_details():
         result_details = crud.get_brand_by_id(pid)
     
     return jsonify(result_details.serialize)
+
+@app.route('/update-user-profile.json/<user_id>', methods=['POST'])
+def update_user_profile(user_id):
+    return None
 
     
     
