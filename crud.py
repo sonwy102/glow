@@ -15,9 +15,16 @@ def create_user(email,password,fname,lname,birthday):
                 fname=fname, 
                 lname=lname, 
                 birthday=birthday)
-
+    
     db.session.add(user)
     db.session.commit()
+
+    skin_types = get_all_skin_types()
+    for st in skin_types:
+        user_st = create_user_skin_type(user.user_id, st.id)
+        db.session.add(user_st)
+        user_st.is_active = False
+        db.session.commit()
 
     return user
 
@@ -60,6 +67,16 @@ def get_user_skin_type(user_id):
 
 def get_active_user_skin_types(user_id):
     return UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.is_active).all()
+
+def activate_user_skin_type_status(user_id, skin_type_id):
+    user_skin_type = UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.skin_type_id == skin_type_id).first()
+    user_skin_type.is_active = True
+    db.session.commit()
+ 
+def deactivate_user_skin_type_status(user_id, skin_type_id):
+    user_skin_type = UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.skin_type_id == skin_type_id).first()
+    user_skin_type.is_active = False
+    db.session.commit()
 
 def get_skin_type_by_id(skin_type_id):
     return SkinType.query.get(skin_type_id)
