@@ -27,6 +27,7 @@ const Profile = (props) => {
       });
   };
 
+  // TODO: fix profile page not fetching user data after redirect from editProfile. what second arg to use?
   React.useEffect(() => {
     fetchUserData();
   }, []);
