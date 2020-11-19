@@ -103,6 +103,7 @@ def show_user_info(user_id):
 
     user = crud.get_user_by_id(user_id)
     user_skin_types_in_db = crud.get_active_user_skin_types(user_id)
+    
     user_skin_types = []
     for item in user_skin_types_in_db:
         user_skin_types.append(crud.get_skin_type_by_id(item.skin_type_id))
@@ -249,13 +250,31 @@ def get_search_result_details():
 
 @app.route('/update-user-profile.json/<user_id>', methods=['POST'])
 def update_user_profile(user_id):
-    return None
-
     
-    
+    user_info_data = request.get_json()
+    print('request BODY: ', user_info_data)
 
-    
+    user_skin_types_id = []
+    for user_skin_type in user_info_data['skinTypes']:
+        user_skin_types_id.append(user_skin_type['id'])
+    print('user_skin_types_id: ', user_skin_types_id)
 
+    user_skin_types_in_db = crud.get_user_skin_type(user_id)
+    
+    res = {'msg': []}
+    for user_skin_type in user_skin_types_in_db:
+        if user_skin_type.skin_type_id in user_skin_types_id:
+            print('ACTIVATING USER SKIN TYPE...')
+            crud.activate_user_skin_type_status(user_id, user_skin_type.skin_type_id)
+            res['msg'].append(f'skin_type_id={user_skin_type.skin_type_id} activated')
+        else:
+            print('DEACTIVATING USER SKIN TYPE...')
+            crud.deactivate_user_skin_type_status(user_id, user_skin_type.skin_type_id)
+            res['msg'].append(f'skin_type_id={user_skin_type.skin_type_id} deactivated')
+    
+    print('response raw: ', res)
+    print('response jsonified: ', jsonify(res))
+    return jsonify(res)
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
