@@ -9,7 +9,6 @@ const EditProfile = (props) => {
   const history = useHistory();
   const [skinTypes, setSkinTypes] = React.useState([]);
   const [goals, setGoals] = React.useState([]);
-  // const [activeGoals, setActiveGoals] = React.useState([]);
 
   console.log('user info from props: ', props.userInfo )
   const redirectToProfile = (sess_id) => {
@@ -34,15 +33,10 @@ const EditProfile = (props) => {
     .then((response) => response.json())
     .then((data) => {
       const newGoals = [];
-      // const newActiveGoals = [];
       for (const goal of data) {
         newGoals.push(goal);
-        // if (goal.isActive) {
-        //   newActiveGoals.push(goal.id);
-        // }
       }
       setGoals(newGoals);
-      // setActiveGoals(newActiveGoals);
     });
   }
 
@@ -80,7 +74,7 @@ const EditProfile = (props) => {
   };
 
   const postNewProfile = async () => {
-    fetch(`/update-user-profile.json${props.isLoggedIn}`, {
+    fetch(`/update-user-profile.json/${props.isLoggedIn}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -89,8 +83,9 @@ const EditProfile = (props) => {
     })
     .then((response) => response.json())
     .then((data) => {
-
+      console.log(data.msg);
     })
+    redirectToProfile(props.isLoggedIn);
   }
 
   if (!props.isLoggedIn) {
@@ -134,7 +129,7 @@ const EditProfile = (props) => {
         </ToggleButtonGroup>
       </div>
 
-      <Button variant="primary" onClick={redirectToProfile}>
+      <Button variant="primary" onClick={postNewProfile}>
         Save
       </Button>
     </div>
