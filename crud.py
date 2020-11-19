@@ -26,6 +26,13 @@ def create_user(email,password,fname,lname,birthday):
         user_st.is_active = False
         db.session.commit()
 
+    goals = get_all_goals()
+    for goal in goals:
+        user_goal = create_user_goal(user.user_id, goal.id)
+        db.session.add(user_goal)
+        user_goal.is_active = False
+        db.session.commit()
+
     return user
 
 
@@ -103,6 +110,19 @@ def create_user_goal(user_id, goal_id):
     db.session.commit()
 
     return user_goal
+
+def get_user_goals(user_id):
+    return UserGoal.query.filter(UserGoal.user_id == user_id).all()
+
+def activate_user_goal_status(user_id, goal_id):
+    user_goal = UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.goal_id == goal_id).first()
+    user_goal.is_active = True
+    db.session.commit()
+
+def deactivate_user_goal_status(user_id, goal_id):
+    user_goal = UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.goal_id == goal_id).first()
+    user_goal.is_active = False
+    db.session.commit()
 
 def get_active_user_goals(user_id):
     return UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.is_active).all()
