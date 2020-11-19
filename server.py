@@ -235,7 +235,8 @@ def add_user_routine(user_id):
 
 @app.route('/search-result-details.json')
 def get_search_result_details():
-
+    """query db for product/brand/ing records with matching category and querystr"""
+    
     category = request.args.get('category')
     pid = request.args.get('pid')
 
@@ -250,31 +251,41 @@ def get_search_result_details():
 
 @app.route('/update-user-profile.json/<user_id>', methods=['POST'])
 def update_user_profile(user_id):
-    
+    """Update user's skin types and skin goals when they are edited"""
+
     user_info_data = request.get_json()
-    print('request BODY: ', user_info_data)
 
     user_skin_types_id = []
     for user_skin_type in user_info_data['skinTypes']:
         user_skin_types_id.append(user_skin_type['id'])
-    print('user_skin_types_id: ', user_skin_types_id)
 
     user_skin_types_in_db = crud.get_user_skin_type(user_id)
     
     res = {'msg': []}
     for user_skin_type in user_skin_types_in_db:
         if user_skin_type.skin_type_id in user_skin_types_id:
-            print('ACTIVATING USER SKIN TYPE...')
             crud.activate_user_skin_type_status(user_id, user_skin_type.skin_type_id)
             res['msg'].append(f'skin_type_id={user_skin_type.skin_type_id} activated')
         else:
-            print('DEACTIVATING USER SKIN TYPE...')
             crud.deactivate_user_skin_type_status(user_id, user_skin_type.skin_type_id)
             res['msg'].append(f'skin_type_id={user_skin_type.skin_type_id} deactivated')
+
+    user_goals_id = []
+    for user_goal in user_info_data['goals']:
+        user_goals_id.append(user_goal['id'])
+    user_goals_in_db = crud.get_user_goals(user_id)
+
+    for user_goal in user_goals_in_db:
+        if user_goal.goal_id in user_goals_id:
+            crud.activate_user_goal_status(user_id, user_goal.goal_id)
+            res['msg'].append(f'goal_id={user_goal.goal_id} activated')
+        else:
+            crud.deactivate_user_goal_status(user_id, user_goal.goal_id)
+            res['msg'].append(f'goal_id={user_goal.goal_id} deactivated')
     
-    print('response raw: ', res)
-    print('response jsonified: ', jsonify(res))
     return jsonify(res)
+
+    
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
