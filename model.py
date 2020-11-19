@@ -40,6 +40,8 @@ class UserSkinType(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     skin_type_id = db.Column(db.Integer, db.ForeignKey('skintypes.id'))
+
+    # TODO: Switch default to False
     is_active = db.Column(db.Boolean, default=True, nullable=False)
 
     skin_type = db.relationship('SkinType', backref='userskintypes')
