@@ -69,7 +69,15 @@ def create_test_routine_products(user_id, routine_set):
                 crud.create_routine_product(routine_lst[i].id, 1045)
             if i % 5 == 0 :
                 crud.create_routine_product(routine_lst[i].id, 1151)
-            
+
+def create_test_user_goal_entries(user_id, routine_set):
+
+    user_goals = crud.get_active_user_goals(user_id)
+    routine_lst = list(routine_set)
+
+    for i in range(len(routine_lst)):
+        for user_goal in user_goals:
+            crud.create_user_goal_entry(user_goal.id, routine_lst[i].id, fake.random_int(1, 10))      
         
 if __name__ == '__main__':
     from server import app
