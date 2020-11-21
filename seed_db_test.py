@@ -1,7 +1,7 @@
 from faker import Faker
 from faker.providers import BaseProvider
-from model import (User, Routine, UserGoal, UserGoalEntry, RoutineProduct, 
-                   UserSkinType)
+from model import (db, User, Routine, UserGoal, UserGoalEntry, RoutineProduct, 
+                   UserSkinType, connect_to_db)
 import crud
 import datetime
 fake = Faker()
@@ -10,11 +10,11 @@ def create_test_user():
     
     # create testuser
     user = crud.create_user(
-        email = self.fake.email(),
-        password = self.fake.password(),
-        fname = self.fake.first_name(),
-        lname = self.fake.last_name(),
-        birthday = self.fake.date()
+        email = fake.email(),
+        password = fake.password(),
+        fname = fake.first_name(),
+        lname = fake.last_name(),
+        birthday = fake.date()
     )
     
     # randomly activate a skin type and goals
@@ -25,20 +25,53 @@ def create_test_user():
     user_skin_types = crud.get_user_skin_type(user.user_id)
     user_goals = crud.get_user_goals(user.user_id)
 
+    return user
+
 def create_test_routines(user_id):
     today_AM = datetime.datetime.strptime(f'2020-11-19 10:00:00', '%Y-%m-%d %H:%M:%S')
     today_PM = datetime.datetime.strptime(f'2020-11-19 22:00:00', '%Y-%m-%d %H:%M:%S')
-    dates_AM = [today_AM - datetime.timedelta(days=x) for x in range(100)]
-    dates_PM = [today_PM - datetime.timedelta(days=x) for x in range(100)]
-    print('dates_AM: ', dates_AM[0,4])
-    print('dates_PM: ', dates_PM[0,4])
+    dates_AM = [today_AM - datetime.timedelta(days=x) for x in range(50)]
+    dates_PM = [today_PM - datetime.timedelta(days=x) for x in range(50)]
+
+    routine_am = set()
+    routine_pm = set()
 
     for journal_date in dates_AM:
-        crud.create_routine(user_id, journal_date)
+        routine_am.add(crud.create_routine(user_id, journal_date))
     
     for journal_date in dates_PM:
-        crud.create_routine(user_id, journal_date)
-
-def create_test_routine_products(user_id, routine_id):
+        routine_pm.add(crud.create_routine(user_id, journal_date))
     
+    if (len(routine_am) == 50) and (len(routine_pm) == 50):
+        print('Test routines successfully created.')
+        return ({'routine_am': routine_am, 'routine_pm': routine_pm})
+    else:
+        return (f'Test routine creation failed. routine_am = {len(routine_am)}, routine_pm = {len(routine_pm)}')
+
+def create_test_routine_products(user_id, routine_set):
+
+
+    routine_lst = list(routine_set)
+    journal_time = input('AM or PM Routine?')
+
+    if journal_time == 'AM':
+        for i in range(len(routine_lst)):
+            crud.create_routine_product(routine_lst[i].id, 1361)
+            crud.create_routine_product(routine_lst[i].id, 191)
+            crud.create_routine_product(routine_lst[i].id, 555)
+    else:
+        for i in range(len(routine_lst)):
+            crud.create_routine_product(routine_lst[i].id, 29)
+            crud.create_routine_product(routine_lst[i].id, 1361)
+            crud.create_routine_product(routine_lst[i].id, 1593)
+            crud.create_routine_product(routine_lst[i].id, 1598)
+            if i % 3 == 0 :
+                crud.create_routine_product(routine_lst[i].id, 1045)
+            if i % 5 == 0 :
+                crud.create_routine_product(routine_lst[i].id, 1151)
+            
+        
 if __name__ == '__main__':
+    from server import app
+    connect_to_db(app)
+    
