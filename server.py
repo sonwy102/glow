@@ -288,7 +288,7 @@ def update_user_profile(user_id):
 @app.route('/get-highlights/<user_id>')
 def get_user_highlights(user_id):
     
-    res = []
+    res = {}
 
     # Query how many products in user's routine, what those products are, and
     # how long they have been using each product for
@@ -302,11 +302,11 @@ def get_user_highlights(user_id):
             else: 
                 products[product] = 1
     
-    res.append({'product_count': len(products), 'product_data': products})
+    res['productHighlight'] = {'product_count': len(products), 'product_data': products}
     
     # Query how many days in a row user did a skincare routine
     routine_days = crud.get_routine_days(user_id)
-    res.append({'routine_count': routine_days})
+    res['daysHighlight'] = {'routine_count': routine_days}
 
     # Query how many goals user is tracking, what those goals are.
     # TODO: track how long they've been tracking it.
@@ -314,10 +314,10 @@ def get_user_highlights(user_id):
         # calculate timedelta
     
     usergoals_active = crud.get_active_user_goals(user_id)
-    res.append({'goal_count': len(usergoals_active), 'goal_data': usergoals_active})
+    res['goalsHighlight'] = {'goal_count': len(usergoals_active), 'goal_data': usergoals_active}
     
     return jsonify(res)
-    
+
 
 if __name__ == '__main__':
     connect_to_db(app)
