@@ -300,6 +300,8 @@ def get_user_highlights(user_id):
         routine_products = crud.get_latest_routine_products(routine)
         for product in routine_products:
             if product.name in products:
+
+                # TODO: not the exact data structure I want.. I need brand info too
                 products[product.name] += 1
             else: 
                 products[product.name] = 1
