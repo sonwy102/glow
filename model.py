@@ -107,6 +107,7 @@ class Routine(db.Model):
     photo = db.Column(db.String)
 
     user = db.relationship('User', backref='routines')
+    products = db.relationship('Products', backref='routine', secondary='routineproducts')
 
     def __repr__(self):
         return f'<Routine id={self.id} user={self.user_id} journal_date={self.journal_date}>'
