@@ -8,7 +8,10 @@
 const Dashboard = (props) => {
   const [productHighlight, setProductHighlight] = React.useState({});
   const [daysHighlight, setDaysHighlight] = React.useState({});
-  const [goalsHighlight, setGoalsHighlight] = React.useState({});
+  const [goalsHighlight, setGoalsHighlight] = React.useState([]);
+
+  console.log(productHighlight);
+
 
   const fetchUserHighlights = async () => {
     fetch(`/get-highlights/${props.isLoggedIn}`)
@@ -16,12 +19,12 @@ const Dashboard = (props) => {
     .then((data) => {
       setProductHighlight(data.productHighlight);
       setDaysHighlight(data.daysHighlight);
-      setGoalsHighlight(data.goalsHighlight);
     });
   }
   
   React.useEffect(() => {
     fetchUserHighlights();
+    setGoalsHighlight(props.userInfo.goals)
   }, []);
 
   return (
@@ -32,10 +35,10 @@ const Dashboard = (props) => {
           {productHighlight.product_count} products in my routine
         </div>
         <div className="days-highlight">
-          {daysHighlight.product_count} days of skincare
+          {daysHighlight.routine_count} days of skincare
         </div>
         <div className="goal-highlight">
-          {goalsHighlight.product_count} skin health goals
+          {goalsHighlight.length} skin health goals
         </div>
       </div>
       <div className="chart-section"></div>

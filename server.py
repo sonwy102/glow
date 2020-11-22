@@ -21,6 +21,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/routine')
 @app.route('/details')
 @app.route('/editprofile')
+@app.route('/dashboard')
 def index():
     """Show homepage."""
 
@@ -294,15 +295,17 @@ def get_user_highlights(user_id):
     # how long they have been using each product for
     products = {}
     routines = crud.get_latest_user_routines(user_id, 4)
+
     for routine in routines:
         routine_products = crud.get_latest_routine_products(routine)
         for product in routine_products:
-            if product in products:
-                products[product] += 1
+            if product.name in products:
+                products[product.name] += 1
             else: 
-                products[product] = 1
+                products[product.name] = 1
     
     res['productHighlight'] = {'product_count': len(products), 'product_data': products}
+    print('response: ', res)
     
     # Query how many days in a row user did a skincare routine
     routine_days = crud.get_routine_days(user_id)
@@ -312,9 +315,11 @@ def get_user_highlights(user_id):
     # TODO: track how long they've been tracking it.
         # Add activated_on and deactivated_on fields to user_goal table and 
         # calculate timedelta
-    
-    usergoals_active = crud.get_active_user_goals(user_id)
-    res['goalsHighlight'] = {'goal_count': len(usergoals_active), 'goal_data': usergoals_active}
+    # goals = []
+    # usergoals_active = crud.get_active_user_goals(user_id)
+    # for goal in usergoals_active:
+    #     goals.append({'id': go})
+    # res['goalsHighlight'] = {'goal_count': len(usergoals_active), 'goal_data': usergoals_active}
     
     return jsonify(res)
 

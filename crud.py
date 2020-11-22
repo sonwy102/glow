@@ -172,13 +172,14 @@ def get_latest_user_routines(user_id, n):
 def get_routine_days(user_id):
     """return how many days (int) in a row a routine was entered by user"""
 
-    routines = Routine.query.filter(User.user_id == user_id).order_by(Routine.journal_date.desc()).all()
+    routines = Routine.query.with_parent(get_user_by_id(user_id)).order_by(Routine.journal_date.desc()).all()
     routine_days = 0
 
-    for i in range(len(routines-1)):
+    # TODO: how to calculate in days if there are multiple records per day
+    for i in range(len(routines) - 1):
         time_diff = routines[i].journal_date - routines[i+1].journal_date
         time_diff_hours = time_diff.total_seconds() / 3600
-        if time_diff_hours <= 24:
+        if time_diff_hours < 24:
             routine_days += 1
         else:
             break

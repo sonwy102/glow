@@ -71,7 +71,7 @@ function App() {
               />
             </Route>
             <Route path="/dashboard">
-              <Dashboard isLoggedIn={userState} />
+              <Dashboard isLoggedIn={userState} userInfo={userDetails}/>
             </Route>
           </Switch>
         </div>
