@@ -141,7 +141,6 @@ def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
 
     return user_goal_entry
 
-
 def get_latest_goal_entries(routine):
     """return a list of user goal entries from the latest routine"""
     
@@ -163,6 +162,28 @@ def get_latest_user_routine(user_id):
 
     return routines[-1]
 
+def get_latest_user_routines(user_id, n):
+    """return n latest user routines"""
+    
+    routines = Routine.query.with_parent(get_user_by_id(user_id)).order_by(Routine.journal_date.desc()).all()
+
+    return routines[0:n]
+
+def get_routine_days(user_id):
+    """return how many days (int) in a row a routine was entered by user"""
+
+    routines = Routine.query.filter(User.user_id == user_id).order_by(Routine.journal_date.desc()).all()
+    routine_days = 0
+
+    for i in range(len(routines-1)):
+        time_diff = routines[i].journal_date - routines[i+1].journal_date
+        time_diff_hours = time_diff.total_seconds() / 3600
+        if time_diff_hours <= 24:
+            routine_days += 1
+        else:
+            break
+    
+    return routine_days
 
 def create_country(name, code):
 
@@ -239,6 +260,13 @@ def create_product(name, photo, brand_id, product_type_id):
 
 def get_product_by_id(product_id):
     return Product.query.get(product_id)
+
+def get_product_usage(product_id, user_id):
+    
+    usage_days = RoutineProduct.query.filter(User.user_id == user_id, RoutineProduct.product_id == product_id).count()
+
+    return usage_days
+
 
 def search_products_like_name(querystr):
     products_in_db = Product.query.filter(Product.name.like(f'%{querystr}%')).limit(20).all()
