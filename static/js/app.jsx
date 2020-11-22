@@ -20,6 +20,7 @@ function App() {
           {userState ? (
             <div className="header">
               <Link to={`/profile?user=${userState}`}>Profile</Link>
+              <Link to={`/dashboard?user=${userState}`}>Dashboard</Link>
               <LogOutBtn ensureLogIn={setUserState}></LogOutBtn>
             </div>
           ) : (
@@ -37,7 +38,7 @@ function App() {
 
         <div>
           <Switch>
-            <Route path='/charttest'>
+            <Route path="/charttest">
               <ChartTest />
             </Route>
             <Route path="/login">
@@ -47,9 +48,9 @@ function App() {
               <Register ensureLogIn={setUserState} />
             </Route>
             <Route path="/profile">
-              <Profile 
-                isLoggedIn={userState} 
-                setUserInfo={setUserDetails} 
+              <Profile
+                isLoggedIn={userState}
+                setUserInfo={setUserDetails}
                 userInfo={userDetails}
               />
             </Route>
@@ -63,11 +64,14 @@ function App() {
               <ProductDetails />
             </Route>
             <Route path="/editprofile">
-              <EditProfile 
-                isLoggedIn={userState} 
-                userInfo={userDetails} 
-                setUserInfo={setUserDetails} 
+              <EditProfile
+                isLoggedIn={userState}
+                userInfo={userDetails}
+                setUserInfo={setUserDetails}
               />
+            </Route>
+            <Route path="/dashboard">
+              <Dashboard isLoggedIn={userState} />
             </Route>
           </Switch>
         </div>
