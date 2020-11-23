@@ -6,6 +6,7 @@ from model import connect_to_db
 import crud
 import json
 from datetime import datetime
+from datetime import timedelta
 
 from jinja2 import StrictUndefined
 
@@ -22,6 +23,7 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/details')
 @app.route('/editprofile')
 @app.route('/dashboard')
+@app.route('/ratingschart')
 def index():
     """Show homepage."""
 
@@ -167,7 +169,7 @@ def get_latest_products(user_id):
     """Query database for a user's list of products used in their latest routine"""
 
     routine = crud.get_latest_user_routine(user_id)
-    products = crud.get_latest_routine_products(routine)
+    products = crud.get_routine_products_by_routine(routine)
     
     res = []
     for product in products:
@@ -180,7 +182,7 @@ def get_latest_goal_ratings(user_id):
     """Query database and return a list of user's latest goals and ratings"""
 
     routine = crud.get_latest_user_routine(user_id)
-    goal_entries = crud.get_latest_goal_entries(routine)
+    goal_entries = crud.get_goal_entries_by_routine(routine)
 
     res = []
     for goal_entry in goal_entries:
@@ -297,7 +299,7 @@ def get_user_highlights(user_id):
     routines = crud.get_latest_user_routines(user_id, 4)
 
     for routine in routines:
-        routine_products = crud.get_latest_routine_products(routine)
+        routine_products = crud.get_routine_products_by_routine(routine)
         for product in routine_products:
             if product.name in products:
 
@@ -315,15 +317,22 @@ def get_user_highlights(user_id):
 
     # Query how many goals user is tracking, what those goals are.
     # TODO: track how long they've been tracking it.
-        # Add activated_on and deactivated_on fields to user_goal table and 
-        # calculate timedelta
-    # goals = []
-    # usergoals_active = crud.get_active_user_goals(user_id)
-    # for goal in usergoals_active:
-    #     goals.append({'id': go})
-    # res['goalsHighlight'] = {'goal_count': len(usergoals_active), 'goal_data': usergoals_active}
     
     return jsonify(res)
+
+@app.route('/week-goal-ratings/<user_id>')
+def get_week_goal_ratings(user_id):
+    
+    usergoals = crud.get_active_user_goals(user_id)
+    res = {}
+    today = datetime.today()
+    start_date = today - timedelta(days=7)
+    if usergoals:
+        for usergoal in usergoals:
+            res[usergoal.goal_id] = crud.get_goal_entries_on_date_by_goal(user_id, usergoal.id, start_date, today)
+    
+    return jsonify(res)
+
 
 
 if __name__ == '__main__':
