@@ -334,20 +334,6 @@ def get_goal_ratings_over_time(user_id, view_option):
     
     return jsonify(res)
 
-# @app.route('/month-goal-ratings/<user_id>')
-# def get_month_goal_ratings(user_id):
-
-#     usergoals = crud.get_active_user_goals(user_id)
-#     res = {}
-#     today = datetime.now()
-#     start_date = today - timedelta(days=31)
-
-#     if usergoals:
-#         for i in range(len(usergoals)):
-#             res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
-    
-#     return jsonify(res)
-
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
