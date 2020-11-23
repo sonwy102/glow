@@ -1,9 +1,9 @@
 // Dashboard component
-// TODO: make it accessible to logged in user only
+// // TODO: make it accessible to logged in user only
 // TODO: render next to (to the right of) profile
-// TODO: make get request to server to fetch data trends
-// TODO: render progress chart with chart.js
-// TODO: configure URL appropriately
+// // TODO: make get request to server to fetch data trends
+// // TODO: render progress chart with chart.js
+// // TODO: configure URL appropriately
 
 const Dashboard = (props) => {
   const [productHighlight, setProductHighlight] = React.useState({});
@@ -26,7 +26,11 @@ const Dashboard = (props) => {
     fetchUserHighlights();
     setGoalsHighlight(props.userInfo.goals)
   }, []);
-
+  
+  if (!props.isLoggedIn) {
+    // redirect user to login page
+    history.push("/login");
+  }
   return (
     <div className="dashboard-page">
       <div className="header">My Dashboard</div>

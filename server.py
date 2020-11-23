@@ -312,6 +312,7 @@ def get_user_highlights(user_id):
     print('response: ', res)
     
     # Query how many days in a row user did a skincare routine
+    # TODO: fix routine_days unit issue - right now, it's how many 'routines in a row'
     routine_days = crud.get_routine_days(user_id)
     res['daysHighlight'] = {'routine_count': routine_days}
 
