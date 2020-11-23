@@ -85,9 +85,7 @@ class UserGoalEntry(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_goal_id = db.Column(db.Integer, db.ForeignKey('usergoals.id'))
     routine_id = db.Column(db.Integer, db.ForeignKey('routines.id'))
-    goal_rating = db.Column(db.Integer, nullable=False)
-        # how to set default value to most recent value?
-    
+    goal_rating = db.Column(db.Integer, nullable=False)    
     usergoal = db.relationship('UserGoal', backref='usergoalentries')
     routine = db.relationship('Routine', backref='usergoalentries')
 
