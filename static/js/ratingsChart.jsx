@@ -6,19 +6,21 @@
 // TODO: fix weekly chart - only showing 3 days worth of data for now
 const RatingsChart = (props) => {
 
-  const [chartData, setChartData] = React.useState({});
+  const [weekChartData, setWeekChartData] = React.useState({});
 
-  console.log('chartData: ', chartData);
+  console.log('Week chart data: ', weekChartData);
 
   const fetchWeekRatings = async () => {
     fetch(`/week-goal-ratings/${props.isLoggedIn}`)
     .then(response => response.json())
     .then(data => {
       const ratingsDatasets = [];
-      for (const [goalName, goalRatings] of Object.entries(data)) {
+      const goalNames = [];
+      for (const [i, goalEntryData] of Object.entries(data)) {
+        goalNames.push(Object.keys(goalEntryData)[0]);
         ratingsDatasets.push({
-          label: goalName,
-          data: Object.values(goalRatings),
+          label: goalNames[i],
+          data: Object.values(goalEntryData[Object.keys(goalEntryData)[0]]),
           fill: true,
 
           // TODO: fix this to generate different colors for each dataset dynamically
@@ -27,14 +29,17 @@ const RatingsChart = (props) => {
         });
       };
       const goalRatingsData = {
-
-        // TODO: fix this to be dynamic
-        labels: Object.keys(data['Irritation']),
+        // // TODO: fix this to be dynamic
+        labels: Object.keys(data[0][goalNames[0]]),
         datasets: ratingsDatasets
       }
-      setChartData(goalRatingsData);
+      setWeekChartData(goalRatingsData);
     });
   }
+
+  // const fetchMonthRatings = async () => {
+
+  // }
 
   React.useEffect(() => {
     fetchWeekRatings();
@@ -46,10 +51,22 @@ const RatingsChart = (props) => {
     history.push("/login");
   }
   return (
-    <div className="chart-test-page">
-      {/* <canvas id="test-chart"></canvas>
-      <div id="bar-chart">{newChartInstance}</div> */}
-      <Line data={chartData}></Line>
+    <div className="chart-section">
+      <div>
+        <Line data={weekChartData}></Line>
+      </div>
+
+      <div className="chart-view-btns">
+        {/* <Button variant="primary" onClick={}>
+          This Week
+        </Button>
+        <Button variant="primary" onClick={}>
+          This Month
+        </Button>
+        <Button variant="primary" onClick={}>
+          This Year
+        </Button> */}
+      </div>
     </div>
   );
 };
