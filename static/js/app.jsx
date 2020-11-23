@@ -29,7 +29,6 @@ function App() {
               <LogInBtn ensureLogIn={setUserState}></LogInBtn>
             </div>
           )}
-          <Link to="/charttest">Chart test</Link>
         </div>
 
         <div className="product-search-engine">
@@ -38,8 +37,8 @@ function App() {
 
         <div>
           <Switch>
-            <Route path="/charttest">
-              <ChartTest />
+            <Route path="/ratingschart">
+              <RatingsChart isLoggedIn={userState}/>
             </Route>
             <Route path="/login">
               <Login ensureLogIn={setUserState} />
