@@ -41,7 +41,9 @@ const Dashboard = (props) => {
           {goalsHighlight.length} skin health goals
         </div>
       </div>
-      <div className="chart-section"></div>
+      <div className="chart-section">
+        <RatingsChart isLoggedIn={props.isLoggedIn} />
+      </div>
     </div>
   );
 }
