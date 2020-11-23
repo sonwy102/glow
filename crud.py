@@ -3,6 +3,7 @@ from model import (
     Country, Brand, BrandType, BrandBrandType, ProductType, Product, 
     RoutineProduct, Ingredient, IngAltName, ProductIng, IngGoal, connect_to_db)
 
+from datetime import datetime
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
@@ -141,11 +142,29 @@ def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
 
     return user_goal_entry
 
-def get_latest_goal_entries(routine):
+def get_goal_entries_by_routine(routine):
     """return a list of user goal entries from the latest routine"""
     
     return UserGoalEntry.query.with_parent(routine).all()
     
+def get_goal_entries_on_date_by_goal(user_id, usergoal_id, start_date, end_date):
+    """given a user_id and usergoal_id, return all user goal entries between start and end date (not included)"""
+
+    routines = Routine.query.filter(
+        Routine.user_id == user_id,
+        Routine.journal_date > start_date,
+        Routine.journal_date < end_date 
+    ).all()
+    
+    goal_entries = {}
+    for routine in routines:
+        goal_entry = UserGoalEntry.query.filter(
+            UserGoalEntry.routine_id == routine.id,
+            UserGoalEntry.user_goal_id == usergoal_id
+        ).first()
+        goal_entries[routine.journal_date.strftime("%Y-%m-%d %H:%M:%S")] = goal_entry.goal_rating
+    
+    return goal_entries
 
 def create_routine(user_id, journal_date, notes=None, photo=None):
 
@@ -288,7 +307,7 @@ def create_routine_product(routine_id, product_id):
 
     return routine_product
 
-def get_latest_routine_products(routine):
+def get_routine_products_by_routine(routine):
     """Return a list of Products in user's latest routine"""
 
     latest_products = []
