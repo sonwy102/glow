@@ -329,7 +329,8 @@ def get_week_goal_ratings(user_id):
     start_date = today - timedelta(days=7)
     if usergoals:
         for usergoal in usergoals:
-            res[usergoal.goal_id] = crud.get_goal_entries_on_date_by_goal(user_id, usergoal.id, start_date, today)
+            goal = crud.get_goal_by_id(usergoal.goal_id)
+            res[goal.name] = crud.get_goal_entries_on_date_by_goal(user_id, usergoal.id, start_date, today)
     
     return jsonify(res)
 
