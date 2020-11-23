@@ -321,32 +321,32 @@ def get_user_highlights(user_id):
     
     return jsonify(res)
 
-@app.route('/week-goal-ratings/<user_id>')
-def get_week_goal_ratings(user_id):
+@app.route('/goal-ratings-trend/<user_id>/<view_option>')
+def get_goal_ratings_over_time(user_id, view_option):
     
     usergoals = crud.get_active_user_goals(user_id)
     res = {}
     today = datetime.now()
-    start_date = today - timedelta(days=14)
+    start_date = today - timedelta(days=int(view_option))
     if usergoals:
         for i in range(len(usergoals)):
             res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
     
     return jsonify(res)
 
-@app.route('/month-goal-ratings/<user_id>')
-def get_month_goal_ratings(user_id):
+# @app.route('/month-goal-ratings/<user_id>')
+# def get_month_goal_ratings(user_id):
 
-    usergoals = crud.get_active_user_goals(user_id)
-    res = {}
-    today = datetime.now()
-    start_date = today - timedelta(days=31)
+#     usergoals = crud.get_active_user_goals(user_id)
+#     res = {}
+#     today = datetime.now()
+#     start_date = today - timedelta(days=31)
 
-    if usergoals:
-        for i in range(len(usergoals)):
-            res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
+#     if usergoals:
+#         for i in range(len(usergoals)):
+#             res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
     
-    return jsonify(res)
+#     return jsonify(res)
 
 if __name__ == '__main__':
     connect_to_db(app)
