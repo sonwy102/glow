@@ -326,16 +326,27 @@ def get_week_goal_ratings(user_id):
     
     usergoals = crud.get_active_user_goals(user_id)
     res = {}
-    today = datetime.today()
-    start_date = today - timedelta(days=7)
+    today = datetime.now()
+    start_date = today - timedelta(days=14)
     if usergoals:
-        for usergoal in usergoals:
-            goal = crud.get_goal_by_id(usergoal.goal_id)
-            res[goal.name] = crud.get_goal_entries_on_date_by_goal(user_id, usergoal.id, start_date, today)
+        for i in range(len(usergoals)):
+            res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
     
     return jsonify(res)
 
+@app.route('/month-goal-ratings/<user_id>')
+def get_month_goal_ratings(user_id):
 
+    usergoals = crud.get_active_user_goals(user_id)
+    res = {}
+    today = datetime.now()
+    start_date = today - timedelta(days=31)
+
+    if usergoals:
+        for i in range(len(usergoals)):
+            res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
+    
+    return jsonify(res)
 
 if __name__ == '__main__':
     connect_to_db(app)
