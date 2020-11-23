@@ -104,6 +104,9 @@ def create_goal(goal_name, description=None):
 def get_goal_by_id(goal_id):
     return Goal.query.get(goal_id)
 
+def get_all_goals():
+    return Goal.query.all()
+
 def create_user_goal(user_id, goal_id):
     user_goal = UserGoal(user_id=user_id, goal_id=goal_id)
 
@@ -111,6 +114,10 @@ def create_user_goal(user_id, goal_id):
     db.session.commit()
 
     return user_goal
+
+def get_user_goal_by_id(usergoal_id):
+
+    return UserGoal.query.get(usergoal_id)
 
 def get_user_goals(user_id):
     return UserGoal.query.filter(UserGoal.user_id == user_id).all()
@@ -128,8 +135,7 @@ def deactivate_user_goal_status(user_id, goal_id):
 def get_active_user_goals(user_id):
     return UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.is_active).all()
 
-def get_all_goals():
-    return Goal.query.all()
+
 
 def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
     
@@ -156,14 +162,17 @@ def get_goal_entries_on_date_by_goal(user_id, usergoal_id, start_date, end_date)
         Routine.journal_date < end_date 
     ).all()
     
-    goal_entries = {}
+    usergoal = get_user_goal_by_id(usergoal_id)
+    goal = get_goal_by_id(usergoal.goal_id)
+    goal_entries = {goal.name: {}}
     for routine in routines:
         goal_entry = UserGoalEntry.query.filter(
             UserGoalEntry.routine_id == routine.id,
             UserGoalEntry.user_goal_id == usergoal_id
         ).first()
-        goal_entries[routine.journal_date.strftime("%Y-%m-%d %H:%M:%S")] = goal_entry.goal_rating
-    
+
+        goal_entries[goal.name][routine.journal_date.strftime("%Y-%m-%d %H:%M:%S")] = goal_entry.goal_rating
+            
     return goal_entries
 
 def create_routine(user_id, journal_date, notes=None, photo=None):
@@ -195,6 +204,9 @@ def get_routine_days(user_id):
     routine_days = 0
 
     # TODO: how to calculate in days if there are multiple records per day
+        # Option 1 : just return len(routines) / 2
+        # Option 2 : make a set of dates (drop the time) from journal_date and return len(routine)
+
     for i in range(len(routines) - 1):
         time_diff = routines[i].journal_date - routines[i+1].journal_date
         time_diff_hours = time_diff.total_seconds() / 3600
