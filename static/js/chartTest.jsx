@@ -41,7 +41,10 @@ const RatingsChart = (props) => {
   }, []);
 
   
-
+  if (!props.isLoggedIn) {
+    // redirect user to login page
+    history.push("/login");
+  }
   return (
     <div className="chart-test-page">
       {/* <canvas id="test-chart"></canvas>
