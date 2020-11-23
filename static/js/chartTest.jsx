@@ -1,47 +1,43 @@
-const ChartTest = () => {
+// Chart component to track goal-ratings trends over time
+const RatingsChart = (props) => {
+
+  const [chartData, setChartData] = React.useState({});
+
+  console.log('chartData: ', chartData);
+
+  const fetchWeekRatings = async () => {
+    fetch(`/week-goal-ratings/${props.isLoggedIn}`)
+    .then(response => response.json())
+    .then(data => {
+      const ratingsDatasets = [];
+      for (const [key, value] of Object.entries(data)) {
+        ratingsDatasets.push({
+          label: key,
+          data: Object.values(value),
+          fill: true,
+          backgroundColor: "rgba(75,192,192,0.2)",
+          borderColor: "rgba(75,192,192,1)",
+        });
+      };
+      const goalRatingsData = {
+        labels: Object.keys(data[3]),
+        datasets: ratingsDatasets
+      }
+      setChartData(goalRatingsData);
+    });
+  }
+
+  React.useEffect(() => {
+    fetchWeekRatings();
+  }, []);
+
   
-  // const chartConfig = {
-  //   type: 'bar',
-  //   data: {
-  //     labels: ['a', 'b', 'c'],
-  //     datasets: [
-  //       {data: [2,4,6]}
-  //     ]
-  //   }
-  // }
-  // const chartContainer = useRef(null);
-  // const [chartInstance, setChartInstance] = React.useState(null);
-
-  // useEffect(() => {
-  //   if (chartContainer && chartContainer.current) {
-  //     const newChartInstance = new Chart()
-  //   }
-  // })
-
-  const data = {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-    datasets: [
-      {
-        label: "First dataset",
-        data: [33, 53, 85, 41, 44, 65],
-        fill: true,
-        backgroundColor: "rgba(75,192,192,0.2)",
-        borderColor: "rgba(75,192,192,1)",
-      },
-      {
-        label: "Second dataset",
-        data: [33, 25, 35, 51, 54, 76],
-        fill: false,
-        borderColor: "#742774",
-      },
-    ],
-  };
 
   return (
     <div className="chart-test-page">
       {/* <canvas id="test-chart"></canvas>
       <div id="bar-chart">{newChartInstance}</div> */}
-      <Line data={data}></Line>
+      <Line data={chartData}></Line>
     </div>
   );
 };
