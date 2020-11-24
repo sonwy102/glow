@@ -10,7 +10,7 @@ const Dashboard = (props) => {
   const [daysHighlight, setDaysHighlight] = React.useState({});
   const [goalsHighlight, setGoalsHighlight] = React.useState({});
 
-  // console.log(productHighlight);
+  console.log('productHighLight: ', productHighlight);
   console.log('goalsHighlight: ',goalsHighlight);
 
 
@@ -50,7 +50,7 @@ const Dashboard = (props) => {
         </div>
         <div className="product-highlight">
           {productHighlight.product_count} products in my routine
-          
+
         </div>
         <div className="days-highlight">
           {daysHighlight.routine_count} days of skincare
