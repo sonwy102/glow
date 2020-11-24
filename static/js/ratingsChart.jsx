@@ -9,8 +9,11 @@ const RatingsChart = (props) => {
   const [weekChartData, setWeekChartData] = React.useState({});
   const [monthChartData, setMonthChartData] = React.useState({});
   const [yearChartData, setYearChartData] = React.useState({});
+  const [viewOption, setViewOption] = React.useState("week");
 
   console.log('Week chart data: ', weekChartData);
+
+  
 
   const fetchWeekRatings = async () => {
     fetch(`/goal-ratings-trend/${props.isLoggedIn}/10`)
@@ -99,6 +102,9 @@ const RatingsChart = (props) => {
     fetchYearRatings();
   }, []);
 
+  const handleViewBtnChange = (val) => {
+    setViewOption(val);
+  };
   
   if (!props.isLoggedIn) {
     // redirect user to login page
@@ -106,22 +112,29 @@ const RatingsChart = (props) => {
   }
   return (
     <div className="chart-section">
-      <div>
-        <Line data={weekChartData}></Line>
-        <Line data={monthChartData}></Line>
-        <Line data={yearChartData}></Line>
+      <div className="chart-ratings">
+        {viewOption === "week" &&
+          <Line data={weekChartData}></Line>
+        }
+        {viewOption === "month" && 
+          <Line data={monthChartData}></Line>
+        }
+        {viewOption === "year" && 
+          <Line data={yearChartData}></Line>
+        }
       </div>
 
       <div className="chart-view-btns">
-        {/* <Button variant="primary" onClick={}>
-          This Week
-        </Button>
-        <Button variant="primary" onClick={}>
-          This Month
-        </Button>
-        <Button variant="primary" onClick={}>
-          This Year
-        </Button> */}
+        <ToggleButtonGroup
+          defaultValue="week"
+          name="view-options"
+          onChange={handleViewBtnChange}
+        >
+          <ToggleButton variant="outline-primary" value="week">This Week</ToggleButton>
+          <ToggleButton variant="outline-primary" value="month">This Month</ToggleButton>
+          <ToggleButton variant="outline-primary" value="year">This Year</ToggleButton>
+        </ToggleButtonGroup>
+        
       </div>
     </div>
   );
