@@ -8,9 +8,10 @@
 const Dashboard = (props) => {
   const [productHighlight, setProductHighlight] = React.useState({});
   const [daysHighlight, setDaysHighlight] = React.useState({});
-  const [goalsHighlight, setGoalsHighlight] = React.useState([]);
+  const [goalsHighlight, setGoalsHighlight] = React.useState({});
 
-  console.log(productHighlight);
+  // console.log(productHighlight);
+  console.log('goalsHighlight: ',goalsHighlight);
 
 
   const fetchUserHighlights = async () => {
@@ -19,12 +20,12 @@ const Dashboard = (props) => {
     .then((data) => {
       setProductHighlight(data.productHighlight);
       setDaysHighlight(data.daysHighlight);
+      setGoalsHighlight(data.goalsHighlight);
     });
   }
   
   React.useEffect(() => {
     fetchUserHighlights();
-    setGoalsHighlight(props.userInfo.goals)
   }, []);
   
   if (!props.isLoggedIn) {
@@ -33,19 +34,35 @@ const Dashboard = (props) => {
   }
   return (
     <div className="dashboard-page">
-      <div className="header">My Dashboard</div>
+      <div className="user-profile-section">
+        <Profile
+          isLoggedIn={props.isLoggedIn}
+          userInfo={props.userInfo}
+          setUserInfo={props.setUserInfo}
+        ></Profile>
+      </div>
+      <div className="header">
+        <h2>My Dashboard</h2>
+      </div>
       <div className="highlights-section">
+        <div className="subheader">
+          <h4>Highlights</h4>
+        </div>
         <div className="product-highlight">
           {productHighlight.product_count} products in my routine
+          
         </div>
         <div className="days-highlight">
           {daysHighlight.routine_count} days of skincare
         </div>
         <div className="goal-highlight">
-          {goalsHighlight.length} skin health goals
+          {goalsHighlight.goal_count} skin health goals
         </div>
       </div>
       <div className="chart-section">
+        <div className="subheader">
+          <h4>Your Skin Health at a Glance</h4>
+        </div>
         <RatingsChart isLoggedIn={props.isLoggedIn} />
       </div>
     </div>

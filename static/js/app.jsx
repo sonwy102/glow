@@ -38,7 +38,7 @@ function App() {
         <div>
           <Switch>
             <Route path="/ratingschart">
-              <RatingsChart isLoggedIn={userState}/>
+              <RatingsChart isLoggedIn={userState} />
             </Route>
             <Route path="/login">
               <Login ensureLogIn={setUserState} />
@@ -70,7 +70,11 @@ function App() {
               />
             </Route>
             <Route path="/dashboard">
-              <Dashboard isLoggedIn={userState} userInfo={userDetails}/>
+              <Dashboard
+                isLoggedIn={userState}
+                userInfo={userDetails}
+                setUserInfo={setUserDetails}
+              />
             </Route>
           </Switch>
         </div>

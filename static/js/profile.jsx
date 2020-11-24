@@ -46,7 +46,7 @@ const Profile = (props) => {
   }
 
   return (
-    <div className="user-profile-page">
+    <div className="user-profile-section">
       <div className="profile-photo">
         <img src={props.userInfo.photo}></img>
       </div>
