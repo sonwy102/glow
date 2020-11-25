@@ -8,6 +8,7 @@ if __name__ == '__main__':
     from server import app
     connect_to_db(app)
 
+"""USER CRUD FUNCTIONS"""
 def create_user(email,password,fname,lname,birthday):
     """Create and return a new user."""
 
@@ -36,24 +37,23 @@ def create_user(email,password,fname,lname,birthday):
 
     return user
 
-
 def get_users():
     """Return all users."""
 
     return User.query.all()
-
 
 def get_user_by_id(user_id):
     """Return a user by id."""
 
     return User.query.get(user_id)
 
-
 def get_user_by_email(email):
     """Return a user by email."""
 
     return User.query.filter(User.email == email).first()
 
+
+"""SKIN TYPE CRUD FUNCTIONS"""
 def create_skin_type(skin_type):
     skin_type = SkinType(name=skin_type)
 
@@ -61,7 +61,14 @@ def create_skin_type(skin_type):
     db.session.commit()
 
     return skin_type
+def get_skin_type_by_id(skin_type_id):
+    return SkinType.query.get(skin_type_id)
 
+def get_all_skin_types():
+    return SkinType.query.all()
+
+
+"""USER SKIN TYPE CRUD FUNCTIONS"""
 def create_user_skin_type(user_id, skin_type_id):
     user_skin_type = UserSkinType(user_id=user_id, skin_type_id=skin_type_id)
 
@@ -74,24 +81,26 @@ def get_user_skin_type(user_id):
     return UserSkinType.query.filter(UserSkinType.user_id == user_id).all()
 
 def get_active_user_skin_types(user_id):
-    return UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.is_active).all()
+    return UserSkinType.query.filter(
+        UserSkinType.user_id == user_id, 
+        UserSkinType.is_active).all()
 
 def activate_user_skin_type_status(user_id, skin_type_id):
-    user_skin_type = UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.skin_type_id == skin_type_id).first()
+    user_skin_type = UserSkinType.query.filter(
+        UserSkinType.user_id == user_id, 
+        UserSkinType.skin_type_id == skin_type_id).first()
     user_skin_type.is_active = True
     db.session.commit()
  
 def deactivate_user_skin_type_status(user_id, skin_type_id):
-    user_skin_type = UserSkinType.query.filter(UserSkinType.user_id == user_id, UserSkinType.skin_type_id == skin_type_id).first()
+    user_skin_type = UserSkinType.query.filter(
+        UserSkinType.user_id == user_id, 
+        UserSkinType.skin_type_id == skin_type_id).first()
     user_skin_type.is_active = False
     db.session.commit()
 
-def get_skin_type_by_id(skin_type_id):
-    return SkinType.query.get(skin_type_id)
 
-def get_all_skin_types():
-    return SkinType.query.all()
-
+"""GOAL CRUD FUNCTIONS"""
 def create_goal(goal_name, description=None):
     
     goal = Goal(name=goal_name, description=description)
@@ -107,6 +116,8 @@ def get_goal_by_id(goal_id):
 def get_all_goals():
     return Goal.query.all()
 
+
+"""USER GOAL CRUD FUNCTIONS"""
 def create_user_goal(user_id, goal_id):
     user_goal = UserGoal(user_id=user_id, goal_id=goal_id)
 
@@ -122,21 +133,28 @@ def get_user_goal_by_id(usergoal_id):
 def get_user_goals(user_id):
     return UserGoal.query.filter(UserGoal.user_id == user_id).all()
 
+def get_active_user_goals(user_id):
+    return UserGoal.query.filter(
+        UserGoal.user_id == user_id, 
+        UserGoal.is_active).all()
+
 def activate_user_goal_status(user_id, goal_id):
-    user_goal = UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.goal_id == goal_id).first()
+    user_goal = UserGoal.query.filter(
+        UserGoal.user_id == user_id, 
+        UserGoal.goal_id == goal_id).first()
     user_goal.is_active = True
     db.session.commit()
 
 def deactivate_user_goal_status(user_id, goal_id):
-    user_goal = UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.goal_id == goal_id).first()
+    user_goal = UserGoal.query.filter(
+        UserGoal.user_id == user_id, 
+        UserGoal.goal_id == goal_id).first()
     user_goal.is_active = False
     db.session.commit()
 
-def get_active_user_goals(user_id):
-    return UserGoal.query.filter(UserGoal.user_id == user_id, UserGoal.is_active).all()
 
 
-
+"""USER GOAL ENTRY CRUD FUNCTIONS"""
 def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
     
     user_goal_entry = UserGoalEntry(user_goal_id=user_goal_id, 
@@ -149,12 +167,13 @@ def create_user_goal_entry(user_goal_id, routine_id, goal_rating):
     return user_goal_entry
 
 def get_goal_entries_by_routine(routine):
-    """return a list of user goal entries from the latest routine"""
+    """return a list of user goal entries from a routine"""
     
     return UserGoalEntry.query.with_parent(routine).all()
     
 def get_goal_entries_on_date_by_goal(user_id, usergoal_id, start_date, end_date):
-    """given a user_id and usergoal_id, return all user goal entries between start and end date (not included)"""
+    """given a user_id and usergoal_id, return all user goal entries between 
+       start and end date (not included)"""
 
     routines = Routine.query.filter(
         Routine.user_id == user_id,
@@ -175,9 +194,17 @@ def get_goal_entries_on_date_by_goal(user_id, usergoal_id, start_date, end_date)
             
     return goal_entries
 
-def create_routine(user_id, journal_date, notes=None, photo=None):
 
-    routine = Routine(user_id=user_id, journal_date=journal_date, notes=notes, photo=photo)
+
+"""ROUTINE CRUD FUNCTIONS"""
+def create_routine(user_id, journal_date, notes=None, photo=None):
+    """Create a routine."""
+
+    routine = Routine(
+        user_id=user_id, 
+        journal_date=journal_date, 
+        notes=notes, 
+        photo=photo)
 
     db.session.add(routine)
     db.session.commit()    
@@ -185,37 +212,49 @@ def create_routine(user_id, journal_date, notes=None, photo=None):
     return routine
 
 def get_latest_user_routine(user_id):
-
-    routines = Routine.query.with_parent(get_user_by_id(user_id)).order_by('journal_date').all()
-
-    return routines[-1]
+    """Return user's latest Routine."""
+    return (
+        Routine.query.with_parent(
+            get_user_by_id(user_id)
+        ).order_by(
+            Routine.journal_date.desc()
+        ).first()
+    )
 
 def get_latest_user_routines(user_id, n):
     """return n latest user routines"""
     
-    routines = Routine.query.with_parent(get_user_by_id(user_id)).order_by(Routine.journal_date.desc()).all()
+    routines = Routine.query.with_parent(
+        get_user_by_id(user_id)
+    ).order_by(
+        Routine.journal_date.desc()
+    ).all()
 
     return routines[0:n]
 
 def get_routine_days(user_id):
     """return how many days (int) in a row a routine was entered by user"""
-
-    routines = Routine.query.with_parent(get_user_by_id(user_id)).order_by(Routine.journal_date.desc()).all()
-    routine_days = 0
-
-    # TODO: how to calculate in days if there are multiple records per day
+    # // TODO: how to calculate in days if there are multiple records per day
         # Option 1 : just return len(routines) / 2
         # Option 2 : make a set of dates (drop the time) from journal_date and return len(routine)
 
-    for i in range(len(routines) - 1):
+    routines = Routine.query.with_parent(
+        get_user_by_id(user_id)
+    ).order_by(
+        Routine.journal_date.desc()
+    ).all()
+
+    dates_set = set()
+
+    for i in range(len(routines)-1):
         time_diff = routines[i].journal_date - routines[i+1].journal_date
         time_diff_hours = time_diff.total_seconds() / 3600
-        if time_diff_hours < 24:
-            routine_days += 1
+        if time_diff_hours <= 24:
+            dates_set.add(routines[i].journal_date.date())
         else:
             break
     
-    return routine_days
+    return len(dates_set)
 
 def create_country(name, code):
 
