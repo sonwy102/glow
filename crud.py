@@ -256,6 +256,27 @@ def get_routine_days(user_id):
     
     return len(dates_set)
 
+def get_routine_am_pm_ratio(user_id):
+    
+    routines = Routine.query.with_parent(get_user_by_id(user_id)).all()
+
+    am_count = 0
+    pm_count = 0
+
+    am_time = datetime.strptime('10:00', '%H:%M').time()
+    pm_time = datetime.strptime('22:00', '%H:%M').time()
+
+    for routine in routines:
+        if routine.journal_date.time() == am_time:
+            am_count += 1
+        elif routine.journal_date.time() == pm_time:
+            pm_count += 1
+
+    am_percent = am_count / (am_count + pm_count) * 100
+    pm_percent = 100 - am_percent
+
+    return {'AM': am_percent, 'PM': pm_percent}
+
 def create_country(name, code):
 
     country = Country(name=name, code=code)
