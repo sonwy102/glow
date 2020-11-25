@@ -1,16 +1,20 @@
 // Dashboard component
 // // TODO: make it accessible to logged in user only
-// TODO: render next to (to the right of) profile
+// // TODO: render next to (to the right of) profile
 // // TODO: make get request to server to fetch data trends
 // // TODO: render progress chart with chart.js
 // // TODO: configure URL appropriately
 
 const Dashboard = (props) => {
-  const [productHighlight, setProductHighlight] = React.useState({});
+  const [productHighlight, setProductHighlight] = React.useState({
+    product_count: 0,
+    product_data: {'loading name': 'loading count...'},
+  });
   const [daysHighlight, setDaysHighlight] = React.useState({});
   const [goalsHighlight, setGoalsHighlight] = React.useState({});
 
   console.log('productHighLight: ', productHighlight);
+  console.log('product data: ', productHighlight.product_data);
   console.log('goalsHighlight: ',goalsHighlight);
 
 
@@ -50,8 +54,11 @@ const Dashboard = (props) => {
         </div>
         <div className="product-highlight">
           {productHighlight.product_count} products in my routine
-
+          {Object.keys(productHighlight.product_data).map((productName) => (
+            <li>{productName}: {productHighlight.product_data[productName]}</li>
+          ))}
         </div>
+
         <div className="days-highlight">
           {daysHighlight.routine_count} days of skincare
         </div>
