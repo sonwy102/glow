@@ -314,7 +314,8 @@ def get_user_highlights(user_id):
     # Query how many days in a row user did a skincare routine
     # TODO: fix routine_days unit issue - right now, it's how many 'routines in a row'
     routine_days = crud.get_routine_days(user_id)
-    res['daysHighlight'] = {'routine_count': routine_days}
+    routine_ratio = crud.get_routine_am_pm_ratio(user_id)
+    res['daysHighlight'] = {'routine_count': routine_days, 'routine_ratio': routine_ratio}
 
     # Query how many goals user is tracking, what those goals are.
     # TODO: track how long they've been tracking it.
