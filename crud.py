@@ -277,6 +277,8 @@ def get_routine_am_pm_ratio(user_id):
 
     return {'AM': am_percent, 'PM': pm_percent}
 
+
+"""COUNTRY CRUD FUNCTIONS"""
 def create_country(name, code):
 
     country = Country(name=name, code=code)
@@ -286,6 +288,8 @@ def create_country(name, code):
 
     return country
 
+
+"""BRAND CRUD FUNCTIONS"""
 def create_brand(name, num_products, country_id):
 
     brand = Brand(name=name, num_products=num_products, country_id=country_id)
@@ -329,6 +333,9 @@ def create_brand_brand_type(brand_id, brand_type_id):
 
     return brand_brand_type
 
+
+
+"""PRODUCT TYPE CRUD FUNCTIONS"""
 def create_product_type(name):
 
     product_type = ProductType(name=name)
@@ -338,6 +345,9 @@ def create_product_type(name):
     
     return product_type
 
+
+
+"""PRODUCT CRUD FUNCTIONS"""
 def create_product(name, photo, brand_id, product_type_id):
 
     product = Product(name=name,
@@ -359,7 +369,6 @@ def get_product_usage(product_id, user_id):
 
     return usage_days
 
-
 def search_products_like_name(querystr):
     products_in_db = Product.query.filter(Product.name.like(f'%{querystr}%')).limit(20).all()
     products = []
@@ -367,8 +376,10 @@ def search_products_like_name(querystr):
         products.append(get_product_by_id(item.id))
     
     return products
-    
 
+
+
+"""ROUTINE PRODUCT CRUD FUNCTIONS"""
 def create_routine_product(routine_id, product_id):
 
     routine_product = RoutineProduct(routine_id=routine_id,
@@ -389,6 +400,8 @@ def get_routine_products_by_routine(routine):
     return latest_products
 
 
+
+"""INGREDIENT CRUD FUNCTIONS"""
 def create_ingredient(name):
 
     ingredient = Ingredient(name=name)
@@ -402,7 +415,6 @@ def get_ing_by_id(ing_id):
     return Ingredient.query.get(ing_id)
 
 def get_ing_by_name(ing_name):
-
     return Ingredient.query.filter(Ingredient.name == ing_name).first()
 
 def search_ings_like_name(querystr):
@@ -413,6 +425,9 @@ def search_ings_like_name(querystr):
     
     return ings
 
+
+
+"""INGREDIENT ALT NAME CRUD FUNCTIONS"""
 def create_ing_altname(ingredient_id, name):
 
     ing_altname = IngAltName(ingredient_id=ingredient_id,
@@ -423,6 +438,8 @@ def create_ing_altname(ingredient_id, name):
 
     return ing_altname
 
+
+"""PRODUCT_INGREDIENT CRUD FUNCTIONS"""
 def create_product_ing(product_id, ingredient_id):
 
     product_ing = ProductIng(product_id=product_id,
@@ -433,6 +450,9 @@ def create_product_ing(product_id, ingredient_id):
 
     return product_ing
 
+
+
+"""INGREDIENT_GOAL CRUD FUNCTIONS"""
 def create_ing_goal(ingredient_id, goal_id):
 
     ing_goal = IngGoal(ingredient_id=ingredient_id, goal_id=goal_id)

@@ -301,12 +301,12 @@ def get_user_highlights(user_id):
     for routine in routines:
         routine_products = crud.get_routine_products_by_routine(routine)
         for product in routine_products:
-            if product.name in products:
-
-                # TODO: not the exact data structure I want.. I need brand info too
-                products[product.name] += 1
+            brand = crud.get_brand_by_id(product.brand_id)
+            product_name = f'{brand.name} {product.name}'
+            if product_name in products:
+                products[product_name] += 1
             else: 
-                products[product.name] = 1
+                products[product_name] = 1
     
     res['productHighlight'] = {'product_count': len(products), 'product_data': products}
     print('response: ', res)
