@@ -29,6 +29,13 @@ const {
 
 const {
   Line,
-  Bar
-} = ReactChartjs2
+  Bar,
+  Doughnut
+} = ReactChartjs2;
+
+// const {
+//   Calendar,
+//   CalendarList,
+//   Agenda
+// } = ReactNativeCalendars;
 
