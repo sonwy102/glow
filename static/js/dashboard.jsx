@@ -14,7 +14,10 @@ const Dashboard = (props) => {
     routine_count: 0,
     routine_ratio: {'loading routine': 'loading routine ratio...'}
   });
-  const [goalsHighlight, setGoalsHighlight] = React.useState({});
+  const [goalsHighlight, setGoalsHighlight] = React.useState({
+    goal_count: 0,
+    goal_data: ['loading goal data...']
+  });
 
   console.log('productHighLight: ', productHighlight);
   console.log('product data: ', productHighlight.product_data);
@@ -69,10 +72,16 @@ const Dashboard = (props) => {
             routineRatioValues={Object.values(daysHighlight.routine_ratio)}
           />
         </div>
+
         <div className="goal-highlight">
           {goalsHighlight.goal_count} skin health goals
+          {goalsHighlight.goal_data.map((goal) => 
+            <li>{goal.name}</li>
+          )}
+
         </div>
       </div>
+
       <div className="chart-section">
         <div className="subheader">
           <h4>Your Skin Health at a Glance</h4>
