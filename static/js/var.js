@@ -33,9 +33,19 @@ const {
   Doughnut
 } = ReactChartjs2;
 
-// const {
-//   Calendar,
-//   CalendarList,
-//   Agenda
-// } = ReactNativeCalendars;
+const {
+  Image,
+  Video, 
+  Transformation,
+  CloudinaryContext
+} = cloudinaryReact;
+
+// const myWidget = cloudinary.createUploadWidget(
+//   { cloudName: "sonwy102", upload_preset: "ml_default" },
+//   (error, result) => {
+//     if (result.event == "success") {
+//       console.log(result.info.url);
+//     }
+//   }
+// );
 
