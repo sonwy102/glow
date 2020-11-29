@@ -2,8 +2,14 @@
 // // ! Issue 1: <EditProfile> gets uncaught reference error even though I set up all the routing ??
 
 function App() {
+    
     const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
-    console.log(userState);
+
+    const [searchState, setSearchState] = React.useState({
+      "search-category": "",
+      "product-search": null,
+    });
+
     const [userDetails, setUserDetails] = React.useState({
       name: "",
       email: "",
@@ -32,7 +38,11 @@ function App() {
         </div>
 
         <div className="product-search-engine">
-          <ProductSearch />
+          <ProductSearch
+            category={searchState["search-category"]}
+            searchTerms={searchState["product-search"]}
+            setSearchParams={setSearchState}
+          />
         </div>
 
         <div>
@@ -53,15 +63,17 @@ function App() {
                 userInfo={userDetails}
               />
             </Route>
+            <Route path="/details" component={ProductDetails}></Route>
             <Route path="/productsearch">
-              <SearchResults />
+              <SearchResults
+                category={searchState["search-category"]}
+                searchTerms={searchState["product-search"]}
+              />
             </Route>
             <Route path="/routine">
               <Routine isLoggedIn={userState} />
             </Route>
-            <Route path="/details">
-              <ProductDetails />
-            </Route>
+
             <Route path="/editprofile">
               <EditProfile
                 isLoggedIn={userState}
