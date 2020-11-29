@@ -11,6 +11,8 @@ const SearchResults = () => {
   const urlParamsStr = history.location.search;
   const searchParams = new URLSearchParams(urlParamsStr)
 
+  console.log('searchResults: ', searchResults);
+
   const fetchSearchResults = async () => {
     fetch(
       `/product-search.json/${searchParams.get("category")}/${searchParams.get("term")}`
@@ -44,6 +46,11 @@ const SearchResults = () => {
         {searchResults.map((result) => (
           <li>
             <Link to='/details' onClick={renderProductDetails}>{result.name}</Link>
+            <Image
+              publicId={result.photo}
+              type="fetch">
+            </Image>
+            {/* <img src={result.photo}></img> */}
           </li>
         ))}
       </div>
