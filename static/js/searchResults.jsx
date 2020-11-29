@@ -1,4 +1,4 @@
-const SearchResults = () => {
+const SearchResults = (props) => {
   // // TODO: show a list of results returned from productSearch
   // // TODO 0: render when redirected from productSearch
   // // TODO 1: get search terms from productSearch.jsx and query db for search terms
@@ -7,55 +7,51 @@ const SearchResults = () => {
   // // TODO 4: link each item to product details page
   
   const history = useHistory();
-  const [searchResults, setSearchResults] = React.useState([]);
-  const urlParamsStr = history.location.search;
-  const searchParams = new URLSearchParams(urlParamsStr)
-
-  console.log('searchResults: ', searchResults);
+  const [searchResults, setSearchResults] = React.useState({'category': 'loading...', 'searchData': 'loading...'});
 
   const fetchSearchResults = async () => {
-    fetch(
-      `/product-search.json/${searchParams.get("category")}/${searchParams.get("term")}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        const newSearchResults = [];
-        for (const searchResult of data) {
-          newSearchResults.push(searchResult);
-        }
-        setSearchResults(newSearchResults);
-      });
+    fetch(`/product-search.json/${props.category}/${props.searchTerms}`)
+    .then((response) => response.json())
+    .then((data) => {
+      setSearchResults(data);
+    });
   }
 
   React.useEffect(() => {
     fetchSearchResults(); 
   }, []);
 
-  const renderProductDetails = (evt) => {
-    evt.preventDefault();
+  const redirectToProductDetails = (resultKey) => {
+    console.log(resultKey);
     history.push(
-      `/details?category=${searchResults[0].category}&pid=${searchResults[0].id}`
+      `/details?category=${searchResults.category}&resultId=${searchResults.searchData[resultKey].id}`
     );
   };
 
   return (
-    <div className="search-results-page">
-      <div className="header">
-        <h3>Search Results</h3>
-        <div>Total: {searchResults.length} result(s)</div>
-        {searchResults.map((result) => (
-          <li>
-            <Link to='/details' onClick={renderProductDetails}>{result.name}</Link>
-            <Image
-              cloudName='sonwy102'
-              publicId={result.photo}
-              width="200"
-              crop="scale"
-              type="fetch">
-            </Image>
-          </li>
-        ))}
+      <div className="search-results-page">
+        <div className="header">
+          <h3>Search Results</h3>
+          <div>Total: {searchResults.length} result(s)</div>
+          {Object.keys(searchResults.searchData).map((resultKey) => (
+            <li>
+              <Button
+                variant="outline-secondary"
+                onClick={() => redirectToProductDetails(resultKey)}
+              >
+                {searchResults.searchData[resultKey].name}
+              </Button>
+              
+              <Image
+                cloudName="sonwy102"
+                publicId={searchResults.searchData[resultKey].photo}
+                width="200"
+                crop="scale"
+                type="fetch"
+              ></Image>
+            </li>
+          ))}
+        </div>
       </div>
-    </div>
   );
 }
