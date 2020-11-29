@@ -95,7 +95,10 @@ def search_product_info(table_name, querystr):
     
     res = []
     for item in search_results:
-        res.append({'category':table_name, 'id':item.id, 'name': item.name})
+        if table_name == 'Product':
+            res.append({'category': table_name, 'id': item.id, 'name': item.name, 'photo': item.photo})
+        else:
+            res.append({'category':table_name, 'id':item.id, 'name': item.name})
         
     return jsonify(res) 
 
