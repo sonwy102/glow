@@ -93,12 +93,15 @@ def search_product_info(table_name, querystr):
     else:
         search_results = crud.search_ings_like_name(querystr)
     
-    res = []
-    for item in search_results:
+    
+    search_data = {}
+    for index, item in enumerate(search_results):
         if table_name == 'Product':
-            res.append({'category': table_name, 'id': item.id, 'name': item.name, 'photo': item.photo})
+            search_data[index] = {'id': item.id, 'name': item.name, 'photo': item.photo}
         else:
-            res.append({'category':table_name, 'id':item.id, 'name': item.name})
+            search_data[index] = {'id': item.id, 'name': item.name}
+
+    res = {'category': table_name, 'searchData': search_data}
         
     return jsonify(res) 
 
@@ -239,19 +242,16 @@ def add_user_routine(user_id):
         res['msg'] = f'Add-routine failed. routine: {routine}, products: {routine_products}, goals: {goal_entries}'
     return jsonify(res)
 
-@app.route('/search-result-details.json')
-def get_search_result_details():
+@app.route('/search-result-details.json/<category>/<result_id>')
+def get_search_result_details(category, result_id):
     """query db for product/brand/ing records with matching category and querystr"""
-    
-    category = request.args.get('category')
-    pid = request.args.get('pid')
 
     if category == 'Product':
-        result_details = crud.get_product_by_id(pid)
+        result_details = crud.get_product_by_id(result_id)
     elif category == 'Ingredient':
-        result_details = crud.get_ing_by_id(pid)
+        result_details = crud.get_ing_by_id(result_id)
     else:
-        result_details = crud.get_brand_by_id(pid)
+        result_details = crud.get_brand_by_id(result_id)
     
     return jsonify(result_details.serialize)
 
@@ -315,7 +315,7 @@ def get_user_highlights(user_id):
     print('response: ', res)
     
     # Query how many days in a row user did a skincare routine
-    # TODO: fix routine_days unit issue - right now, it's how many 'routines in a row'
+    # // TODO: fix routine_days unit issue - right now, it's how many 'routines in a row'
     routine_days = crud.get_routine_days(user_id)
     routine_ratio = crud.get_routine_am_pm_ratio(user_id)
     res['daysHighlight'] = {'routine_count': routine_days, 'routine_ratio': routine_ratio}
