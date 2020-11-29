@@ -47,10 +47,12 @@ const SearchResults = () => {
           <li>
             <Link to='/details' onClick={renderProductDetails}>{result.name}</Link>
             <Image
+              cloudName='sonwy102'
               publicId={result.photo}
+              width="200"
+              crop="scale"
               type="fetch">
             </Image>
-            {/* <img src={result.photo}></img> */}
           </li>
         ))}
       </div>
