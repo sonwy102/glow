@@ -40,6 +40,11 @@ const {
   CloudinaryContext
 } = cloudinaryReact;
 
+
+// const {
+//   cloudinary
+//  } = cloudinaryReact.Cloudinary;
+
 // const cloudinaryCore = new cloudinary.Cloudinary({ cloud_name: "sonwy102" });
 
 // const myWidget = cloudinary.createUploadWidget(
