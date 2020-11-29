@@ -360,8 +360,17 @@ def create_product(name, photo, brand_id, product_type_id):
 
     return product
 
+def update_product_photo(product_id, product_photo_url):
+    
+    product = Product.query.get(product_id)
+    product.photo = product_photo_url
+    db.session.commit()
+
 def get_product_by_id(product_id):
     return Product.query.get(product_id)
+
+def get_all_products():
+    return Product.query.all()
 
 def get_product_usage(product_id, user_id):
     
