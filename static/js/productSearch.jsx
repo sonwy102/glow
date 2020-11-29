@@ -1,29 +1,25 @@
-const ProductSearch = () => {
+const ProductSearch = (props) => {
   
   const history = useHistory();
-  const [searchState, setSearchState] = React.useState({
-      'search-category': '',
-      'product-search': null})
-  
+
   const handleInputChange = (evt) => {
       const name = evt.target.name;
       const value = evt.target.value;
-      console.log({[name]: value});
-      setSearchState((prevState) => ({ ...prevState, [name]: value }));
+      props.setSearchParams((prevState) => ({ ...prevState, [name]: value }));
   }
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
     history.push(
-      `/productsearch?category=${searchState["search-category"]}&term=${searchState["product-search"]}`
+      `/productsearch?category=${props.category}&term=${props.searchTerms}`
     );
     
     //TODO: reset searchState after user submits form
-    setSearchState({
-      'search-category': '',
-      'product-search': null
-    });
-    console.log(searchState)
+    // setSearchState({
+    //   'search-category': '',
+    //   'product-search': null
+    // });
+    // console.log(searchState)
   }
 
   return (
