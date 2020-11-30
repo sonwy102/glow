@@ -459,6 +459,12 @@ def create_product_ing(product_id, ingredient_id):
 
     return product_ing
 
+def get_product_ing_by_product(product_id):
+
+    product_ing = ProductIng.query.filter(ProductIng.product_id == product_id).all()
+
+    return product_ing
+    
 
 
 """INGREDIENT_GOAL CRUD FUNCTIONS"""
