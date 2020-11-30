@@ -6,8 +6,15 @@
 const ProductDetails = ({location}) => {
   
   const searchParams = new URLSearchParams(location.search);
-  const [searchDetails, setSearchDetails] = React.useState({'id': 'loading...', 'resultId': 'loading...'});
+  const [searchDetails, setSearchDetails] = React.useState({
+    'id': 'loading...', 
+    'brand': 'loading...',
+    'name': 'loading...',
+    'photo': '',
+    'ingredients': 'loading...'});
   
+  console.log(searchDetails);
+
   const fetchResultDetails = async () => {
     fetch(`/search-result-details.json/${searchParams.get("category")}/${searchParams.get("resultId")}`)
     .then(response => response.json())
@@ -23,7 +30,7 @@ const ProductDetails = ({location}) => {
   return (
     <div className="search-result-details-page">
       <ul className="details-info">
-        <li>{searchDetails.id}</li>
+        <li>{searchDetails.brand}</li>
         <li>{searchDetails.name}</li>
         <Image
           cloudName="sonwy102"
@@ -32,8 +39,13 @@ const ProductDetails = ({location}) => {
           crop="scale"
           type="fetch"
         ></Image>
-        <li>{searchDetails.brand_id}</li>
       </ul>
+      <h4>Ingredients</h4>
+      <div>
+        {Object.keys(searchDetails.ingredients).map((ingKey) => (
+          <li>{searchDetails.ingredients[ingKey].name}</li>
+        ))}
+      </div>
     </div>
   );
 };
