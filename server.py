@@ -88,16 +88,18 @@ def search_product_info(table_name, querystr):
 
     if table_name == 'Product':
         search_results = crud.search_products_like_name(querystr)
+        
     elif table_name == 'Brand':
         search_results = crud.search_brands_like_name(querystr)
     else:
         search_results = crud.search_ings_like_name(querystr)
     
-    
     search_data = {}
     for index, item in enumerate(search_results):
         if table_name == 'Product':
-            search_data[index] = {'id': item.id, 'name': item.name, 'photo': item.photo}
+            brand = crud.get_brand_by_id(item.brand_id)
+            
+            search_data[index] = {'id': item.id, 'brand': brand.name, 'name': item.name, 'photo': item.photo}
         else:
             search_data[index] = {'id': item.id, 'name': item.name}
 
@@ -200,10 +202,6 @@ def get_latest_goal_ratings(user_id):
     return jsonify(res)
 
 
-# TODO: create routine, routineProducts, userGoalEntry records in db
-    #TODO: getting None back for products even though formData is populated right
-    #TODO: check how to handle getting JS arrays back
-
 @app.route('/add-routine.json/<user_id>', methods=["POST"])
 def add_user_routine(user_id):
     """Create db records of Routine, RoutineProducts, and UserGoalEntry"""
@@ -246,14 +244,30 @@ def add_user_routine(user_id):
 def get_search_result_details(category, result_id):
     """query db for product/brand/ing records with matching category and querystr"""
 
+    res = {}
+
     if category == 'Product':
         result_details = crud.get_product_by_id(result_id)
+
+        product_ings = crud.get_product_ing_by_product(result_id)
+        product_ings_dict = {}
+        for ing in product_ings:
+            ingredient = crud.get_ing_by_id(ing.ingredient_id)
+            product_ings_dict[ing.ingredient_id] = {'name': ingredient.name}
+
+        res = {
+            'id': result_id, 
+            'brand': result_details.brand.name, 
+            'name': result_details.name, 
+            'photo': result_details.photo, 
+            'ingredients': product_ings_dict
+        }         
     elif category == 'Ingredient':
-        result_details = crud.get_ing_by_id(result_id)
+        res = crud.get_ing_by_id(result_id).serialize
     else:
-        result_details = crud.get_brand_by_id(result_id)
+        res = crud.get_brand_by_id(result_id).serialize
     
-    return jsonify(result_details.serialize)
+    return jsonify(res)
 
 @app.route('/update-user-profile.json/<user_id>', methods=['POST'])
 def update_user_profile(user_id):
