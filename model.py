@@ -269,6 +269,13 @@ class ProductIng(db.Model):
 
     def __repr__(self):
         return f'<ProductIng id={self.id} product_id={self.product_id} ingredient_id={self.ingredient_id}'
+    
+    @property
+    def serialize(self):
+        return {
+            'product_id': self.product_id,
+            'ingredient_id': self.ingredient_id
+        }
 
 
 class IngGoal(db.Model):
