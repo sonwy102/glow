@@ -18,10 +18,16 @@ const Dashboard = (props) => {
     goal_count: 0,
     goal_data: ['loading goal data...']
   });
+  const [ingHighlight, setIngHighlight] = React.useState({
+    ing_count: 0,
+    ing_data: { "loading name": "loading count..." }
+  });
 
   console.log('productHighLight: ', productHighlight);
   console.log('product data: ', productHighlight.product_data);
   console.log('goalsHighlight: ',goalsHighlight);
+  console.log("ingHighlight: ", ingHighlight);
+
 
 
   const fetchUserHighlights = async () => {
@@ -31,6 +37,7 @@ const Dashboard = (props) => {
       setProductHighlight(data.productHighlight);
       setDaysHighlight(data.daysHighlight);
       setGoalsHighlight(data.goalsHighlight);
+      setIngHighlight(data.ingHighlight);
     });
   }
   
@@ -62,6 +69,13 @@ const Dashboard = (props) => {
           {productHighlight.product_count} products in my routine
           {Object.keys(productHighlight.product_data).map((productName) => (
             <li>{productName}: {productHighlight.product_data[productName]}</li>
+          ))}
+        </div>
+            
+        <div className="ing-highlight">
+          {ingHighlight.ing_count} ingredients in my routine
+          {Object.keys(ingHighlight.ing_data).map((ingName) => (
+            <li>{ingName}: {ingHighlight.ing_data[ingName]}</li>
           ))}
         </div>
 
