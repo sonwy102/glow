@@ -6,7 +6,7 @@ from model import (
 from datetime import datetime
 if __name__ == '__main__':
     from server import app
-    connect_to_db(app)
+    connect_to_db(app, echo=False)
 
 """USER CRUD FUNCTIONS"""
 def create_user(email,password,fname,lname,birthday):
@@ -434,6 +434,65 @@ def search_ings_like_name(querystr):
     
     return ings
 
+def check_active_ingredient(ing_name):
+    
+    # TODO: DO THIS LATER
+    # words = ing_name.split(' ')
+    # ing_words_set = set(words)
+
+    if 'fragrance' in ing_name:
+        return -1
+    if 'alcohol' in ing_name or 'ol' == ing_name[-2:]:
+        return -1
+    if 'paraben' in ing_name:
+        return -1
+    if 'sulfate' in ing_name:
+        return -1
+    if 'coconut oil' in ing_name:
+        return -1
+    if 'acid' in ing_name:
+        if 'citric' in ing_name or 'glycolic' in ing_name or 'lactic' in ing_name or 'malic' in ing_name:
+            return 1
+        elif 'salicylic' in ing_name:
+            return 1
+    if 'ascorb' in ing_name or 'vitamin c' in ing_name:
+        return 1
+    if 'retinol' in ing_name or 'vitamin a' in ing_name:
+        return 1
+    if 'niacin' in ing_name:
+        return 1
+    if 'green tea' in ing_name:
+        return 1
+    if 'caffeine' in ing_name:
+        return 1
+    if 'squalane' in ing_name:
+        return 1
+    if 'oil' in ing_name:
+        if 'castor' in ing_name or 'argan' in ing_name or 'jojoba' in ing_name or 'marula' in ing_name:
+            return 1
+    if 'hyaluron' in ing_name:
+        return 1
+    if 'ceramide' in ing_name:
+        return 1
+    if 'aloe' in ing_name:
+        return 1
+    if 'collagen' in ing_name:
+        return 1
+    if 'glycerin' in ing_name:
+        return 1
+    if 'oxide' in ing_name:
+        if 'titanium' in ing_name or 'zinc' in ing_name:
+            return 1
+    return 0
+        
+def get_active_ingredients(ingredients):
+    
+    active_ings = []
+    for ing in ingredients:
+        if check_active_ingredient(ing.name) != 0:
+            active_ings.append(ing)
+    return active_ings
+
 
 
 """INGREDIENT ALT NAME CRUD FUNCTIONS"""
@@ -464,7 +523,7 @@ def get_product_ing_by_product(product_id):
     product_ing = ProductIng.query.filter(ProductIng.product_id == product_id).all()
 
     return product_ing
-    
+
 
 
 """INGREDIENT_GOAL CRUD FUNCTIONS"""
