@@ -29,29 +29,32 @@ const SearchResults = (props) => {
   };
 
   return (
-      <div className="search-results-page">
-        <div className="header">
-          <h3>Search Results</h3>
-          <div>Total: {searchResults.length} result(s)</div>
-          {Object.keys(searchResults.searchData).map((resultKey) => (
-            <li>
-              <Button
-                variant="outline-secondary"
-                onClick={() => redirectToProductDetails(resultKey)}
-              >
-                {searchResults.searchData[resultKey].name}
-              </Button>
-              
-              <Image
-                cloudName="sonwy102"
-                publicId={searchResults.searchData[resultKey].photo}
-                width="200"
-                crop="scale"
-                type="fetch"
-              ></Image>
-            </li>
-          ))}
-        </div>
+    <div className="search-results-page">
+      <div className="header">
+        <h3>Search Results</h3>
+        <div>Total: {searchResults.length} result(s)</div>
       </div>
+      <div className="results-list">
+        {Object.keys(searchResults.searchData).map((resultKey) => (
+          <li>
+            {searchResults.searchData[resultKey].brand}
+            <Button
+              variant="outline-secondary"
+              onClick={() => redirectToProductDetails(resultKey)}
+            >
+              {searchResults.searchData[resultKey].name}
+            </Button>
+
+            <Image
+              cloudName="sonwy102"
+              publicId={searchResults.searchData[resultKey].photo}
+              width="200"
+              crop="scale"
+              type="fetch"
+            ></Image>
+          </li>
+        ))}
+      </div>
+    </div>
   );
 }
