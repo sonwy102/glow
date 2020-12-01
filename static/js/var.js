@@ -40,4 +40,4 @@ const {
   CloudinaryContext
 } = cloudinaryReact;
 
-
+const partition = d3.partition();
