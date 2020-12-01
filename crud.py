@@ -444,48 +444,52 @@ def check_active_ingredient(ing_name):
     # ing_words_set = set(words)
 
     if 'fragrance' in ing_name:
-        return -1
+        return {'parent': 'fragrance', 'value': -1}
+    if 'propylene glycol' in ing_name or 'butylene glycol' in ing_name:
+        return {'parent': 'humectants', 'value': 1}
     if 'alcohol' in ing_name or 'ol' == ing_name[-2:]:
-        return -1
+        return {'parent': 'alcohol', 'value': -1} 
     if 'paraben' in ing_name:
-        return -1
+        return {'parent': 'parabens', 'value': -1} 
     if 'sulfate' in ing_name:
-        return -1
+        return {'parent': 'sulfates', 'value': -1} 
     if 'coconut oil' in ing_name:
-        return -1
+        return {'parent': 'oils', 'value': -1} 
     if 'acid' in ing_name:
         if 'citric' in ing_name or 'glycolic' in ing_name or 'lactic' in ing_name or 'malic' in ing_name:
-            return 1
+            return {'parent': 'AHA', 'value': 1} 
         elif 'salicylic' in ing_name:
-            return 1
+            return {'parent': 'BHA', 'value': 1}
     if 'ascorb' in ing_name or 'vitamin c' in ing_name:
-        return 1
+        return {'parent': 'antioxidants', 'value': 1}
     if 'retinol' in ing_name or 'vitamin a' in ing_name:
-        return 1
+        return {'parent': 'antioxidants', 'value': 1}
+    if 'tocopher' in ing_name or 'vitamin e' in ing_name:
+        return {'parent': 'antioxidants', 'value': 1}
     if 'niacin' in ing_name:
-        return 1
+        return {'parent': 'antioxidants', 'value': 1}
     if 'green tea' in ing_name:
-        return 1
+        return {'parent': 'antioxidants', 'value': 1}
     if 'caffeine' in ing_name:
-        return 1
+        return {'parent': 'antioxidants', 'value': 1}
     if 'squalane' in ing_name:
-        return 1
+        return {'parent': 'oils', 'value': 1}
     if 'oil' in ing_name:
         if 'castor' in ing_name or 'argan' in ing_name or 'jojoba' in ing_name or 'marula' in ing_name:
-            return 1
+            return {'parent': 'oils', 'value': 1}
     if 'hyaluron' in ing_name:
-        return 1
+        return {'parent': 'humectants', 'value': 1}
     if 'ceramide' in ing_name:
-        return 1
+        return {'parent': 'ceramides', 'value': 1}
     if 'aloe' in ing_name:
-        return 1
+        return {'parent': 'aloe', 'value': 1}
     if 'collagen' in ing_name:
-        return 1
-    if 'glycerin' in ing_name:
-        return 1
+        return {'parent': 'collagen', 'value': 1}
+    if 'glycerin' in ing_name or 'sodium pca' in ing_name or 'sorbitol' in ing_name or 'allantoin' in ing_name:
+        return {'parent': 'humectants', 'value': 1}
     if 'oxide' in ing_name:
         if 'titanium' in ing_name or 'zinc' in ing_name:
-            return 1
+            return {'parent': 'spf', 'value': 1}
     return 0
         
 def get_active_ingredients(ingredients):

@@ -3,6 +3,7 @@ from faker.providers import BaseProvider
 from model import (db, User, Routine, UserGoal, UserGoalEntry, RoutineProduct, 
                    UserSkinType, connect_to_db)
 import crud
+import api
 import datetime
 fake = Faker()
 
@@ -82,4 +83,16 @@ def create_test_user_goal_entries(user_id, routine_set):
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
+
+
+def update_product_photo():
+
+    products = crud.get_all_products()
+    imgs = {}
     
+    for product in products:
+        brand = crud.get_brand_by_id(product.brand_id)
+        img_url = api.get_product_img(brand.name, product.name)
+        
+        imgs[f'{brand.name} {product.name}'] = img_url
+        crud.update_product_photo(product.id, img_url)
