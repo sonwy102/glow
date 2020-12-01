@@ -111,5 +111,7 @@ def create_ing_json():
         parent_node = ing_tree.find_in_tree(parent)
         parent_node.children.append(IngNode(ing))
         
-    with open('data/ingredient_tree.json', 'w') as outfile:
-        json.dump(root.__dict__, outfile, default=lambda o: o.__dict__)
+    # with open('data/ingredient_tree.json', 'w') as outfile:
+    #     json.dump(root.__dict__, outfile, default=lambda o: o.__dict__)
+
+    return json.dumps(root.__dict__, default=lambda o: o.__dict__)
