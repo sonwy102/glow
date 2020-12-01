@@ -5,6 +5,7 @@ from flask import (Flask, render_template, request, flash, session,
 from model import connect_to_db
 import crud
 import json
+import tree_crud
 from datetime import datetime
 from datetime import timedelta
 
@@ -372,6 +373,11 @@ def get_goal_ratings_over_time(user_id, view_option):
             res[i] = crud.get_goal_entries_on_date_by_goal(user_id, usergoals[i].id, start_date, today)
     
     return jsonify(res)
+
+@app.route('/ingredient-analysis.json')
+def get_ingredient_json():
+    
+    return tree_crud.create_ing_json()
 
 if __name__ == '__main__':
     connect_to_db(app)
