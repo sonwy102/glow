@@ -423,6 +423,9 @@ def create_ingredient(name):
 def get_ing_by_id(ing_id):
     return Ingredient.query.get(ing_id)
 
+def get_all_ingredients():
+    return Ingredient.query.all()
+
 def get_ing_by_name(ing_name):
     return Ingredient.query.filter(Ingredient.name == ing_name).first()
 
