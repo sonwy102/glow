@@ -22,6 +22,8 @@ const Dashboard = (props) => {
     ing_count: 0,
     ing_data: { "loading name": "loading count..." }
   });
+  const [ingTree, setIngTree] = React.useState({'data': 'loading...'});
+  
 
   console.log('productHighLight: ', productHighlight);
   console.log('product data: ', productHighlight.product_data);
@@ -39,10 +41,19 @@ const Dashboard = (props) => {
       setGoalsHighlight(data.goalsHighlight);
       setIngHighlight(data.ingHighlight);
     });
-  }
+  };
+
+  const fetchIngTree = async () => {
+    fetch("/ingredient-analysis.json")
+      .then((response) => response.json())
+      .then((data) => {
+        setIngTree(data);
+      });
+  };
   
   React.useEffect(() => {
     fetchUserHighlights();
+    fetchIngTree();
   }, []);
   
   if (!props.isLoggedIn) {
@@ -77,6 +88,10 @@ const Dashboard = (props) => {
           {Object.keys(ingHighlight.ing_data).map((ingName) => (
             <li>{ingName}: {ingHighlight.ing_data[ingName]}</li>
           ))}
+        </div>
+
+        <div className="ing-chart">
+          <IngredientChart data={ingTree} />
         </div>
 
         <div className="days-highlight">
