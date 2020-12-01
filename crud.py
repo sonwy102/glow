@@ -457,9 +457,9 @@ def check_active_ingredient(ing_name):
         return {'parent': 'oils', 'value': -1} 
     if 'acid' in ing_name:
         if 'citric' in ing_name or 'glycolic' in ing_name or 'lactic' in ing_name or 'malic' in ing_name:
-            return {'parent': 'AHA', 'value': 1} 
+            return {'parent': 'aha', 'value': 1} 
         elif 'salicylic' in ing_name:
-            return {'parent': 'BHA', 'value': 1}
+            return {'parent': 'bha', 'value': 1}
     if 'ascorb' in ing_name or 'vitamin c' in ing_name:
         return {'parent': 'antioxidants', 'value': 1}
     if 'retinol' in ing_name or 'vitamin a' in ing_name:
@@ -473,10 +473,12 @@ def check_active_ingredient(ing_name):
     if 'caffeine' in ing_name:
         return {'parent': 'antioxidants', 'value': 1}
     if 'squalane' in ing_name:
-        return {'parent': 'oils', 'value': 1}
+        return {'parent': 'facialoils', 'value': 1}
     if 'oil' in ing_name:
         if 'castor' in ing_name or 'argan' in ing_name or 'jojoba' in ing_name or 'marula' in ing_name:
-            return {'parent': 'oils', 'value': 1}
+            return {'parent': 'facialoils', 'value': 1}
+        else:
+            return {'parent': 'otheroils', 'value': 0}
     if 'hyaluron' in ing_name:
         return {'parent': 'humectants', 'value': 1}
     if 'ceramide' in ing_name:
@@ -490,13 +492,15 @@ def check_active_ingredient(ing_name):
     if 'oxide' in ing_name:
         if 'titanium' in ing_name or 'zinc' in ing_name:
             return {'parent': 'spf', 'value': 1}
-    return 0
+    if 'dimethicone' in ing_name or 'silicone' in ing_name:
+        return {'parent': 'silicones', 'value': 0}
+    return {'parent': 'other', 'value': None}
         
 def get_active_ingredients(ingredients):
     
     active_ings = []
     for ing in ingredients:
-        if check_active_ingredient(ing.name) != 0:
+        if check_active_ingredient(ing.name)['value'] is not None:
             active_ings.append(ing)
     return active_ings
 
