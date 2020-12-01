@@ -45,6 +45,10 @@ function App() {
           />
         </div>
 
+        <div className="test-ingredient-chart-d3">
+          <IngredientChart />
+        </div>
+
         <div>
           <Switch>
             <Route path="/ratingschart">
