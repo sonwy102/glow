@@ -22,7 +22,7 @@ function App() {
     return (
       <Router>
         <div className="App">
-          <h2 className="App-title">Glow Homepage</h2>
+          {/* <h2 className="App-title">Glow Homepage</h2>
           <Link to="/">Home</Link>
           {userState ? (
             <div className="header">
@@ -35,7 +35,8 @@ function App() {
               <Link to="/register">Sign Up</Link>
               <LogInBtn ensureLogIn={setUserState}></LogInBtn>
             </div>
-          )}
+          )} */}
+          <NavBar isLoggedIn={userState} ensureLogIn={setUserState}/>
         </div>
 
         <div className="product-search-engine">
