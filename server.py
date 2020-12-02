@@ -345,13 +345,13 @@ def get_user_highlights(user_id):
 
     # Query how many goals user is tracking, what those goals are.
     # TODO: track how long they've been tracking it.
-    goals_active = crud.get_active_user_goals(user_id)
+    # goals_active = crud.get_active_user_goals(user_id)
 
-    goals = []
-    for usergoal in goals_active:
-        goal = crud.get_goal_by_id(usergoal.goal_id)
-        goals.append({'name': goal.name})
-    res['goalsHighlight'] = {'goal_count': len(goals_active), 'goal_data': goals}
+    # goals = []
+    # for usergoal in goals_active:
+    #     goal = crud.get_goal_by_id(usergoal.goal_id)
+    #     goals.append({'name': goal.name})
+    # res['goalsHighlight'] = {'goal_count': len(goals_active), 'goal_data': goals}
     return jsonify(res)
 
 @app.route('/goal-ratings-trend/<user_id>/<view_option>')
