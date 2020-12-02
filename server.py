@@ -328,22 +328,21 @@ def get_user_highlights(user_id):
             else: 
                 products[product_name] = 1
             product_ings = crud.get_product_ing_by_product(product.id)
-            for product_ing in product_ings:
-                ing = crud.get_ing_by_id(product_ing.ingredient_id) 
-                ing_lst.append(ing)
+            # for product_ing in product_ings:
+            #     ing = crud.get_ing_by_id(product_ing.ingredient_id) 
+            #     ing_lst.append(ing)
     
-    active_ing_lst = crud.get_active_ingredients(ing_lst)
-    active_ings = {}
-    for active_ing in active_ing_lst:
-        if active_ing.name in active_ings:
-            active_ings[active_ing.name] += 1
-        else:
-            active_ings[active_ing.name] = 1
+    # active_ing_lst = crud.get_active_ingredients(ing_lst)
+    # active_ings = {}
+    # for active_ing in active_ing_lst:
+    #     if active_ing.name in active_ings:
+    #         active_ings[active_ing.name] += 1
+    #     else:
+    #         active_ings[active_ing.name] = 1
 
     res['productHighlight'] = {'product_count': len(products), 'product_data': products}
-    res['ingHighlight'] = {'ing_count': len(active_ings), 'ing_data': active_ings}
+    # res['ingHighlight'] = {'ing_count': len(active_ings), 'ing_data': active_ings}
     
-    print('INGREDIENT HIGHLIGHT: ', res['ingHighlight'])
     # Query how many days in a row user did a skincare routine
     # // TODO: fix routine_days unit issue - right now, it's how many 'routines in a row'
     routine_days = crud.get_routine_days(user_id)
@@ -374,11 +373,18 @@ def get_goal_ratings_over_time(user_id, view_option):
     
     return jsonify(res)
 
+
 @app.route('/ingredient-analysis.json')
 def get_ingredient_json():
     
-    return tree_crud.create_ing_json()
-
+    with open('data/ingredient_tree_reduced_2.json') as f:
+        data = json.load(f)
+    
+    del data['children'][6]
+    
+    return jsonify(data)
+    
+    
 if __name__ == '__main__':
     connect_to_db(app)
     app.run(host='0.0.0.0', debug=True)
