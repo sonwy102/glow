@@ -444,63 +444,63 @@ def check_active_ingredient(ing_name):
     # ing_words_set = set(words)
 
     if 'fragrance' in ing_name:
-        return {'parent': 'fragrance', 'value': -1}
+        return {'parent': 'fragrance', 'impact': -1}
     if 'propylene glycol' in ing_name or 'butylene glycol' in ing_name:
-        return {'parent': 'humectants', 'value': 1}
+        return {'parent': 'humectants', 'impact': 1}
     if 'alcohol' in ing_name or 'ol' == ing_name[-2:]:
-        return {'parent': 'alcohol', 'value': -1} 
+        return {'parent': 'alcohol', 'impact': -1} 
     if 'paraben' in ing_name:
-        return {'parent': 'parabens', 'value': -1} 
+        return {'parent': 'parabens', 'impact': -1} 
     if 'sulfate' in ing_name:
-        return {'parent': 'sulfates', 'value': -1} 
+        return {'parent': 'sulfates', 'impact': -1} 
     if 'coconut oil' in ing_name:
-        return {'parent': 'oils', 'value': -1} 
+        return {'parent': 'oils', 'impact': -1} 
     if 'acid' in ing_name:
         if 'citric' in ing_name or 'glycolic' in ing_name or 'lactic' in ing_name or 'malic' in ing_name:
-            return {'parent': 'aha', 'value': 1} 
+            return {'parent': 'aha', 'impact': 1} 
         elif 'salicylic' in ing_name:
-            return {'parent': 'bha', 'value': 1}
+            return {'parent': 'bha', 'impact': 1}
     if 'ascorb' in ing_name or 'vitamin c' in ing_name:
-        return {'parent': 'antioxidants', 'value': 1}
+        return {'parent': 'antioxidants', 'impact': 1}
     if 'retinol' in ing_name or 'vitamin a' in ing_name:
-        return {'parent': 'antioxidants', 'value': 1}
+        return {'parent': 'antioxidants', 'impact': 1}
     if 'tocopher' in ing_name or 'vitamin e' in ing_name:
-        return {'parent': 'antioxidants', 'value': 1}
+        return {'parent': 'antioxidants', 'impact': 1}
     if 'niacin' in ing_name:
-        return {'parent': 'antioxidants', 'value': 1}
+        return {'parent': 'antioxidants', 'impact': 1}
     if 'green tea' in ing_name:
-        return {'parent': 'antioxidants', 'value': 1}
+        return {'parent': 'antioxidants', 'impact': 1}
     if 'caffeine' in ing_name:
-        return {'parent': 'antioxidants', 'value': 1}
+        return {'parent': 'antioxidants', 'impact': 1}
     if 'squalane' in ing_name:
-        return {'parent': 'facialoils', 'value': 1}
+        return {'parent': 'facialoils', 'impact': 1}
     if 'oil' in ing_name:
         if 'castor' in ing_name or 'argan' in ing_name or 'jojoba' in ing_name or 'marula' in ing_name:
-            return {'parent': 'facialoils', 'value': 1}
+            return {'parent': 'facialoils', 'impact': 1}
         else:
-            return {'parent': 'otheroils', 'value': 0}
+            return {'parent': 'otheroils', 'impact': 0}
     if 'hyaluron' in ing_name:
-        return {'parent': 'humectants', 'value': 1}
+        return {'parent': 'humectants', 'impact': 1}
     if 'ceramide' in ing_name:
-        return {'parent': 'ceramides', 'value': 1}
+        return {'parent': 'ceramides', 'impact': 1}
     if 'aloe' in ing_name:
-        return {'parent': 'aloe', 'value': 1}
+        return {'parent': 'aloe', 'impact': 1}
     if 'collagen' in ing_name:
-        return {'parent': 'collagen', 'value': 1}
+        return {'parent': 'collagen', 'impact': 1}
     if 'glycerin' in ing_name or 'sodium pca' in ing_name or 'sorbitol' in ing_name or 'allantoin' in ing_name:
-        return {'parent': 'humectants', 'value': 1}
+        return {'parent': 'humectants', 'impact': 1}
     if 'oxide' in ing_name:
         if 'titanium' in ing_name or 'zinc' in ing_name:
-            return {'parent': 'spf', 'value': 1}
+            return {'parent': 'spf', 'impact': 1}
     if 'dimethicone' in ing_name or 'silicone' in ing_name:
-        return {'parent': 'silicones', 'value': 0}
-    return {'parent': 'other', 'value': None}
+        return {'parent': 'silicones', 'impact': 0}
+    return {'parent': 'other', 'impact': None}
         
 def get_active_ingredients(ingredients):
     
     active_ings = []
     for ing in ingredients:
-        if check_active_ingredient(ing.name)['value'] is not None:
+        if check_active_ingredient(ing.name)['impact'] is not None:
             active_ings.append(ing)
     return active_ings
 
@@ -535,7 +535,11 @@ def get_product_ing_by_product(product_id):
 
     return product_ing
 
+def get_product_count_by_ingredient(ingredient_id):
+    
+    product_count = ProductIng.query.filter(ProductIng.ingredient_id == ingredient_id).count() 
 
+    return product_count
 
 """INGREDIENT_GOAL CRUD FUNCTIONS"""
 def create_ing_goal(ingredient_id, goal_id):
