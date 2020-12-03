@@ -24,7 +24,8 @@ const {
   Navbar,
   Overlay,
   Popover,
-  Tooltip
+  Tooltip,
+  Card
 } = ReactBootstrap;
 
 const {
@@ -38,3 +39,4 @@ const {
   Transformation,
   CloudinaryContext
 } = cloudinaryReact;
+
