@@ -13,7 +13,7 @@ const {
 const {
   Container,
   Row,
-  Column,
+  Col,
   ToggleButtonGroup,
   Button,
   ToggleButton,
@@ -35,7 +35,6 @@ const {
 
 const {
   Image,
-  Video, 
   Transformation,
   CloudinaryContext
 } = cloudinaryReact;
