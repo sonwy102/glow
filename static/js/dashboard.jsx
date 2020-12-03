@@ -41,24 +41,22 @@ const Dashboard = (props) => {
 
         <Col lg={6} className="dashboard">
           <h1>My Dashboard</h1>
-          
+
           <UserHighlights
             isLoggedIn={props.isLoggedIn}
             userInfo={props.userInfo}
           ></UserHighlights>
 
           <h4>Your Skin Health at a Glance</h4>
-          <RatingsChart isLoggedIn={props.isLoggedIn} />
+          <Tabs defaultActiveKey="ratings-chart" id="chart-tabs">
+            <Tab eventKey="ratings-chart" title="Goals">
+              <RatingsChart isLoggedIn={props.isLoggedIn} />
+            </Tab>
+            <Tab eventKey="ing-chart" title="Ingredients">
+              <IngredientChart data={ingTree} />
+            </Tab>
+          </Tabs>
 
-          {/* <div className="ingds-chart">
-            <IngredientChart data={ingTree} />
-          </div>
-
-          
-        </Col>
-        <Col lg={3} className="product-analysis">
-          {/* <IngredientChart data={ingTree} /> */}
-          <p>test element</p>
         </Col>
       </Row>
     </Container>
