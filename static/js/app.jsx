@@ -6,8 +6,7 @@ function App() {
     const [userState, setUserState] = React.useState(() => {return localStorage.getItem('userState')})
 
     const [searchState, setSearchState] = React.useState({
-      "search-category": "",
-      "product-search": null,
+      "product-search": null
     });
 
     const [userDetails, setUserDetails] = React.useState({
@@ -21,34 +20,24 @@ function App() {
 
     return (
       <Router>
-        <div className="App">
-          {/* <h2 className="App-title">Glow Homepage</h2>
-          <Link to="/">Home</Link>
-          {userState ? (
-            <div className="header">
-              <Link to={`/profile?user=${userState}`}>Profile</Link>
-              <Link to={`/dashboard?user=${userState}`}>Dashboard</Link>
-              <LogOutBtn ensureLogIn={setUserState}></LogOutBtn>
-            </div>
-          ) : (
-            <div className="header">
-              <Link to="/register">Sign Up</Link>
-              <LogInBtn ensureLogIn={setUserState}></LogInBtn>
-            </div>
-          )} */}
-          <NavBar isLoggedIn={userState} ensureLogIn={setUserState}/>
-        </div>
-
-        <div className="product-search-engine">
-          <ProductSearch
-            category={searchState["search-category"]}
-            searchTerms={searchState["product-search"]}
-            setSearchParams={setSearchState}
-          />
-        </div>
+        <Container fluid className="App">
+          <Row>
+            <Col>
+              <NavBar
+                isLoggedIn={userState}
+                ensureLogIn={setUserState}
+                searchTerms={searchState["product-search"]}
+                setSearchParams={setSearchState}
+              />
+            </Col>
+          </Row>
+        </Container>
 
         <div>
           <Switch>
+            <Route path="/" exact={true}>
+              <LandingPage></LandingPage>
+            </Route>
             <Route path="/ratingschart">
               <RatingsChart isLoggedIn={userState} />
             </Route>
