@@ -1,8 +1,8 @@
 // Chart component to track goal-ratings trends over time
-// TODO: get code review on data requesting/handling/processing/plotting
-// TODO: integrate with profile eventually
-// TODO: plot monthtly graph + render when 'This Month' button is clicked
-// TODO: plot yearly graph + render when 'This Year' button is clicked
+// // TODO: get code review on data requesting/handling/processing/plotting
+// // TODO: integrate with profile eventually
+// // TODO: plot monthly graph + render when 'This Month' button is clicked
+// // TODO: plot yearly graph + render when 'This Year' button is clicked
 // // TODO: fix weekly chart - only showing 3 days worth of data for now
 const RatingsChart = (props) => {
 
@@ -13,8 +13,8 @@ const RatingsChart = (props) => {
 
   console.log('Week chart data: ', weekChartData);
 
+  const colors = ["#958079", "#d8c1b7"];
   
-
   const fetchWeekRatings = async () => {
     fetch(`/goal-ratings-trend/${props.isLoggedIn}/10`)
     .then(response => response.json())
@@ -26,16 +26,13 @@ const RatingsChart = (props) => {
         ratingsDatasets.push({
           label: goalNames[i],
           data: Object.values(goalEntryData[Object.keys(goalEntryData)[0]]),
-          fill: true,
-
-          // TODO: fix this to generate different colors for each dataset dynamically
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
+          fill: false,
+          borderColor: colors[i],
         });
       };
       const goalRatingsData = {
-        // // TODO: fix this to be dynamic
-        labels: Object.keys(data[0][goalNames[0]]),
+        // labels: Object.keys(data[0][goalNames[0]]),
+        labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
         datasets: ratingsDatasets
       }
       setWeekChartData(goalRatingsData);
@@ -53,16 +50,13 @@ const RatingsChart = (props) => {
         ratingsDatasets.push({
           label: goalNames[i],
           data: Object.values(goalEntryData[Object.keys(goalEntryData)[0]]),
-          fill: true,
-
-          // TODO: fix this to generate different colors for each dataset dynamically
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
+          fill: false,
+          borderColor: colors[i],
         });
       };
       const goalRatingsData = {
-        // // TODO: fix this to be dynamic
-        labels: Object.keys(data[0][goalNames[0]]),
+        // labels: Object.keys(data[0][goalNames[0]]),
+        labels: Array.from(Array(31).keys()),
         datasets: ratingsDatasets
       }
       setMonthChartData(goalRatingsData);
@@ -80,16 +74,13 @@ const RatingsChart = (props) => {
         ratingsDatasets.push({
           label: goalNames[i],
           data: Object.values(goalEntryData[Object.keys(goalEntryData)[0]]),
-          fill: true,
-
-          // TODO: fix this to generate different colors for each dataset dynamically
-          backgroundColor: "rgba(75,192,192,0.2)",
-          borderColor: "rgba(75,192,192,1)",
+          fill: false,
+          borderColor: colors[i],
         });
       };
       const goalRatingsData = {
-        // // TODO: fix this to be dynamic
-        labels: Object.keys(data[0][goalNames[0]]),
+        // labels: Object.keys(data[0][goalNames[0]]),
+        labels:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
         datasets: ratingsDatasets
       }
       setYearChartData(goalRatingsData);

@@ -38,8 +38,17 @@ p span p {
 
 img.background {
     filter: brightness(0.8);
+
 }
 .profile-photo img {
     height: 200px;
     width: auto;
+}
+
+.goals-img {
+    width: 50%;
+}
+.card-title {
+    font-size: 2em;
+    text-align: center;
 }

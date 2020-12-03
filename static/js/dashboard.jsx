@@ -11,6 +11,7 @@ const Dashboard = (props) => {
   console.log('ingTree: ', ingTree)
 
 
+
   const fetchIngTree = async () => {
     fetch("/ingredient-analysis.json")
       .then((response) => response.json())
@@ -40,23 +41,20 @@ const Dashboard = (props) => {
 
         <Col lg={6} className="dashboard">
           <h1>My Dashboard</h1>
+          
           <UserHighlights
             isLoggedIn={props.isLoggedIn}
             userInfo={props.userInfo}
           ></UserHighlights>
+
           <h4>Your Skin Health at a Glance</h4>
           <RatingsChart isLoggedIn={props.isLoggedIn} />
-        
 
-          {/* <div className="ing-chart">
+          {/* <div className="ingds-chart">
             <IngredientChart data={ingTree} />
           </div>
 
-          <div className="chart-section">
-            <div className="subheader">
-              <h4>Your Skin Health at a Glance</h4>
-            </div>
-          </div> */}
+          
         </Col>
         <Col lg={3} className="product-analysis">
           {/* <IngredientChart data={ingTree} /> */}
