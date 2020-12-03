@@ -26,7 +26,6 @@ const UserHighlights = (props) => {
       .then((data) => {
         setProductHighlight(data.productHighlight);
         setDaysHighlight(data.daysHighlight);
-        // setGoalsHighlight(data.goalsHighlight);
         setIngHighlight(data.ingHighlight);
       });
   };
