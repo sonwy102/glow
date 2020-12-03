@@ -25,7 +25,8 @@ const {
   Overlay,
   Popover,
   Tooltip,
-  Card
+  Card,
+  Tabs, Tab
 } = ReactBootstrap;
 
 const {
