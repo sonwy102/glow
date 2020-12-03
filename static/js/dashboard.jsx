@@ -28,33 +28,41 @@ const Dashboard = (props) => {
     history.push("/login");
   }
   return (
-    <div className="dashboard-page">
-      <div className="user-profile-section">
-        <Profile
-          isLoggedIn={props.isLoggedIn}
-          userInfo={props.userInfo}
-          setUserInfo={props.setUserInfo}
-        ></Profile>
-      </div>
-      <div className="header">
-        <h2>My Dashboard</h2>
-      </div>
-      <div className="user-highlight">
-        <UserHighlights 
-          isLoggedIn={props.isLoggedIn} 
-          userInfo={props.userInfo}></UserHighlights>
-      </div>
+    <Container fluid className="dashboard-page">
+      <Row>
+        <Col lg={3} className="user-profile">
+          <Profile
+            isLoggedIn={props.isLoggedIn}
+            userInfo={props.userInfo}
+            setUserInfo={props.setUserInfo}
+          ></Profile>
+        </Col>
 
-      <div className="ing-chart">
-        <IngredientChart data={ingTree} />
-      </div>
-
-      <div className="chart-section">
-        <div className="subheader">
+        <Col lg={6} className="dashboard">
+          <h1>My Dashboard</h1>
+          <UserHighlights
+            isLoggedIn={props.isLoggedIn}
+            userInfo={props.userInfo}
+          ></UserHighlights>
           <h4>Your Skin Health at a Glance</h4>
-        </div>
-        <RatingsChart isLoggedIn={props.isLoggedIn} />
-      </div>
-    </div>
+          <RatingsChart isLoggedIn={props.isLoggedIn} />
+        
+
+          {/* <div className="ing-chart">
+            <IngredientChart data={ingTree} />
+          </div>
+
+          <div className="chart-section">
+            <div className="subheader">
+              <h4>Your Skin Health at a Glance</h4>
+            </div>
+          </div> */}
+        </Col>
+        <Col lg={3} className="product-analysis">
+          {/* <IngredientChart data={ingTree} /> */}
+          <p>test element</p>
+        </Col>
+      </Row>
+    </Container>
   );
 }
