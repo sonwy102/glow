@@ -48,7 +48,14 @@ const Profile = (props) => {
   return (
     <div className="user-profile-section">
       <div className="profile-photo">
-        <img src={props.userInfo.photo}></img>
+        {/* <img src={props.userInfo.photo}></img> */}
+        {/* <img src='/static/img/user/profile_photo.jpg'></img> */}
+        <Image
+          cloudName="sonwy102"
+          publicId="glowImg/pexels-daria-shevtsova-3673757_etinuw.jpg"
+        >
+          <Transformation height="400" radius="max" width="400" crop="fill" />
+        </Image>
       </div>
       <div className="user-info-1">
         <h3>{props.userInfo.name}</h3>
