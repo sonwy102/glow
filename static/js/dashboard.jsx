@@ -10,7 +10,29 @@ const Dashboard = (props) => {
   const [ingTree, setIngTree] = React.useState({'data': 'loading...', 'children': 'loading...'});
   console.log('ingTree: ', ingTree)
 
+  const [daysHighlight, setDaysHighlight] = React.useState({
+    routine_count: 0,
+    routine_ratio: { "loading routine": "loading routine ratio..." },
+  });
 
+  const [productHighlight, setProductHighlight] = React.useState({
+    product_count: 0,
+    product_data: { "loading name": "loading count..." },
+  });
+
+  const [ingHighlight, setIngHighlight] = React.useState({
+    ing_count: 0,
+  });
+
+  const fetchUserHighlights = async () => {
+    fetch(`/get-highlights/${props.isLoggedIn}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setProductHighlight(data.productHighlight);
+        setDaysHighlight(data.daysHighlight);
+        setIngHighlight(data.ingHighlight);
+      });
+  };
 
   const fetchIngTree = async () => {
     fetch("/ingredient-analysis.json")
@@ -21,12 +43,13 @@ const Dashboard = (props) => {
   };
   
   React.useEffect(() => {
+    fetchUserHighlights();
     fetchIngTree();
   }, []);
   
   if (!props.isLoggedIn) {
     // redirect user to login page
-    history.push("/login");
+    history.push("/");
   }
   return (
     <Container fluid className="dashboard-page">
@@ -42,12 +65,12 @@ const Dashboard = (props) => {
         <Col lg={6} className="dashboard">
           <h1>My Dashboard</h1>
 
-          <UserHighlights
-            isLoggedIn={props.isLoggedIn}
+          <RoutineHighlights
+            daysHighlight={daysHighlight}
             userInfo={props.userInfo}
-          ></UserHighlights>
+          />
 
-          <h4>Your Skin Health at a Glance</h4>
+          <h4>My Skin Health at a Glance</h4>
           <Tabs defaultActiveKey="ratings-chart" id="chart-tabs">
             <Tab eventKey="ratings-chart" title="Goals">
               <RatingsChart isLoggedIn={props.isLoggedIn} />
@@ -57,6 +80,13 @@ const Dashboard = (props) => {
             </Tab>
           </Tabs>
 
+        </Col>
+
+        <Col lg={3} className="dashboard">
+          <ProductHighlights
+            productHighlight={productHighlight}
+            ingHighlight={ingHighlight}
+          ></ProductHighlights>
         </Col>
       </Row>
     </Container>
