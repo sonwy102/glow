@@ -36,37 +36,64 @@ const UserHighlights = (props) => {
   }, []);
 
   return (
-    <div className="highlights-section">
-      <div className="subheader">
-        <h4>Highlights</h4>
-      </div>
-      <div className="product-highlight">
+    <Container fluid className="highlights-section">
+      <Row className="subheader">
+        <Col>
+          <h4>Highlights</h4>
+        </Col>
+      </Row>
+      <Row className="highlights">
+        <Col lg={6}>
+          <Card bg="light">
+            <Card.Title>
+              {daysHighlight.routine_count} days of skincare
+            </Card.Title>
+            <Card.Body>
+              <RoutineRatioChart
+                routineRatioKeys={Object.keys(daysHighlight.routine_ratio)}
+                routineRatioValues={Object.values(daysHighlight.routine_ratio)}
+              />
+            </Card.Body>
+          </Card>
+        </Col>
+
+        <Col lg={6}>
+          <Card bg="light">
+            <Card.Title>
+              {props.userInfo.goals.length} skin health goals
+            </Card.Title>
+            <span>
+              <Card.Img
+                className="goals-img"
+                src="/static/img/Acne.png"
+              ></Card.Img>
+              <Card.Img
+                className="goals-img"
+                src="/static/img/texture.png"
+              ></Card.Img>
+            </span>
+            
+          </Card>
+        </Col>
+      </Row>
+      {/* <div className="product-highlight">
         {productHighlight.product_count} products in my routine
         {Object.keys(productHighlight.product_data).map((productName) => (
           <li>
             {productName}: {productHighlight.product_data[productName]}
           </li>
         ))}
-      </div>
+      </div> */}
 
-      <div className="ing-highlight">
-          {ingHighlight.ing_count} ingredients in my routine
-      </div>
+      {/* <div className="ing-highlight">
+        {ingHighlight.ing_count} ingredients in my routine
+      </div> */}
 
-      <div className="days-highlight">
-        {daysHighlight.routine_count} days of skincare
-        <RoutineRatioChart 
-            routineRatioKeys={Object.keys(daysHighlight.routine_ratio)}
-            routineRatioValues={Object.values(daysHighlight.routine_ratio)}
-        />
-      </div>
-
-      <div className="goal-highlight">
-        {props.userInfo.goals.length} skin health goals
-        {/* {goalsHighlight.goal_data.map((goal) => (
+      {/* <div className="goal-highlight">
+        {goalsHighlight.goal_data.map((goal) => (
           <li>{goal.name}</li>
-        ))} */}
-      </div>
-    </div>
+        ))}
+      </div> */}
+    </Container>
   );
 };
