@@ -12,8 +12,8 @@ const Login = (props) => {
 
   console.log('loginState:', loginState)
 
-  const redirectToProfile = (sess_id) => {
-    history.push(`/profile?user=${sess_id}`);
+  const redirectToDashboard = (sess_id) => {
+    history.push(`/dashboard?user=${sess_id}`);
   };
 
   const handleInputChange = (evt) => {
@@ -42,7 +42,7 @@ const Login = (props) => {
         
         localStorage.setItem("userState", data.session_id);
         props.ensureLogIn(data.session_id);
-        redirectToProfile(data.session_id);
+        redirectToDashboard(data.session_id);
       } else {
         setLoginState((prevState) => ({ ...prevState, msg: data.msg }))
       }});
