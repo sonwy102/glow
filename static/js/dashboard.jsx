@@ -63,14 +63,14 @@ const Dashboard = (props) => {
         </Col>
 
         <Col lg={6} className="dashboard">
-          <h1>My Dashboard</h1>
+          <div className="header">My Skin at a Glance</div>
 
           <RoutineHighlights
             daysHighlight={daysHighlight}
             userInfo={props.userInfo}
           />
 
-          <h4>My Skin Health at a Glance</h4>
+          {/* <div className="subheader-lg"></div> */}
           <Tabs defaultActiveKey="ratings-chart" id="chart-tabs">
             <Tab eventKey="ratings-chart" title="Goals">
               <RatingsChart isLoggedIn={props.isLoggedIn} />

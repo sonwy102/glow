@@ -4,7 +4,10 @@ html
 }
 
 body {
-    font-family: 'Nunito', sans-serif;
+    font-family: soleil,sans-serif;
+    font-weight: 300;
+    font-style: normal;
+    line-height: 1.45;
     height:100%;
 }
 
@@ -19,18 +22,36 @@ p span {
    left: 20%;
    right: 30%;
    color: #fffaf4;
-   font-family: 'Montserrat';
-   font-weight: 800;
-   font-style: italic;
-   font-size: 48px; 
-}
-
-p span p {
-    font-weight: 300;
-    font-style: normal;
-    font-size: 16px;
    
 }
+
+.header {
+    font-weight: 600;
+    font-size: 42px; 
+    letter-spacing: 0.1em;
+    line-height: 1.75;
+
+}
+
+.subheader-lg {
+    font-weight: 500;
+    font-size: 24px;
+    letter-spacing: 0.1em;
+    line-height: 1.75;
+
+}
+
+.subheader {
+    font-size: 18px;
+    letter-spacing: 0.1em;
+    line-height: 1.75;
+
+}
+
+/* p span p {
+    font-weight: 300;
+    font-size: 16px;
+} */
 
 .navbar-transparent {
    background-color: transparent;
@@ -40,9 +61,11 @@ img.background {
     filter: brightness(0.8);
 
 }
-.profile-photo img {
-    height: 200px;
-    width: 200px;
+
+.user-profile-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .goals-img {
@@ -50,5 +73,14 @@ img.background {
 }
 .card-title {
     font-size: 2em;
+    text-align: center;
+}
+
+.adjacent-buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.center-text-align {
     text-align: center;
 }
