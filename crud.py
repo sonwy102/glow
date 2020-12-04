@@ -372,6 +372,15 @@ def get_product_by_id(product_id):
 def get_all_products():
     return Product.query.all()
 
+def get_product_by_name(product_name):
+    return Product.query.filter(Product.name == product_name).first()
+
+def get_product_without_photo():
+    return Product.query.filter(Product.photo == "").all()
+
+def get_products_with_photo():
+    return Product.query.filter(Product.photo != "").all()
+
 def get_product_usage(product_id, user_id):
     
     usage_days = RoutineProduct.query.filter(User.user_id == user_id, RoutineProduct.product_id == product_id).count()

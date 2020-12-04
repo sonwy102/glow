@@ -15,6 +15,13 @@ body {
     padding: 0;
 }
 
+.dashboard.container-fluid {
+    padding: 50px;
+}
+
+.dashboard.section {
+    padding: 25px;
+}
 p span { 
    position: absolute; 
    top: 20%;
@@ -23,6 +30,10 @@ p span {
    right: 30%;
    color: #fffaf4;
    
+}
+
+.chart-body {
+    padding: 10px;
 }
 
 .header {
@@ -53,8 +64,8 @@ p span {
     font-size: 16px;
 } */
 
-.navbar-transparent {
-   background-color: transparent;
+.navbar-col {
+    border-bottom: 4px double #dfdcdb;
 }
 
 img.background {
@@ -83,4 +94,10 @@ img.background {
 
 .center-text-align {
     text-align: center;
+}
+
+.product-photo-column {
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
 }

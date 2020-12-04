@@ -22,7 +22,7 @@ function App() {
       <Router>
         <Container fluid className="App">
           <Row>
-            <Col>
+            <Col className='navbar-col'>
               <NavBar
                 isLoggedIn={userState}
                 ensureLogIn={setUserState}

@@ -24,6 +24,8 @@ const Dashboard = (props) => {
     ing_count: 0,
   });
 
+  console.log('product highlight: ', productHighlight);
+
   const fetchUserHighlights = async () => {
     fetch(`/get-highlights/${props.isLoggedIn}`)
       .then((response) => response.json())
@@ -52,9 +54,9 @@ const Dashboard = (props) => {
     history.push("/");
   }
   return (
-    <Container fluid className="dashboard-page">
+    <Container fluid className="dashboard page">
       <Row>
-        <Col lg={3} className="user-profile">
+        <Col lg={3} className="user-profile section">
           <Profile
             isLoggedIn={props.isLoggedIn}
             userInfo={props.userInfo}
@@ -70,16 +72,16 @@ const Dashboard = (props) => {
             userInfo={props.userInfo}
           />
 
-          {/* <div className="subheader-lg"></div> */}
-          <Tabs defaultActiveKey="ratings-chart" id="chart-tabs">
-            <Tab eventKey="ratings-chart" title="Goals">
-              <RatingsChart isLoggedIn={props.isLoggedIn} />
-            </Tab>
-            <Tab eventKey="ing-chart" title="Ingredients">
-              <IngredientChart data={ingTree} />
-            </Tab>
-          </Tabs>
-
+          <Container className="dashboard chart section">
+            <Tabs defaultActiveKey="ratings-chart" id="chart-tabs">
+              <Tab eventKey="ratings-chart" title="Goals">
+                <RatingsChart isLoggedIn={props.isLoggedIn} />
+              </Tab>
+              <Tab eventKey="ing-chart" title="Ingredients">
+                <IngredientChart data={ingTree} />
+              </Tab>
+            </Tabs>
+          </Container>
         </Col>
 
         <Col lg={3} className="dashboard">

@@ -323,10 +323,8 @@ def get_user_highlights(user_id):
         for product in routine_products:
             brand = crud.get_brand_by_id(product.brand_id)
             product_name = f'{brand.name} {product.name}'
-            if product_name in products:
-                products[product_name] += 1
-            else: 
-                products[product_name] = 1
+            products[product_name] = product.photo
+
             product_ings = crud.get_product_ing_by_product(product.id)
             for product_ing in product_ings:
                 ing = crud.get_ing_by_id(product_ing.ingredient_id) 

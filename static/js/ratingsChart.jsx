@@ -103,7 +103,7 @@ const RatingsChart = (props) => {
   }
   return (
     <div className="chart-section">
-      <div className="chart-ratings">
+      <div className="goal-ratings chart-body">
         {viewOption === "week" &&
           <Line data={weekChartData}></Line>
         }
@@ -121,9 +121,9 @@ const RatingsChart = (props) => {
           name="view-options"
           onChange={handleViewBtnChange}
         >
-          <ToggleButton variant="outline-primary" value="week">This Week</ToggleButton>
-          <ToggleButton variant="outline-primary" value="month">This Month</ToggleButton>
-          <ToggleButton variant="outline-primary" value="year">This Year</ToggleButton>
+          <ToggleButton variant="outline-dark" value="week">This Week</ToggleButton>
+          <ToggleButton variant="outline-dark" value="month">This Month</ToggleButton>
+          <ToggleButton variant="outline-dark" value="year">This Year</ToggleButton>
         </ToggleButtonGroup>
         
       </div>

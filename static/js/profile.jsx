@@ -77,10 +77,10 @@ const Profile = (props) => {
           </ul>
         </div>
         <div className="adjacent-buttons">
-          <Button variant="outline-primary" onClick={redirectToEditProfile}>
+          <Button variant="outline-dark" onClick={redirectToEditProfile}>
             Edit Profile
           </Button>
-          <Button variant="primary" onClick={redirectToRoutine}>
+          <Button variant="outline-dark" onClick={redirectToRoutine}>
             Add Routine
           </Button>
         </div>

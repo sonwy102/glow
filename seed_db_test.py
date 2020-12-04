@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
 def update_product_photo():
 
-    products = crud.get_all_products()
+    products = crud.get_product_without_photo()
     imgs = {}
     
     for product in products:

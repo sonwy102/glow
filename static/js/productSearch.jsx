@@ -33,7 +33,7 @@ const ProductSearch = (props) => {
         >
         </Form.Control>
 
-        <Button type="submit" className="mb-2">
+        <Button variant="dark" type="submit" className="mb-2">
           Search
         </Button>
       </Form>

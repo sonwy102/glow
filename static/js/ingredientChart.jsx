@@ -164,9 +164,8 @@ const IngredientChart = (props) => {
   };
 
   return (
-    <div>
+    <div className="ing-analysis chart-body">
       <svg ref={d3Container}>
-
       </svg>
     </div>
   );
