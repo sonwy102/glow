@@ -1,15 +1,15 @@
 const RoutineHighlights = (props) => {
   return (
     <Container fluid className="highlights-section">
-      <Row className="subheader">
+      <Row>
         <Col>
-          <h4>Highlights</h4>
+          <div className="subheader">Highlights</div>
         </Col>
       </Row>
       <Row className="highlights">
         <Col lg={6}>
           <Card bg="light">
-            <Card.Title>
+            <Card.Title className="subheader">
               {props.daysHighlight.routine_count} days of skincare
             </Card.Title>
             <Card.Body>
@@ -23,7 +23,7 @@ const RoutineHighlights = (props) => {
 
         <Col lg={6}>
           <Card bg="light">
-            <Card.Title>
+            <Card.Title className="subheader">
               {props.userInfo.goals.length} skin health goals
             </Card.Title>
             <span>
