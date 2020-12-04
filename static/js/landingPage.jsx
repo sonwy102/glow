@@ -13,8 +13,10 @@ const LandingPage = () => {
             src="https://res.cloudinary.com/sonwy102/image/upload/v1606939007/glowImg/skin-medium_elynjh.png"
           ></img>
           <p>
-            <span className="header">
-              Start Your Journey towards Healthier Skin Today.
+            <span>
+              <div className="header">
+                Start Your Journey towards Healthier Skin Today.
+              </div>
               <p>
                 Say hello to Glow, a personalized goal and routine tracker to
                 truly understand your skin from within.
