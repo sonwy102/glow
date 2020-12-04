@@ -46,7 +46,7 @@ const Profile = (props) => {
   }
 
   return (
-    <div className="user-profile-section">
+    <div className="user-profile-column">
       <div className="profile-photo">
         {/* <img src={props.userInfo.photo}></img> */}
         {/* <img src='/static/img/user/profile_photo.jpg'></img> */}
@@ -54,33 +54,37 @@ const Profile = (props) => {
           cloudName="sonwy102"
           publicId="glowImg/pexels-daria-shevtsova-3673757_etinuw.jpg"
         >
-          <Transformation height="400" radius="max" width="400" crop="fill" />
+          <Transformation height="300" radius="max" width="300" crop="fill" />
         </Image>
       </div>
-      <div className="user-info-1">
-        <h3>{props.userInfo.name}</h3>
-        <p>{props.userInfo.email}</p>
+      <div className="user-info">
+        <div className="user-info-1 center-text-align">
+          <div className="subheader-lg">{props.userInfo.name}</div>
+          <p>{props.userInfo.email}</p>
+        </div>
+        <div className="user-info-2">
+          <div className="subheader">My Skin Types:</div>
+          <ul className="skin-types">
+            {props.userInfo.skinTypes.map((skinType) => (
+              <li>{skinType.name}</li>
+            ))}
+          </ul>
+          <div className="subheader">My Skin Goals:</div>
+          <ul className="skin-goals">
+            {props.userInfo.goals.map((goal) => (
+              <li>{goal.name}</li>
+            ))}
+          </ul>
+        </div>
+        <div className="adjacent-buttons">
+          <Button variant="outline-primary" onClick={redirectToEditProfile}>
+            Edit Profile
+          </Button>
+          <Button variant="primary" onClick={redirectToRoutine}>
+            Add Routine
+          </Button>
+        </div>
       </div>
-      <div className="user-info-2">
-        <div>Skin Types</div>
-        <ul className="skin-types">
-          {props.userInfo.skinTypes.map((skinType) => (
-            <li>{skinType.name}</li>
-          ))}
-        </ul>
-        <div>Skin Health Goals You are Working On:</div>
-        <ul className="skin-goals">
-          {props.userInfo.goals.map((goal) => (
-            <li>{goal.name}</li>
-          ))}
-        </ul>
-      </div>
-      <Button variant="outline-primary" onClick={redirectToEditProfile}>
-        Edit Profile
-      </Button>
-      <Button variant="primary" onClick={redirectToRoutine}>
-        Add Routine
-      </Button>
     </div>
   );
 }
