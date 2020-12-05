@@ -21,13 +21,15 @@ const Routine = (props) => {
   const [latestProducts, setLatestProducts] = React.useState([]);
   const [latestGoalRatings, setLatestGoalRatings] = React.useState([]);
   const [routineState, setRoutineState] = React.useState({
-    journalTime: "",
+    journalTime: "AM",
     journalDate: today_date,
     products: [],
     goals: latestGoalRatings,
     notes: null,
     photo: null
   });
+
+  console.log('routine state: ', routineState);
 
   const fetchProductData = async () => {
     fetch(`/routine-products.json/${props.isLoggedIn}`)
@@ -74,6 +76,10 @@ const Routine = (props) => {
     setRoutineState((prevState) => ({ ...prevState, [name]: value }));
   };
 
+  const handleTimeBtnChange = (val) => {
+    setRoutineState((prevState) => ({ ...prevState, journalTime: val }));
+  };
+
   const handleProductChange = (evt) => {
     setRoutineState((prevState) => ({ ...prevState, products: evt}))
   };
@@ -114,116 +120,140 @@ const Routine = (props) => {
     history.push('/login') 
   }
   return (
-    <div className="routine-page" onSubmit={handleSubmit}>
-      <form className="routine-form">
-        <h2>Your Routine Today</h2>
+    <Container className="routine page">
+      <Row>
+        <div className="header center-text-align">Your Routine Today</div>
+      </Row>
 
-        <div className="form-group" required onChange={handleInputChange}>
-          <div className="form-check form-check-inline">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="journalTime"
-              id="radio-AM"
-              value="AM"
-            />
-            <label className="form-check-label" htmlFor="radioAM">
-              AM
-            </label>
-          </div>
-          <div className="form-check form-check-inline">
-            <input
-              className="form-check-input"
-              type="radio"
-              name="journalTime"
-              id="radio-PM"
-              value="PM"
-            />
-            <label className="form-check-label" htmlFor="radioPM">
-              PM
-            </label>
-          </div>
-        </div>
+      <Row>
+        <Col lg={12} className="routine-form">
+          <Row className="journal-time-date-group section">
+            <Col lg={3} className="journal-time-group">
+              <div className="label">TIME</div>
+              <ToggleButtonGroup
+                type="radio"
+                defaultValue="AM"
+                name="journalTime"
+                onChange={handleTimeBtnChange}
+              >
+                <ToggleButton variant="flat" value="AM">
+                  AM
+                </ToggleButton>
+                <ToggleButton variant="flat" value="PM">
+                  PM
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Col>
 
-        <div className="form-group">
-          <label htmlFor="journal-date-field">Date:</label>
-          <input
-            type="date"
-            name="journalDate"
-            required
-            defaultValue={today_date}
-            onChange={handleInputChange}
-          ></input>
-        </div>
-
-        <div className="form-group">
-          <h3>Products you used today </h3>
-
-          <Select
-            className="js-basic-multiple"
-            name="products"
-            isMulti
-            options = {productOptions}
-            onChange={handleProductChange}
-          />
-          {/* // TODO: what about new products that aren't in previous routine? 
-              // TODO: look up debounce */}
-        
-        </div>
-
-        <div className="form-group">
-          <h3>Check in with your goals.</h3>
-          <p>How are you feeling about your goals?</p>
-
-          {/* // // TODO: dynamically display user's goals with ajax request to db 
-            // // TODO: pre-populate range value with latest value 
-            // TODO: add tickmarks and labels on range later
-            // TODO: add "update goals button" later  
-          */}
-
-
-          {latestGoalRatings.map((result) => (
-            <React.Fragment>
-              <label htmlFor="formControlRange">{result.name}</label>
+            <Col lg={3} className="journal-date-group">
+              <div className="label">DATE</div>
               <input
-                type="range"
-                className="form-control-range"
-                name={result.id}
-                id="formControlRange"
-                max="10"
-                defaultValue={result.rating}
-                onInput={handleGoalChange}
+                type="date"
+                className="btn btn-flat journal-date-field left-text-align"
+                name="journalDate"
+                required
+                defaultValue={today_date}
+                onChange={handleInputChange}
               ></input>
-            </React.Fragment>
-          ))}
-        </div>
+            </Col>
+          </Row>
 
-        <div className="form-group">
-          <h3>Notes</h3>
+          <Row className="products-group section">
+            <Col className="products-group">
+              <div className="subheader-lg">Products you used today </div>
+              <Select
+                className="js-basic-multiple"
+                name="products"
+                isMulti
+                options={productOptions}
+                theme={(theme) => ({
+                  ...theme,
+                  colors: {
+                    ...theme.colors,
+                    primary25: "hsl(0, 0%, 90%)",
+                    primary: "#d7c0b6",
+                  },
+                })}
+                onChange={handleProductChange}
+              />
+              {/* // TODO: what about new products that aren't in previous routine? 
+                // TODO: look up debounce */}
+            </Col>
+          </Row>
 
-          <label htmlFor="notesTextArea"></label>
-          <textarea
-            className="form-control"
-            name="notes"
-            id="notes-text-area"
-            rows="3"
-            onChange={handleInputChange}
-          ></textarea>
+          <Row className="goals-group section">
+            <Col className="goals-group">
+              <div className="subheader-lg">Check in with your goals.</div>
+              <div className="label">HOW ARE YOU FEELING ABOUT YOUR GOALS?</div>
 
-          <label htmlFor="photoFileInput"></label>
-          <input
-            type="file"
-            className="form-control-file"
-            name="photo"
-            id="photo-input"
-            onChange={handleInputChange}
-          ></input>
-        </div>
+              {/* // // TODO: dynamically display user's goals with ajax request to db 
+              // // TODO: pre-populate range value with latest value 
+              // TODO: add tickmarks and labels on range later
+              // TODO: add "update goals button" later  
+            */}
 
-        <Button variant="primary" type="submit">
-          Save
-        </Button>
-      </form>
-    </div>
+              {latestGoalRatings.map((result) => (
+                <div className="goals-group subsection">
+                  <div className="goal-rating-field">{result.name}</div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="10"
+                    step="1"
+                    className="form-control-range custom-range"
+                    name={result.id}
+                    defaultValue={result.rating}
+                    onInput={handleGoalChange}
+                  ></input>
+                  <div className="label tickmarks">
+                    <p>0</p>
+                    <p>2</p>
+                    <p>4</p>
+                    <p>6</p>
+                    <p>8</p>
+                    <p>10</p>
+                  </div>
+                </div>
+              ))}
+            </Col>
+          </Row>
+
+          <Row className="notes-group section no-top-padding">
+            <Col className="notes-group">
+              <div className="subheader-lg">Notes</div>
+              <div className="label">REFLECT ON TODAY'S JOURNEY.</div>
+              <textarea
+                className="form-control"
+                name="notes"
+                id="notes-text-area"
+                rows="3"
+                onChange={handleInputChange}
+              ></textarea>
+
+              <label htmlFor="photoFileInput"></label>
+              <input
+                type="file"
+                className="form-control-file"
+                name="photo"
+                id="photo-input"
+                onChange={handleInputChange}
+              ></input>
+            </Col>
+          </Row>
+
+          <Row className="button-group section">
+            <Col className="button-group">
+              <Button
+                variant="flat-important"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Save
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Container>
   );
 }

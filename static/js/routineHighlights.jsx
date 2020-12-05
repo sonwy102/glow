@@ -1,6 +1,6 @@
 const RoutineHighlights = (props) => {
   return (
-    <Container fluid className="dashboard highlights section">
+    <Container fluid className="highlights section">
       <Row className="highlights">
         <Col lg={6}>
           <Card bg="light">
