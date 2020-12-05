@@ -136,10 +136,27 @@ img.background {
 
 }
 
+.btn-flat:hover {
+    border-color: #d7c0b6;
+    background-color: #d7c0b6;
+
+}
+
 .btn-flat-important {
     border-color: #d7c0b6;
     background-color: #d7c0b6;
 }
+
+.btn-flat-dark {
+    border-color: #95807A;
+    color: #95807A;
+}
+
+.important {
+    background-color: #95807A;
+    color: #FFFAF4;
+}
+
 .tickmarks {
     display: flex;
     justify-content: space-between;

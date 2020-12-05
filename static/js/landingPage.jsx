@@ -21,10 +21,10 @@ const LandingPage = () => {
                 Say hello to Glow, a personalized goal and routine tracker to
                 truly understand your skin from within.
               </p>
-              <Button href="/register" variant="light" size="lg">
+              <Button href="/register" variant="flat-important" size="lg">
                 Sign Up
               </Button>
-              <Button href="/login" variant="light" size="lg">
+              <Button href="/login" variant="flat-important" size="lg">
                 Log In
               </Button>
             </span>

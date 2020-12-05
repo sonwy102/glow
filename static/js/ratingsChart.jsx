@@ -121,9 +121,9 @@ const RatingsChart = (props) => {
           name="view-options"
           onChange={handleViewBtnChange}
         >
-          <ToggleButton variant="outline-dark" value="week">This Week</ToggleButton>
-          <ToggleButton variant="outline-dark" value="month">This Month</ToggleButton>
-          <ToggleButton variant="outline-dark" value="year">This Year</ToggleButton>
+          <ToggleButton variant="flat" value="week">This Week</ToggleButton>
+          <ToggleButton variant="flat" value="month">This Month</ToggleButton>
+          <ToggleButton variant="flat" value="year">This Year</ToggleButton>
         </ToggleButtonGroup>
         
       </div>
