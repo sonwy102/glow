@@ -120,140 +120,144 @@ const Routine = (props) => {
     history.push('/login') 
   }
   return (
-    <Container className="routine page">
-      <Row>
-        <div className="header center-text-align">Your Routine Today</div>
-      </Row>
+    <div className="routine body">
+      <Container className="routine page">
+        <Row>
+          <div className="header center-text-align">Your Routine Today</div>
+        </Row>
 
-      <Row>
-        <Col lg={12} className="routine-form">
-          <Row className="journal-time-date-group section">
-            <Col lg={3} className="journal-time-group">
-              <div className="label">TIME</div>
-              <ToggleButtonGroup
-                type="radio"
-                defaultValue="AM"
-                name="journalTime"
-                onChange={handleTimeBtnChange}
-              >
-                <ToggleButton variant="flat" value="AM">
-                  AM
-                </ToggleButton>
-                <ToggleButton variant="flat" value="PM">
-                  PM
-                </ToggleButton>
-              </ToggleButtonGroup>
-            </Col>
+        <Row className="routine-form body">
+          <Col lg={12} className="routine-form">
+            <Row className="journal-time-date-group section">
+              <Col lg={3} className="journal-time-group">
+                <div className="label">TIME</div>
+                <ToggleButtonGroup
+                  type="radio"
+                  defaultValue="AM"
+                  name="journalTime"
+                  onChange={handleTimeBtnChange}
+                >
+                  <ToggleButton variant="flat" value="AM">
+                    AM
+                  </ToggleButton>
+                  <ToggleButton variant="flat" value="PM">
+                    PM
+                  </ToggleButton>
+                </ToggleButtonGroup>
+              </Col>
 
-            <Col lg={3} className="journal-date-group">
-              <div className="label">DATE</div>
-              <input
-                type="date"
-                className="btn btn-flat journal-date-field left-text-align"
-                name="journalDate"
-                required
-                defaultValue={today_date}
-                onChange={handleInputChange}
-              ></input>
-            </Col>
-          </Row>
+              <Col lg={3} className="journal-date-group">
+                <div className="label">DATE</div>
+                <input
+                  type="date"
+                  className="btn btn-flat journal-date-field left-text-align"
+                  name="journalDate"
+                  required
+                  defaultValue={today_date}
+                  onChange={handleInputChange}
+                ></input>
+              </Col>
+            </Row>
 
-          <Row className="products-group section">
-            <Col className="products-group">
-              <div className="subheader-lg">Products you used today </div>
-              <Select
-                className="js-basic-multiple"
-                name="products"
-                isMulti
-                options={productOptions}
-                theme={(theme) => ({
-                  ...theme,
-                  colors: {
-                    ...theme.colors,
-                    primary25: "hsl(0, 0%, 90%)",
-                    primary: "#d7c0b6",
-                  },
-                })}
-                onChange={handleProductChange}
-              />
-              {/* // TODO: what about new products that aren't in previous routine? 
+            <Row className="products-group section">
+              <Col className="products-group">
+                <div className="subheader-lg">Products you used today </div>
+                <Select
+                  className="js-basic-multiple"
+                  name="products"
+                  isMulti
+                  options={productOptions}
+                  theme={(theme) => ({
+                    ...theme,
+                    colors: {
+                      ...theme.colors,
+                      primary25: "hsl(0, 0%, 90%)",
+                      primary: "#d7c0b6",
+                    },
+                  })}
+                  onChange={handleProductChange}
+                />
+                {/* // TODO: what about new products that aren't in previous routine? 
                 // TODO: look up debounce */}
-            </Col>
-          </Row>
+              </Col>
+            </Row>
 
-          <Row className="goals-group section">
-            <Col className="goals-group">
-              <div className="subheader-lg">Check in with your goals.</div>
-              <div className="label">HOW ARE YOU FEELING ABOUT YOUR GOALS?</div>
+            <Row className="goals-group section">
+              <Col className="goals-group">
+                <div className="subheader-lg">Check in with your goals.</div>
+                <div className="label">
+                  HOW ARE YOU FEELING ABOUT YOUR GOALS?
+                </div>
 
-              {/* // // TODO: dynamically display user's goals with ajax request to db 
+                {/* // // TODO: dynamically display user's goals with ajax request to db 
               // // TODO: pre-populate range value with latest value 
               // TODO: add tickmarks and labels on range later
               // TODO: add "update goals button" later  
             */}
 
-              {latestGoalRatings.map((result) => (
-                <div className="goals-group subsection">
-                  <div className="goal-rating-field">{result.name}</div>
-                  <input
-                    type="range"
-                    min="0"
-                    max="10"
-                    step="1"
-                    className="form-control-range custom-range"
-                    name={result.id}
-                    defaultValue={result.rating}
-                    onInput={handleGoalChange}
-                  ></input>
-                  <div className="label tickmarks">
-                    <p>0</p>
-                    <p>2</p>
-                    <p>4</p>
-                    <p>6</p>
-                    <p>8</p>
-                    <p>10</p>
+                {latestGoalRatings.map((result) => (
+                  <div className="goals-group subsection">
+                    <div className="goal-rating-field">{result.name}</div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="10"
+                      step="1"
+                      className="form-control-range custom-range"
+                      name={result.id}
+                      defaultValue={result.rating}
+                      onInput={handleGoalChange}
+                    ></input>
+                    <div className="label tickmarks">
+                      <p>0</p>
+                      <p>2</p>
+                      <p>4</p>
+                      <p>6</p>
+                      <p>8</p>
+                      <p>10</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </Col>
-          </Row>
+                ))}
+              </Col>
+            </Row>
 
-          <Row className="notes-group section no-top-padding">
-            <Col className="notes-group">
-              <div className="subheader-lg">Notes</div>
-              <div className="label">REFLECT ON TODAY'S JOURNEY.</div>
-              <textarea
-                className="form-control"
-                name="notes"
-                id="notes-text-area"
-                rows="3"
-                onChange={handleInputChange}
-              ></textarea>
+            <Row className="notes-group section no-top-padding">
+              <Col className="notes-group">
+                <div className="subheader-lg">Notes</div>
+                <div className="label">REFLECT ON TODAY'S JOURNEY.</div>
+                <textarea
+                  className="form-control"
+                  name="notes"
+                  id="notes-text-area"
+                  rows="3"
+                  onChange={handleInputChange}
+                ></textarea>
 
-              <label htmlFor="photoFileInput"></label>
-              <input
-                type="file"
-                className="form-control-file"
-                name="photo"
-                id="photo-input"
-                onChange={handleInputChange}
-              ></input>
-            </Col>
-          </Row>
+                <label htmlFor="photoFileInput"></label>
+                <input
+                  type="file"
+                  className="form-control-file"
+                  name="photo"
+                  id="photo-input"
+                  onChange={handleInputChange}
+                ></input>
+              </Col>
+            </Row>
 
-          <Row className="button-group section">
-            <Col className="button-group">
-              <Button
-                variant="flat-important"
-                type="submit"
-                onClick={handleSubmit}
-              >
-                Save
-              </Button>
-            </Col>
-          </Row>
-        </Col>
-      </Row>
-    </Container>
+            <Row className="button-group section">
+              <Col className="button-group">
+                <Button
+                  variant="flat-important"
+                  type="submit"
+                  onClick={handleSubmit}
+                >
+                  Save
+                </Button>
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
