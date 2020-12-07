@@ -2,7 +2,6 @@ const NavBar = (props) => {
   
   return (
     <Navbar className="navbar-transparent">
-      {/* <Nav className="navbar-transparent"> */}
       <Navbar.Collapse id="basic-navbar-nav">
         {props.isLoggedIn ? (
           <Navbar.Brand href={`/dashboard?user=${props.isLoggedIn}`}>

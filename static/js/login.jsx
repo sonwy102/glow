@@ -54,50 +54,69 @@ const Login = (props) => {
   };
 
   return (
-    <div className="login-page">
-      <div className="alert-msg">{loginState.msg}</div>
-      <form onSubmit={handleSubmit} className="form-signin">
-        <h2 className="form-signin-heading">Log In</h2>
+    <Container className="login page">
+      {loginState.msg ? (
+        <Row>
+          <Col>
+            <Alert variant="danger">{loginState.msg}</Alert>
+          </Col>
+        </Row>
+      ) : null}
 
-        <div className="form-group">
-          <label htmlFor="email-field" className="sr-only">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control input-lg"
-            placeholder="Email Address"
-            required
-            autoFocus
-            onChange={handleInputChange}
-          ></input>
-        </div>
+      <Row className="justify-center">
+        <Col lg={6} className="formbox body extra-margin">
+          <form onSubmit={handleSubmit} className="form-signin">
+            <div className="subheader-lg subsection">Sign In</div>
 
-        <div className="form-group">
-          <label htmlFor="password-field" className="sr-only">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            className="form-control input-lg"
-            placeholder="Password"
-            required
-            onChange={handleInputChange}
-          ></input>
-        </div>
+            <div className="login subsection">
+              <div className="form-group">
+                <label htmlFor="email-field" className="sr-only">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control input-lg"
+                  placeholder="Email Address"
+                  required
+                  autoFocus
+                  onChange={handleInputChange}
+                ></input>
+              </div>
 
-        <Button variant="primary" type="submit">
-          Log In
-        </Button>
-      </form>
-      <div className="signup-link">
-        <span>Don't have an account?</span>
-        <Button variant="outline-primary" onClick={redirectToRegister}>
-          Sign Up
-        </Button>
-      </div>
-    </div>
+              <div className="form-group">
+                <label htmlFor="password-field" className="sr-only">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control input-lg"
+                  placeholder="Password"
+                  required
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+
+              <Button variant="flat-important" type="submit">
+                Sign In
+              </Button>
+
+              <div className="signup">
+                <span>Don't have an account?</span>
+                <Button variant="link" onClick={redirectToRegister}>
+                  Sign Up
+                </Button>
+              </div>
+            </div>
+          </form>
+        </Col>
+      </Row>
+
+      {/* <Row>
+          <Col className="signup-link">Sign Up</Button>
+        </Col>
+      </Row> */}
+    </Container>
   );
 };
