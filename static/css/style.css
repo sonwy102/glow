@@ -200,8 +200,8 @@ body {
     align-items: center;
 }
 
-.extra-margin-vertical {
-    margin: 10px 0px;
+.subsection-vertical {
+    padding: 10px 0px;
 }
 
 .toggle-group {

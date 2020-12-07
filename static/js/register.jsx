@@ -138,9 +138,18 @@ const Register = (props) => {
                 ></input>
               </div>
 
-              <Button className="extra-margin-vertical" variant="flat-important" type="submit">
-                Sign Up
-              </Button>
+              <div className="subsection-vertical">
+                <Button variant="flat-important" type="submit">
+                  Sign Up
+                </Button>
+
+                <div className="signup">
+                  <span>Already have an account?</span>
+                  <Button variant="link" onClick={redirectToLogin}>
+                    Sign In
+                  </Button>
+                </div>
+              </div>
             </div>
           </form>
         </Col>
