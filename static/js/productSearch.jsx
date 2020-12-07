@@ -25,7 +25,7 @@ const ProductSearch = (props) => {
         </Form.Label>
         <Form.Control
           name="product-search"
-          className="mb-2 mr-sm-2"
+          className="mr-sm-2"
           id="search-field"
           placeholder="Search for a product"
           required
@@ -33,7 +33,7 @@ const ProductSearch = (props) => {
         >
         </Form.Control>
 
-        <Button variant="flat-dark important" type="submit" className="mb-2">
+        <Button variant="flat-dark important" type="submit">
           Search
         </Button>
       </Form>

@@ -1,7 +1,7 @@
 const NavBar = (props) => {
   
   return (
-    <Navbar className="navbar-transparent">
+    <Navbar bg="light" fixed="top">
       <Navbar.Collapse id="basic-navbar-nav">
         {props.isLoggedIn ? (
           <Navbar.Brand href={`/dashboard?user=${props.isLoggedIn}`}>
@@ -21,7 +21,7 @@ const NavBar = (props) => {
           </Navbar.Brand>
         )}
 
-        <Nav className="mr-sm-2">
+        <Nav>
           <ProductSearch
             searchTerms={props.searchTerms}
             setSearchParams={props.setSearchParams}
@@ -42,6 +42,5 @@ const NavBar = (props) => {
         )}
       </Navbar.Collapse>
     </Navbar>
-    // </Navbar>
   );
 }
