@@ -195,3 +195,7 @@ img.background {
     display: flex;
     align-items: center;
 }
+
+.extra-margin-vertical {
+    margin: 10px 0px;
+}

@@ -61,95 +61,94 @@ const Register = (props) => {
   };
 
   return (
-    <div className="register-page">
-      <div className="alert-msg">{registerState.statusMsg}</div>
-      <form onSubmit={handleSubmit} className="form-register">
-        <h2 className="form-register-heading">Sign Up</h2>
+    <Container className="register page">
+      {registerState.statusMsg ? (
+        <Row>
+          <Col>
+            <Alert variant="danger">{registerState.statusMsg}</Alert>
+          </Col>
+        </Row>
+      ) : null}
 
-        <div className="form-group">
-          <label htmlFor="email-field" className="sr-only">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            className="form-control input-lg"
-            placeholder="Email Address"
-            required
-            autoFocus
-            onChange={handleInputChange}
-          ></input>
-        </div>
+      <Row className="justify-center">
+        <Col lg={6} className="formbox body extra-margin section">
+          <form onSubmit={handleSubmit} className="form-register">
+            <div className="subheader-lg subsection">Sign Up</div>
 
-        <div className="form-group">
-          <label htmlFor="password-field" className="sr-only">
-            Password
-          </label>
-          <input
-            type="password"
-            name="password"
-            className="form-control input-lg"
-            placeholder="Password"
-            required
-            onChange={handleInputChange}
-          ></input>
-        </div>
+            <div className="register subsection">
+              <div className="form-group">
+                <div className="label">EMAIL</div>
+                <input
+                  type="email"
+                  name="email"
+                  className="form-control input-lg"
+                  required
+                  autoFocus
+                  onChange={handleInputChange}
+                ></input>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="password-confirm-field" className="sr-only">
-            Confirm Password
-          </label>
-          <input
-            type="password"
-            name="passwordConfirm"
-            className="form-control input-lg"
-            placeholder="Confirm Password"
-            required
-            onChange={handleInputChange}
-          ></input>
-        </div>
+              <div className="form-group">
+                <div className="label">PASSWORD</div>
+                <input
+                  type="password"
+                  name="password"
+                  className="form-control input-lg"
+                  required
+                  onChange={handleInputChange}
+                ></input>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="first-name-field" className="sr-only">
-            First Name
-          </label>
-          <input
-            type="first-name"
-            name="firstName"
-            className="form-control input-lg"
-            placeholder="First Name"
-            required
-            onChange={handleInputChange}
-          ></input>
-        </div>
+              <div className="form-group">
+                <div className="label">CONFIRM PASSWORD</div>
+                <input
+                  type="password"
+                  name="passwordConfirm"
+                  className="form-control input-lg"
+                  required
+                  onChange={handleInputChange}
+                ></input>
+              </div>
 
-        <div className="form-group">
-          <label htmlFor="last-name-field" className="sr-only">
-            Last Name
-          </label>
-          <input
-            type="last-name"
-            name="lastName"
-            className="form-control input-lg"
-            placeholder="Last Name"
-            required
-            onChange={handleInputChange}
-          ></input>
-        </div>
-        <div className="form-group">
-          <label htmlFor="birthday-field">Your Birthday:</label>
-          <input
-            type="date"
-            name="birthday"
-            min="1940-01-01"
-            required
-            onChange={handleInputChange}
-          ></input>
-        </div>
-        <Button variant="primary" type="submit">
-          Sign Up
-        </Button>
-      </form>
-    </div>
+              <div className="form-group">
+                <div className="label">FIRST NAME</div>
+                <input
+                  type="first-name"
+                  name="firstName"
+                  className="form-control input-lg"
+                  required
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+
+              <div className="form-group">
+                <div className="label">LAST NAME</div>
+                <input
+                  type="last-name"
+                  name="lastName"
+                  className="form-control input-lg"
+                  required
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+              <div className="form-group">
+                <div className="label">BIRTHDAY</div>
+                <input
+                  type="date"
+                  name="birthday"
+                  min="1940-01-01"
+                  required
+                  onChange={handleInputChange}
+                ></input>
+              </div>
+
+              <Button className="extra-margin-vertical" variant="flat-important" type="submit">
+                Sign Up
+              </Button>
+            </div>
+          </form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
