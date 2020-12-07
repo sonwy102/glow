@@ -9,8 +9,12 @@ const RoutineHighlights = (props) => {
             </Card.Title>
             <Card.Body>
               <RoutineRatioChart
-                routineRatioKeys={Object.keys(props.daysHighlight.routine_ratio)}
-                routineRatioValues={Object.values(props.daysHighlight.routine_ratio)}
+                routineRatioKeys={Object.keys(
+                  props.daysHighlight.routine_ratio
+                )}
+                routineRatioValues={Object.values(
+                  props.daysHighlight.routine_ratio
+                )}
               />
             </Card.Body>
           </Card>
@@ -21,16 +25,27 @@ const RoutineHighlights = (props) => {
             <Card.Title className="subheader">
               {props.userInfo.goals.length} skin health goals
             </Card.Title>
-            <span>
-              <Card.Img
-                className="goals-img"
-                src="/static/img/Acne.png"
-              ></Card.Img>
-              <Card.Img
-                className="goals-img"
-                src="/static/img/texture.png"
-              ></Card.Img>
-            </span>
+            <Row>
+              <Col>
+                <div className="goal-col">
+                  <Card.Img
+                    className="goals-img"
+                    src="/static/img/Acne.png"
+                  ></Card.Img>
+                  <div className="label center-text-align">ACNE</div>
+                </div>
+              </Col>
+              
+              <Col>
+                <div className="goal-col">
+                  <Card.Img
+                    className="goals-img"
+                    src="/static/img/texture.png"
+                  ></Card.Img>
+                  <div className="label center-text-align">TEXTURE</div>
+                </div>
+              </Col>
+            </Row>
           </Card>
         </Col>
       </Row>

@@ -126,7 +126,7 @@ const Routine = (props) => {
           <div className="header center-text-align">Your Routine Today</div>
         </Row>
 
-        <Row className="routine formbox body">
+        <Row className="routine formbox">
           <Col lg={12} className="routine-form">
             <Row className="journal-time-date-group section">
               <Col lg={3} className="journal-time-group">

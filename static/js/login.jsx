@@ -64,7 +64,7 @@ const Login = (props) => {
       ) : null}
 
       <Row className="justify-center">
-        <Col lg={6} className="formbox body extra-margin">
+        <Col lg={6} className="formbox extra-margin">
           <form onSubmit={handleSubmit} className="form-signin">
             <div className="subheader-lg subsection">Sign In</div>
 

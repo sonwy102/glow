@@ -16,7 +16,7 @@ body {
 }
 
 .page  {
-    padding: 50px;
+    padding: 100px 50px;
 }
 
 
@@ -78,9 +78,6 @@ body {
     align-items: center;
 }
 
-.goals-img {
-    width: 50%;
-}
 .card-title {
     font-size: 2em;
     text-align: center;
@@ -177,7 +174,7 @@ body {
     background-size: cover; 
 }
 
-.formbox.body {
+.formbox {
     background-color: #f5f1f0;
     border-radius: 1em;
     box-shadow: 0px 0px 8px -4px gray;

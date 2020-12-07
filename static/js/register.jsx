@@ -67,7 +67,7 @@ const Register = (props) => {
       ) : null}
 
       <Row className="justify-center">
-        <Col lg={6} className="formbox body extra-margin section">
+        <Col lg={6} className="formbox extra-margin section">
           <form onSubmit={handleSubmit} className="form-register">
             <div className="subheader-lg subsection">Sign Up</div>
 
