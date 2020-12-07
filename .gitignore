@@ -2,3 +2,6 @@ env
 __pycache__
 *.sh
 seed_db_test.py
+*.jpg
+*.png
+*.json
