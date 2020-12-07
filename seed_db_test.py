@@ -29,10 +29,10 @@ def create_test_user():
     return user
 
 def create_test_routines(user_id):
-    today_AM = datetime.datetime.strptime(f'2020-11-19 10:00:00', '%Y-%m-%d %H:%M:%S')
-    today_PM = datetime.datetime.strptime(f'2020-11-19 22:00:00', '%Y-%m-%d %H:%M:%S')
-    dates_AM = [today_AM - datetime.timedelta(days=x) for x in range(50)]
-    dates_PM = [today_PM - datetime.timedelta(days=x) for x in range(50)]
+    today_AM = datetime.datetime.strptime(f'2020-12-07 10:00:00', '%Y-%m-%d %H:%M:%S')
+    today_PM = datetime.datetime.strptime(f'2020-12-07 22:00:00', '%Y-%m-%d %H:%M:%S')
+    dates_AM = [today_AM - datetime.timedelta(days=x) for x in range(24)]
+    dates_PM = [today_PM - datetime.timedelta(days=x) for x in range(36)]
 
     routine_am = set()
     routine_pm = set()
@@ -43,7 +43,7 @@ def create_test_routines(user_id):
     for journal_date in dates_PM:
         routine_pm.add(crud.create_routine(user_id, journal_date))
     
-    if (len(routine_am) == 50) and (len(routine_pm) == 50):
+    if (len(routine_am) == 24) and (len(routine_pm) == 36):
         print('Test routines successfully created.')
         return ({'routine_am': routine_am, 'routine_pm': routine_pm})
     else:
@@ -78,7 +78,7 @@ def create_test_user_goal_entries(user_id, routine_set):
 
     for i in range(len(routine_lst)):
         for user_goal in user_goals:
-            crud.create_user_goal_entry(user_goal.id, routine_lst[i].id, fake.random_int(1, 10))      
+            crud.create_user_goal_entry(user_goal.id, routine_lst[i].id, fake.random_int(4, 8))      
         
 if __name__ == '__main__':
     from server import app
