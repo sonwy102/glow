@@ -1,6 +1,6 @@
 // Component for edit-profile form
 // // TODO: get existing user data passed in from profile.jsx or just load from db again?
-// TODO: make post request onSubmit to update user record
+// // TODO: make post request onSubmit to update user record
 // // TODO: Button rendering for goals
 // // TODO: make it accessible for only logged in users
 
@@ -11,8 +11,9 @@ const EditProfile = (props) => {
   const [goals, setGoals] = React.useState([]);
 
   console.log('user info from props: ', props.userInfo )
-  const redirectToProfile = (sess_id) => {
-    history.push(`/profile?user=${sess_id}`);
+
+  const redirectToDashboard = (sess_id) => {
+    history.push(`/dashboard?user=${sess_id}`);
   };
 
   const fetchAllSkinTypes = async () => {
@@ -85,7 +86,8 @@ const EditProfile = (props) => {
     .then((data) => {
       console.log(data.msg);
     })
-    redirectToProfile(props.isLoggedIn);
+    props.profileView(false);
+    redirectToDashboard(props.isLoggedIn);
   }
 
   if (!props.isLoggedIn) {
@@ -93,43 +95,74 @@ const EditProfile = (props) => {
     history.push("/login");
   }
   return (
-    <div className="edit-profile-page">
+    <div className="edit-profile-column">
       <div className="formBasicUserInfo">
-        <h3>{props.userInfo.name}</h3>
-        <div>{props.userInfo.email}</div>
+        <div className="profile-photo">
+          {/* <img src={props.userInfo.photo}></img> */}
+          {/* <img src='/static/img/user/profile_photo.jpg'></img> */}
+          <Image
+            cloudName="sonwy102"
+            publicId="glowImg/pexels-daria-shevtsova-3673757_etinuw.jpg"
+          >
+            <Transformation height="300" radius="max" width="300" crop="fill" />
+          </Image>
+        </div>
+
+        <div className="user-info">
+          <div className="user-info-1 center-text-align">
+            <div className="subheader-lg">{props.userInfo.name}</div>
+            <p>{props.userInfo.email}</p>
+          </div>
+        </div>
       </div>
 
-      <div className="skin-types">
-        <h3>Skin Types</h3>
-        <ToggleButtonGroup
-          type="checkbox"
-          value={props.userInfo.skinTypes.map(function (el) {return el.id})}
-          onChange={handleSkinTypeBtnChange}
-        >
-          {skinTypes.map((skinType) =>
-              <ToggleButton variant="outline-primary" value={skinType.id}>
+      <div className="user-info-2">
+        <div className="skin-types">
+          <div className="subheader">My Skin Types:</div>
+          <ToggleButtonGroup
+            className="toggle-group"
+            type="checkbox"
+            value={props.userInfo.skinTypes.map(function (el) {
+              return el.id;
+            })}
+            onChange={handleSkinTypeBtnChange}
+          >
+            {skinTypes.map((skinType) => (
+              <ToggleButton
+                className="extra-margin-small square-corner"
+                variant="flat"
+                value={skinType.id}
+              >
                 {skinType.name}
               </ToggleButton>
-          )}
-        </ToggleButtonGroup>
+            ))}
+          </ToggleButtonGroup>
+        </div>
+
+        <div className="skin-goals">
+          <div className="subheader">My Skin Goals:</div>
+          <ToggleButtonGroup
+            className="toggle-group"
+            type="checkbox"
+            value={props.userInfo.goals.map(function (el) {
+              return el.id;
+            })}
+            onChange={handleGoalBtnChange}
+          >
+            {goals.map((goal) => (
+              <ToggleButton
+                className="extra-margin-small square-corner"
+                variant="flat"
+                value={goal.id}
+              >
+                {goal.name}
+              </ToggleButton>
+            ))}
+          </ToggleButtonGroup>
+        </div>
       </div>
 
-      <div className="skin-goals">
-        <h3>Skin Health Goals You are Working On:</h3>
-        <ToggleButtonGroup
-          type="checkbox"
-          value={props.userInfo.goals.map(function (el) {return el.id})}
-          onChange={handleGoalBtnChange}
-        >
-          {goals.map((goal) =>
-            <ToggleButton variant="outline-primary" value={goal.id}>
-              {goal.name}
-            </ToggleButton>
-          )}
-        </ToggleButtonGroup>
-      </div>
-
-      <Button variant="primary" onClick={postNewProfile}>
+      <Button variant="flat-important" onClick={postNewProfile}>
         Save
       </Button>
     </div>

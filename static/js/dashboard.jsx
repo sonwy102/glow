@@ -6,6 +6,8 @@
 // // TODO: configure URL appropriately
 
 const Dashboard = (props) => {
+
+  const [profileView, setProfileView] = React.useState(false);
   
   const [ingTree, setIngTree] = React.useState({'data': 'loading...', 'children': 'loading...'});
   console.log('ingTree: ', ingTree)
@@ -57,11 +59,21 @@ const Dashboard = (props) => {
     <Container fluid className="dashboard page">
       <Row>
         <Col lg={3} className="user-profile section">
-          <Profile
-            isLoggedIn={props.isLoggedIn}
-            userInfo={props.userInfo}
-            setUserInfo={props.setUserInfo}
-          ></Profile>
+          {profileView ? (
+            <EditProfile 
+              isLoggedIn={props.isLoggedIn}
+              userInfo={props.userInfo}
+              setUserInfo={props.setUserInfo}
+              profileView={setProfileView}
+            ></EditProfile>
+          ) : (
+            <Profile
+              isLoggedIn={props.isLoggedIn}
+              userInfo={props.userInfo}
+              setUserInfo={props.setUserInfo}
+              profileView={setProfileView}
+            ></Profile>
+          )}            
         </Col>
 
         <Col lg={6} className="dashboard">

@@ -37,7 +37,8 @@ const Profile = (props) => {
   };
 
   const redirectToEditProfile = () => {
-    history.push(`/editprofile?user=${props.isLoggedIn}`);
+    // history.push(`/editprofile?user=${props.isLoggedIn}`);
+    props.profileView(true);
   };
 
   if (!props.isLoggedIn) {
