@@ -7,10 +7,10 @@ const SearchResults = (props) => {
   // // TODO 4: link each item to product details page
   
   const history = useHistory();
-  const [searchResults, setSearchResults] = React.useState({'category': 'loading...', 'searchData': 'loading...'});
+  const [searchResults, setSearchResults] = React.useState({'searchData': 'loading...'});
 
   const fetchSearchResults = async () => {
-    fetch(`/product-search.json/${props.category}/${props.searchTerms}`)
+    fetch(`/product-search.json/${props.searchTerms}`)
     .then((response) => response.json())
     .then((data) => {
       setSearchResults(data);
@@ -24,7 +24,7 @@ const SearchResults = (props) => {
   const redirectToProductDetails = (resultKey) => {
     console.log(resultKey);
     history.push(
-      `/details?category=${searchResults.category}&resultId=${searchResults.searchData[resultKey].id}`
+      `/details?resultId=${searchResults.searchData[resultKey].id}`
     );
   };
 

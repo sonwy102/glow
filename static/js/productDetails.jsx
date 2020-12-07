@@ -16,7 +16,7 @@ const ProductDetails = ({location}) => {
   console.log(searchDetails);
 
   const fetchResultDetails = async () => {
-    fetch(`/search-result-details.json/${searchParams.get("category")}/${searchParams.get("resultId")}`)
+    fetch(`/search-result-details.json/${searchParams.get("resultId")}`)
     .then(response => response.json())
     .then(data => {
       setSearchDetails(data);

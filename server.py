@@ -82,29 +82,31 @@ def register_user():
     return jsonify(response)
 
 
-@app.route('/product-search.json/<table_name>/<querystr>')
-def search_product_info(table_name, querystr):
+@app.route('/product-search.json/<querystr>')
+def search_product_info(querystr):
     """Query database for products, brands, or ingredients relevant to user's
     input."""
 
-    if table_name == 'Product':
-        search_results = crud.search_products_like_name(querystr)
+    # if table_name == 'Product':
+    #     search_results = crud.search_products_like_name(querystr)
         
-    elif table_name == 'Brand':
-        search_results = crud.search_brands_like_name(querystr)
-    else:
-        search_results = crud.search_ings_like_name(querystr)
+    # elif table_name == 'Brand':
+    #     search_results = crud.search_brands_like_name(querystr)
+    # else:
+    #     search_results = crud.search_ings_like_name(querystr)
+    
+    search_results = crud.search_products_like_name(querystr)
     
     search_data = {}
     for index, item in enumerate(search_results):
-        if table_name == 'Product':
-            brand = crud.get_brand_by_id(item.brand_id)
-            
-            search_data[index] = {'id': item.id, 'brand': brand.name, 'name': item.name, 'photo': item.photo}
-        else:
-            search_data[index] = {'id': item.id, 'name': item.name}
+        # if table_name == 'Product':
+        brand = crud.get_brand_by_id(item.brand_id) 
+        search_data[index] = {'id': item.id, 'brand': brand.name, 'name': item.name, 'photo': item.photo}
+        
+        # else:
+        #     search_data[index] = {'id': item.id, 'name': item.name}
 
-    res = {'category': table_name, 'searchData': search_data}
+    res = {'searchData': search_data}
         
     return jsonify(res) 
 
@@ -241,32 +243,32 @@ def add_user_routine(user_id):
         res['msg'] = f'Add-routine failed. routine: {routine}, products: {routine_products}, goals: {goal_entries}'
     return jsonify(res)
 
-@app.route('/search-result-details.json/<category>/<result_id>')
-def get_search_result_details(category, result_id):
+@app.route('/search-result-details.json/<result_id>')
+def get_search_result_details(result_id):
     """query db for product/brand/ing records with matching category and querystr"""
 
     res = {}
 
-    if category == 'Product':
-        result_details = crud.get_product_by_id(result_id)
+    # if category == 'Product':
+    result_details = crud.get_product_by_id(result_id)
 
-        product_ings = crud.get_product_ing_by_product(result_id)
-        product_ings_dict = {}
-        for ing in product_ings:
-            ingredient = crud.get_ing_by_id(ing.ingredient_id)
-            product_ings_dict[ing.ingredient_id] = {'name': ingredient.name}
+    product_ings = crud.get_product_ing_by_product(result_id)
+    product_ings_dict = {}
+    for ing in product_ings:
+        ingredient = crud.get_ing_by_id(ing.ingredient_id)
+        product_ings_dict[ing.ingredient_id] = {'name': ingredient.name}
 
-        res = {
-            'id': result_id, 
-            'brand': result_details.brand.name, 
-            'name': result_details.name, 
-            'photo': result_details.photo, 
-            'ingredients': product_ings_dict
-        }         
-    elif category == 'Ingredient':
-        res = crud.get_ing_by_id(result_id).serialize
-    else:
-        res = crud.get_brand_by_id(result_id).serialize
+    res = {
+        'id': result_id, 
+        'brand': result_details.brand.name, 
+        'name': result_details.name, 
+        'photo': result_details.photo, 
+        'ingredients': product_ings_dict
+    }         
+    # elif category == 'Ingredient':
+    #     res = crud.get_ing_by_id(result_id).serialize
+    # else:
+    #     res = crud.get_brand_by_id(result_id).serialize
     
     return jsonify(res)
 
