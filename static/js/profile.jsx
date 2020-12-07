@@ -8,7 +8,8 @@ const Profile = (props) => {
   // // TODO: make info editable -- photo, name, password, skin type(s), skin goals
 
   const history = useHistory();
-  
+  // const [ensureFetch, setEnsureFetch] = React.useState(false);
+
   console.log("user data fetched: ", props.isLoggedIn, props.userInfo);
   console.log("isLoggedIn", props.isLoggedIn);
 
@@ -37,7 +38,6 @@ const Profile = (props) => {
   };
 
   const redirectToEditProfile = () => {
-    // history.push(`/editprofile?user=${props.isLoggedIn}`);
     props.profileView(true);
   };
 
@@ -46,46 +46,47 @@ const Profile = (props) => {
     history.push("/login");
   }
 
-  return (
-    <div className="user-profile-column">
-      <div className="profile-photo">
-        {/* <img src={props.userInfo.photo}></img> */}
-        {/* <img src='/static/img/user/profile_photo.jpg'></img> */}
-        <Image
-          cloudName="sonwy102"
-          publicId="glowImg/pexels-daria-shevtsova-3673757_etinuw.jpg"
-        >
-          <Transformation height="300" radius="max" width="300" crop="fill" />
-        </Image>
+  // if (props.userInfo && ensureFetch) {
+    return (
+      <div className="user-profile-column">
+        <div className="profile-photo">
+          {/* <img src={props.userInfo.photo}></img> */}
+          {/* <img src='/static/img/user/profile_photo.jpg'></img> */}
+          <Image
+            cloudName="sonwy102"
+            publicId="glowImg/pexels-daria-shevtsova-3673757_etinuw.jpg"
+          >
+            <Transformation height="300" radius="max" width="300" crop="fill" />
+          </Image>
+        </div>
+        <div className="user-info">
+          <div className="user-info-1 center-text-align">
+            <div className="subheader-lg">{props.userInfo.name}</div>
+            <p>{props.userInfo.email}</p>
+          </div>
+          <div className="user-info-2">
+            <div className="subheader">My Skin Types:</div>
+            <ul className="skin-types">
+              {props.userInfo.skinTypes.map((skinType) => (
+                <li>{skinType.name}</li>
+              ))}
+            </ul>
+            <div className="subheader">My Skin Goals:</div>
+            <ul className="skin-goals">
+              {props.userInfo.goals.map((goal) => (
+                <li>{goal.name}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="adjacent-buttons">
+            <Button variant="flat" onClick={redirectToEditProfile}>
+              Edit Profile
+            </Button>
+            <Button variant="flat" onClick={redirectToRoutine}>
+              Add Routine
+            </Button>
+          </div>
+        </div>
       </div>
-      <div className="user-info">
-        <div className="user-info-1 center-text-align">
-          <div className="subheader-lg">{props.userInfo.name}</div>
-          <p>{props.userInfo.email}</p>
-        </div>
-        <div className="user-info-2">
-          <div className="subheader">My Skin Types:</div>
-          <ul className="skin-types">
-            {props.userInfo.skinTypes.map((skinType) => (
-              <li>{skinType.name}</li>
-            ))}
-          </ul>
-          <div className="subheader">My Skin Goals:</div>
-          <ul className="skin-goals">
-            {props.userInfo.goals.map((goal) => (
-              <li>{goal.name}</li>
-            ))}
-          </ul>
-        </div>
-        <div className="adjacent-buttons">
-          <Button variant="flat" onClick={redirectToEditProfile}>
-            Edit Profile
-          </Button>
-          <Button variant="flat" onClick={redirectToRoutine}>
-            Add Routine
-          </Button>
-        </div>
-      </div>
-    </div>
-  );
+    );
 }
