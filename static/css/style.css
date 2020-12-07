@@ -31,14 +31,9 @@ body {
 .no-top-padding {
     padding-top:0px;
 }
-p span { 
-   position: absolute; 
-   top: 20%;
-   bottom: 0;
-   left: 20%;
-   right: 30%;
-   color: #fffaf4;
-   
+
+.no-bottom-padding {
+    padding-bottom: 0px;
 }
 
 .chart-body {
@@ -68,19 +63,14 @@ p span {
 
 }
 
-/* p span p {
-    font-weight: 300;
-    font-size: 16px;
-} */
+.text-light {
+    color: #FFFAF4;
+}
 
 .navbar-col {
     border-bottom: 4px double #dfdcdb;
 }
 
-img.background {
-    filter: brightness(0.8);
-
-}
 
 .user-profile-column {
     display: flex;
@@ -152,9 +142,19 @@ img.background {
     color: #95807A;
 }
 
+.btn-flat-light {
+    border-color: #f5f1f0;
+    color: #f5f1f0;
+}
+
+.btn-flat-light:hover {
+    background-color: #f5f1f0;
+    color: black;
+}
+
 .important {
     background-color: #95807A;
-    color: #FFFAF4;
+    color: #f5f1f0;
 }
 
 .tickmarks {
@@ -172,9 +172,9 @@ img.background {
 
 .routine.body {
     background-image: url('/static/img/background-2.png');
-    background-position: center; /* Center the image */
-    background-repeat: no-repeat; /* Do not repeat the image */
-    background-size: cover; /* Resize the background image to cover the entire container */
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
 }
 
 .formbox.body {
@@ -211,4 +211,12 @@ img.background {
 
 .square-corner {
     border-radius: 0px;
+}
+
+.jumbotron {
+    padding: 15rem;
+    background-image: url('/static/img/skin-large-dark.png');
+    background-position: center; 
+    background-repeat: no-repeat; 
+    background-size: cover; 
 }
