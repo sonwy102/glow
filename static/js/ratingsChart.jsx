@@ -16,15 +16,18 @@ const RatingsChart = (props) => {
   const colors = ["#958079", "#d8c1b7"];
   const options = {
     scales: {
-      yAxes: [{
-        display: true,
-        ticks: {
-          min: 0,
-          max: 10
-        }
-      }]
-    }
-  }
+      yAxes: [
+        {
+          display: true,
+          ticks: {
+            min: 0,
+            max: 10,
+            stepSize: 5,
+          },   
+        },
+      ],
+    },
+  };
   
   const fetchWeekRatings = async () => {
     fetch(`/goal-ratings-trend/${props.isLoggedIn}/7`)
