@@ -11,12 +11,23 @@ const RatingsChart = (props) => {
   const [yearChartData, setYearChartData] = React.useState({});
   const [viewOption, setViewOption] = React.useState("week");
 
-  console.log('Week chart data: ', weekChartData);
+  console.log('Month chart data: ', monthChartData);
 
   const colors = ["#958079", "#d8c1b7"];
+  const options = {
+    scales: {
+      yAxes: [{
+        display: true,
+        ticks: {
+          min: 0,
+          max: 10
+        }
+      }]
+    }
+  }
   
   const fetchWeekRatings = async () => {
-    fetch(`/goal-ratings-trend/${props.isLoggedIn}/10`)
+    fetch(`/goal-ratings-trend/${props.isLoggedIn}/7`)
     .then(response => response.json())
     .then(data => {
       const ratingsDatasets = [];
@@ -40,7 +51,7 @@ const RatingsChart = (props) => {
   }
 
   const fetchMonthRatings = async () => {
-    fetch(`/goal-ratings-trend/${props.isLoggedIn}/31`)
+    fetch(`/goal-ratings-trend/${props.isLoggedIn}/16`)
     .then(response => response.json())
     .then(data => {
       const ratingsDatasets = [];
@@ -56,15 +67,26 @@ const RatingsChart = (props) => {
       };
       const goalRatingsData = {
         // labels: Object.keys(data[0][goalNames[0]]),
-        labels: Array.from(Array(31).keys()),
-        datasets: ratingsDatasets
-      }
+        // labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+        //          '11', '12', '13', '14', '15', '16', '17', '18', '19', '20',
+        //          '21', '22', '23', '24', '25', '26', '27', '28', '29', '30', '31'],
+        labels: [
+          "Nov 1",
+          "Nov 5",
+          "Nov 10",
+          "Nov 15",
+          "Nov 20",
+          "Nov 25",
+          "Nov 30",
+        ],
+        datasets: ratingsDatasets,
+      };
       setMonthChartData(goalRatingsData);
     });
   }
 
   const fetchYearRatings = async () => {
-    fetch(`/goal-ratings-trend/${props.isLoggedIn}/365`)
+    fetch(`/goal-ratings-trend/${props.isLoggedIn}/12`)
     .then(response => response.json())
     .then(data => {
       const ratingsDatasets = [];
@@ -104,15 +126,15 @@ const RatingsChart = (props) => {
   return (
     <div className="chart-section">
       <div className="goal-ratings chart-body">
-        {viewOption === "week" &&
-          <Line data={weekChartData}></Line>
-        }
-        {viewOption === "month" && 
-          <Line data={monthChartData}></Line>
-        }
-        {viewOption === "year" && 
-          <Line data={yearChartData}></Line>
-        }
+        {viewOption === "week" && (
+          <Line data={weekChartData} options={options}></Line>
+        )}
+        {viewOption === "month" && (
+          <Line data={monthChartData} options={options}></Line>
+        )}
+        {viewOption === "year" && (
+          <Line data={yearChartData} options={options}></Line>
+        )}
       </div>
 
       <div className="chart-view-btns">
@@ -121,11 +143,16 @@ const RatingsChart = (props) => {
           name="view-options"
           onChange={handleViewBtnChange}
         >
-          <ToggleButton variant="flat" value="week">This Week</ToggleButton>
-          <ToggleButton variant="flat" value="month">This Month</ToggleButton>
-          <ToggleButton variant="flat" value="year">This Year</ToggleButton>
+          <ToggleButton variant="flat" value="week">
+            This Week
+          </ToggleButton>
+          <ToggleButton variant="flat" value="month">
+            This Month
+          </ToggleButton>
+          <ToggleButton variant="flat" value="year">
+            This Year
+          </ToggleButton>
         </ToggleButtonGroup>
-        
       </div>
     </div>
   );
