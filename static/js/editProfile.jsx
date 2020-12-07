@@ -117,7 +117,7 @@ const EditProfile = (props) => {
       </div>
 
       <div className="user-info-2">
-        <div className="skin-types">
+        <div className="skin-types subsection">
           <div className="subheader">My Skin Types:</div>
           <ToggleButtonGroup
             className="toggle-group"
@@ -139,7 +139,7 @@ const EditProfile = (props) => {
           </ToggleButtonGroup>
         </div>
 
-        <div className="skin-goals">
+        <div className="skin-goals subsection">
           <div className="subheader">My Skin Goals:</div>
           <ToggleButtonGroup
             className="toggle-group"
@@ -162,9 +162,11 @@ const EditProfile = (props) => {
         </div>
       </div>
 
-      <Button variant="flat-important" onClick={postNewProfile}>
-        Save
-      </Button>
+      <div className="subsection">
+        <Button variant="flat-important" onClick={postNewProfile}>
+          Save
+        </Button>
+      </div>
     </div>
   );
 }
