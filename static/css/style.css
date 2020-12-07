@@ -191,6 +191,10 @@ img.background {
     margin: 50px;
 }
 
+.extra-margin-small {
+    margin: 0.5rem 0.5rem 0.5rem 0rem ;
+}
+
 .signup {
     display: flex;
     align-items: center;
@@ -198,4 +202,13 @@ img.background {
 
 .extra-margin-vertical {
     margin: 10px 0px;
+}
+
+.toggle-group {
+    display: flex;
+    flex-flow: wrap;
+}
+
+.square-corner {
+    border-radius: 0px;
 }
