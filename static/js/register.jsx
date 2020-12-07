@@ -1,6 +1,6 @@
 const Register = (props) => {
-  // TODO: split up signup form into 2 separate pages
-  // TODO: how to show an alert of success msg after user redirecting to login 
+  // // TODO: split up signup form into 2 separate pages
+  // // TODO: how to show an alert of success msg after user redirecting to login 
 
   const history = useHistory();
   const [registerState, setRegisterState] = React.useState({
@@ -13,10 +13,6 @@ const Register = (props) => {
     statusMsg: null,
   });
 
-  // TODO: this is redundant to redirectToProfile in login.jsx. how to prevent?
-  // const redirectToProfile = (sess_id) => {
-  //   history.push(`/profile?user=${sess_id}`);
-  // };
 
   const redirectToLogin = () => {
     history.push('/login')
