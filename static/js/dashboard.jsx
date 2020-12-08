@@ -58,7 +58,7 @@ const Dashboard = (props) => {
   return (
     <Container fluid className="dashboard page">
       <Row>
-        <Col lg={3} className="user-profile section">
+        <Col lg={3} className="user-profile page no-top-padding">
           {profileView ? (
             <EditProfile 
               isLoggedIn={props.isLoggedIn}

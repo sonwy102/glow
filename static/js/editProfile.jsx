@@ -95,9 +95,9 @@ const EditProfile = (props) => {
     history.push("/login");
   }
   return (
-    <div className="edit-profile-column">
-      <div className="formBasicUserInfo">
-        <div className="profile-photo">
+    <React.Fragment>
+      <Row className="formBasicUserInfo">
+        <Col className="profile-photo center-text-align">
           {/* <img src={props.userInfo.photo}></img> */}
           {/* <img src='/static/img/user/profile_photo.jpg'></img> */}
           <Image
@@ -106,18 +106,18 @@ const EditProfile = (props) => {
           >
             <Transformation height="300" radius="max" width="300" crop="fill" />
           </Image>
-        </div>
+        </Col>
+      </Row>
 
-        <div className="user-info">
-          <div className="user-info-1 center-text-align">
-            <div className="subheader-lg">{props.userInfo.name}</div>
-            <p>{props.userInfo.email}</p>
-          </div>
-        </div>
-      </div>
+      <Row className="user-info">
+        <Col className="user-info-1 center-text-align">
+          <div className="subheader-lg">{props.userInfo.name}</div>
+          <p>{props.userInfo.email}</p>
+        </Col>
+      </Row>
 
-      <div className="user-info-2">
-        <div className="skin-types subsection">
+      <Row className="user-info-2">
+        <Col className="skin-types section">
           <div className="subheader">My Skin Types:</div>
           <ToggleButtonGroup
             className="toggle-group"
@@ -137,9 +137,11 @@ const EditProfile = (props) => {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
-        </div>
+        </Col>
+      </Row>
 
-        <div className="skin-goals subsection">
+      <Row className="user-info-2">
+        <Col className="skin-goals section">
           <div className="subheader">My Skin Goals:</div>
           <ToggleButtonGroup
             className="toggle-group"
@@ -159,14 +161,21 @@ const EditProfile = (props) => {
               </ToggleButton>
             ))}
           </ToggleButtonGroup>
-        </div>
-      </div>
+        </Col>
+      </Row>
 
-      <div className="subsection">
-        <Button variant="flat-important" onClick={postNewProfile}>
-          Save
-        </Button>
-      </div>
-    </div>
+      <Row className="subsection">
+        <Col lg={2}>
+          <Button variant="flat-important" onClick={postNewProfile}>
+            Save
+          </Button>
+        </Col>
+        
+        <Col lg={2}>
+
+          <Button variant="flat">Cancel</Button>
+        </Col>
+      </Row>
+    </React.Fragment>
   );
 }

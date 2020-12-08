@@ -188,6 +188,10 @@ body {
     margin: 50px;
 }
 
+.extra-margin-medium {
+    margin: 0.5rem 0rem 1rem;
+}
+
 .extra-margin-small {
     margin: 0.5rem 0.5rem 0.5rem 0rem ;
 }
@@ -216,4 +220,8 @@ body {
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: cover; 
+}
+
+.profile-photo {
+    padding-left: 0px;
 }

@@ -65,24 +65,47 @@ const Profile = (props) => {
             <p>{props.userInfo.email}</p>
           </div>
           <div className="user-info-2">
-            <div className="subheader">My Skin Types:</div>
-            <ul className="skin-types">
-              {props.userInfo.skinTypes.map((skinType) => (
-                <li>{skinType.name}</li>
-              ))}
-            </ul>
-            <div className="subheader">My Skin Goals:</div>
-            <ul className="skin-goals">
-              {props.userInfo.goals.map((goal) => (
-                <li>{goal.name}</li>
-              ))}
-            </ul>
+            <div className="skin-type-info subsection-vertical">
+              <div className="subheader center-text-align">My Skin Types</div>
+              <div className="skin-types center-text-align adjacent-buttons">
+                {props.userInfo.skinTypes.map((skinType) => (
+                  <Button
+                    className="extra-margin-medium square-corner"
+                    variant="flat-important"
+                  >
+                    {skinType.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
+
+            <div className="skin-goals-info subsection-vertical">
+              <div className="subheader center-text-align">My Skin Goals</div>
+              <div className="skin-goals center-text-align adjacent-buttons">
+                {props.userInfo.goals.map((goal) => (
+                  <Button
+                    className="extra-margin-medium square-corner"
+                    variant="flat-important"
+                  >
+                    {goal.name}
+                  </Button>
+                ))}
+              </div>
+            </div>
           </div>
           <div className="adjacent-buttons">
-            <Button variant="flat" onClick={redirectToEditProfile}>
+            <Button
+              className="extra-margin-small"
+              variant="flat"
+              onClick={redirectToEditProfile}
+            >
               Edit Profile
             </Button>
-            <Button variant="flat" onClick={redirectToRoutine}>
+            <Button
+              className="extra-margin-small"
+              variant="flat"
+              onClick={redirectToRoutine}
+            >
               Add Routine
             </Button>
           </div>
