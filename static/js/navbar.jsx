@@ -1,7 +1,7 @@
 const NavBar = (props) => {
   
   return (
-    <Navbar bg="light" fixed="top">
+    <Navbar fixed="top">
       <Navbar.Collapse id="basic-navbar-nav">
         {props.isLoggedIn ? (
           <Navbar.Brand href={`/dashboard?user=${props.isLoggedIn}`}>

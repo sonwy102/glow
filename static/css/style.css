@@ -67,8 +67,9 @@ body {
     color: #FFFAF4;
 }
 
-.navbar-col {
-    border-bottom: 4px double #dfdcdb;
+.navbar {
+    /* border-bottom: 4px double #dfdcdb; */
+    background-color: #f3f1f0;
 }
 
 
@@ -214,14 +215,35 @@ body {
     border-radius: 0px;
 }
 
-.jumbotron {
-    padding: 22rem;
+.landing-page {
+    padding: 16.5rem;
     background-image: url('/static/img/skin-large-dark.png');
     background-position: center; 
     background-repeat: no-repeat; 
-    background-size: cover; 
+    background-size: cover;
+    margin-bottom: 0px; 
 }
 
 .profile-photo {
     padding-left: 0px;
+}
+
+.footer-page {
+    background-color: #f3f1f0;
+    margin-bottom: 0px;
+    
+}
+.fa {
+    font-size: 2rem;
+    color: #95807A;
+}
+
+.fa:hover {
+    color: #95807A;
+    opacity: 0.75;
+
+}
+
+.login.page{
+    margin: 85px auto;
 }

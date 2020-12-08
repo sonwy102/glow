@@ -1,7 +1,7 @@
 const LandingPage = () => {
   
   return (
-    <Jumbotron>
+    <Jumbotron className="landing-page">
       <div className="header text-light subsection no-bottom-padding">
         Start Your Journey towards Healthier Skin Today.
       </div>
