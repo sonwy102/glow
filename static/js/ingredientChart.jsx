@@ -153,7 +153,7 @@ const IngredientChart = (props) => {
     }
 
     function labelVisible(d) {
-      return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+      return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.1;
     }
 
     function labelTransform(d) {
@@ -164,7 +164,7 @@ const IngredientChart = (props) => {
   };
 
   return (
-    <div className="ing-analysis chart-body">
+    <div className="ing-analysis section center-text-align">
       <svg ref={d3Container}>
       </svg>
     </div>
