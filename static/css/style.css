@@ -231,6 +231,7 @@ body {
 .footer-page {
     background-color: #f3f1f0;
     margin-bottom: 0px;
+    padding: 7em;
     
 }
 .fa {
@@ -246,4 +247,8 @@ body {
 
 .login.page{
     margin: 85px auto;
+}
+
+.padding-left {
+    padding-left: 1em;
 }

@@ -6,7 +6,7 @@ const Footer = () => {
           <Col lg={8} className="footer-left">
             <Image
               cloudName="sonwy102"
-              publicId="logo/Glow_ijb8hu.svg"
+              publicId="logo/Glow_rfudyv.svg"
               width="100em"
             ></Image>
           </Col>

@@ -4,10 +4,13 @@ const NavBar = (props) => {
     <Navbar fixed="top">
       <Navbar.Collapse id="basic-navbar-nav">
         {props.isLoggedIn ? (
-          <Navbar.Brand href={`/dashboard?user=${props.isLoggedIn}`}>
+          <Navbar.Brand
+            className="padding-left"
+            href={`/dashboard?user=${props.isLoggedIn}`}
+          >
             <Image
               cloudName="sonwy102"
-              publicId="logo/Glow_ijb8hu.svg"
+              publicId="logo/Glow_rfudyv.svg"
               width="80em"
             ></Image>
           </Navbar.Brand>
@@ -15,7 +18,7 @@ const NavBar = (props) => {
           <Navbar.Brand href="/">
             <Image
               cloudName="sonwy102"
-              publicId="logo/Glow_ijb8hu.svg"
+              publicId="logo/Glow_rfudyv.svg"
               width="80em"
             ></Image>
           </Navbar.Brand>

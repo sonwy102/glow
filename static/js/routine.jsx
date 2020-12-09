@@ -106,7 +106,7 @@ const Routine = (props) => {
     .then((response) => response.json())
     .then((data) => {
       if (data.status_code === 200) {
-        history.push(`/profile?user=${props.isLoggedIn}`);
+        history.push(`/dashboard?user=${props.isLoggedIn}`);
       }
     })
   }

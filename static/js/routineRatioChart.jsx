@@ -1,11 +1,13 @@
 const RoutineRatioChart = (props) => {
   
   const data = {
-    labels: props.routineRatioKeys,
+    // labels: props.routineRatioKeys,
+    labels: ['AM', 'PM'],
     datasets: [
       {
         label: "Routine",
-        data: props.routineRatioValues,
+        // data: props.routineRatioValues,
+        data: [45, 55],
         backgroundColor: ["#958079", "#442621"]
       },
     ],
