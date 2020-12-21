@@ -11,11 +11,7 @@ Glow is a simple yet comprehensive way to track a user's skin health. The app pr
 
 ## Mock-ups
 
-![Image of product_search](static/img/docs/product_search.JPG)
-
-![Image of dashboard](static/img/docs/dashboard.JPG)
-
-![Image of add_routine](static/img/docs/add_routine.JPG)
+![Image of product_search](static/img/docs/product_search.JPG) ![Image of dashboard](static/img/docs/dashboard.JPG) ![Image of add_routine](static/img/docs/add_routine.JPG)
 
 ## Tech Stack
 
