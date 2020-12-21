@@ -25,15 +25,17 @@ Glow is a simple yet comprehensive way to track a user's skin health. The app pr
 
 * Simple journal entry page to enter skincare routines and update progress on skin goals
 
-    * ![GIF of routine entry](static/img/docs/routine.gif)
+    ![GIF of routine entry](static/img/docs/routine.gif)
+
 
 * Dashboard to display trends in a user's skin health based on past journal entries
 
-    * ![GIF of dashboard](static/img/docs/dashboard.gif)
+    ![GIF of dashboard](static/img/docs/dashboard.gif)
+
 
 * Visualizations to help users understand skincare ingredients
 
-    * ![GIF of sunburst](static/img/docs/sunburst.gif)
+    ![GIF of sunburst](static/img/docs/sunburst.gif)
 
 ## Quickstart
 
