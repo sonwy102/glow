@@ -45,8 +45,7 @@ const RatingsChart = (props) => {
         });
       };
       const goalRatingsData = {
-        // labels: Object.keys(data[0][goalNames[0]]),
-        labels: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        labels: Object.keys(data[0][goalNames[0]]),
         datasets: ratingsDatasets
       }
       setWeekChartData(goalRatingsData);
@@ -69,16 +68,7 @@ const RatingsChart = (props) => {
         });
       };
       const goalRatingsData = {
-        // labels: Object.keys(data[0][goalNames[0]]),
-        labels: [
-          "Nov 1",
-          "Nov 5",
-          "Nov 10",
-          "Nov 15",
-          "Nov 20",
-          "Nov 25",
-          "Nov 30",
-        ],
+        labels: Object.keys(data[0][goalNames[0]]),
         datasets: ratingsDatasets,
       };
       setMonthChartData(goalRatingsData);
@@ -101,8 +91,7 @@ const RatingsChart = (props) => {
         });
       };
       const goalRatingsData = {
-        // labels: Object.keys(data[0][goalNames[0]]),
-        labels:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec'],
+        labels: Object.keys(data[0][goalNames[0]]),
         datasets: ratingsDatasets
       }
       setYearChartData(goalRatingsData);

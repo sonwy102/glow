@@ -19,16 +19,6 @@ const ProductHighlights = (props) => {
                   publicId={props.productHighlight.product_data[productName]}
                   type="fetch"
                 >
-                  {/* <Transformation
-                overlay={{
-                  fontFamily: "Arial",
-                  fontSize: 16,
-                  fontWeight: "normal",
-                  text: `${productName}`,
-                }}
-                gravity="south"
-                y="-20"
-              /> */}
                   <Transformation height="150" width="150" crop="scale" />
                 </Image>
               </div>
