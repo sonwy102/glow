@@ -23,21 +23,26 @@ Glow is a simple yet comprehensive way to track a user's skin health. The app pr
 
 ## Feature Highlights
 
-Simple journal entry page to enter skincare routines and update progress on skin goals
-![GIF of routine entry](static/img/docs/routine.gif)
+* Simple journal entry page to enter skincare routines and update progress on skin goals
 
-Dashboard to display trends in a user's skin health based on past journal entries
-![GIF of dashboard](static/img/docs/dashboard.gif)
+    * ![GIF of routine entry](static/img/docs/routine.gif)
 
-Visualizations to help users understand skincare ingredients
-![GIF of sunburst](static/img/docs/sunburst.gif)
+* Dashboard to display trends in a user's skin health based on past journal entries
+
+    * ![GIF of dashboard](static/img/docs/dashboard.gif)
+
+* Visualizations to help users understand skincare ingredients
+
+    * ![GIF of sunburst](static/img/docs/sunburst.gif)
 
 ## Quickstart
 
 After cloning the repo in your virtualenv, install dependencies:
+
 `$ pip3 install -r requirements.txt`
 
 Then, run the Flask server to start the web app:
+
 `$ python3 server.py`
 
 Visit your `localhost:5000` to access the app in your local browser!
