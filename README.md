@@ -9,9 +9,9 @@ For many of us, skin care is an ongoing journey - our skin grows and adapts over
 
 Glow is a simple yet comprehensive way to track a user's skin health. The app provides tools to recognize patterns of the skin. The app is designed to allow a user to easily document goals and journal routines everyday.  This data over time is aggregated and displayed to the user enabling them to make data-driven insights into why their skin is changing and what products are involved.
 
-## Mock-ups
+<!-- ## Mock-ups
 
-![Image of product_search](static/img/docs/product_search.JPG) ![Image of dashboard](static/img/docs/dashboard.JPG) ![Image of add_routine](static/img/docs/add_routine.JPG)
+![Image of product_search](static/img/docs/product_search.JPG) ![Image of dashboard](static/img/docs/dashboard.JPG) ![Image of add_routine](static/img/docs/add_routine.JPG) -->
 
 ## Tech Stack
 
